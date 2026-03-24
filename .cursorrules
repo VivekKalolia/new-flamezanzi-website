@@ -1,0 +1,23 @@
+# FlameZanzi portfolio — Cursor / agent rules
+
+## GitHub progress (required)
+
+- Keep **PROGRESS.md** accurate: after substantive work (new routes, major UI, data model changes, integrations), add or adjust entries under Done / Still to tighten, and bump **Last updated** to today’s date (ISO: YYYY-MM-DD).
+- **Commit** with a short, imperative message (e.g. `Add gallery filters`, `Fix contact form validation`).
+- **Push** to the remote repository on a regular cadence so GitHub reflects current state:
+  - `git status`
+  - `git add` only intentional paths (respect `.gitignore`; never force-add ignored dirs).
+  - `git commit -m "…"`
+  - `git push origin main` (or the active branch name).
+- If the user uses pull requests, push the branch and summarize changes in the PR description; still update `PROGRESS.md` on the branch before merge.
+
+## Do not commit
+
+- **`.cursor/`** — local Cursor/IDE state; it must stay out of Git (listed in `.gitignore`).
+- **`public/images/`** — large local media; not tracked. Document new image *paths* or conventions in `PROGRESS.md` / code comments if needed, not the binaries.
+- Secrets: never commit `.env*` files or API keys.
+
+## Code style
+
+- Match existing patterns in `app/`, `components/`, and `lib/`.
+- Prefer small, focused commits over one huge dump when possible.

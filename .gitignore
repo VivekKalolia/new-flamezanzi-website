@@ -1,5 +1,21 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Cursor IDE (local only)
+.cursor/
+
+# Large local media — keep on disk or CDN; see PROGRESS.md
+/public/images/
+
+# Design sources and bulky binaries
+*.psd
+*.zip
+*.tar.gz
+*.rar
+*.mp4
+*.mov
+*.mkv
+*.avi
+
 # dependencies
 /node_modules
 /.pnp
