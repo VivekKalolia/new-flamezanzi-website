@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { treatsCafeGallery } from "./stock-images";
+
 type Region = "Tanzania" | "Zanzibar";
 
 export type GalleryImageItem = {
@@ -30,11 +32,7 @@ const flamesImages = listPublicImages("images/optimized/flames");
 const silkRouteImages = listPublicImages("images/optimized/silk-route");
 const aqueliaImages = listPublicImages("images/optimized/aquelia");
 
-const treatsImages = [
-  "/images/optimized/treats/treats-cafe-bakery-hero.webp",
-  "/images/optimized/about-mission.webp",
-  "/images/optimized/team-corporate.webp",
-];
+const treatsImages = [...treatsCafeGallery];
 
 export function getVentureGalleryImages(slug: string, fallback: string[]) {
   if (slug === "flames-restaurant") {

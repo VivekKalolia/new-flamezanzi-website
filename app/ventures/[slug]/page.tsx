@@ -222,9 +222,8 @@ export default async function VentureDetailPage({ params }: Props) {
                     src={company.logo}
                     alt="FlameZanzi logo"
                     width={140}
-                    height={36}
+                    height={31}
                     className="h-7 w-auto opacity-70"
-                    unoptimized
                   />
                   <span className="text-xs text-muted-foreground">×</span>
                   <Image src="/logos/PIKI.png" alt="Poiki logo" width={120} height={36} className="h-8 w-auto object-contain" unoptimized />
@@ -239,9 +238,8 @@ export default async function VentureDetailPage({ params }: Props) {
                     src={company.logo}
                     alt="FlameZanzi logo"
                     width={140}
-                    height={36}
+                    height={31}
                     className="h-7 w-auto opacity-70"
-                    unoptimized
                   />
                   <span className="text-xs text-muted-foreground">×</span>
                   <Image src="/logos/DUKA.png" alt="Duka logo" width={120} height={36} className="h-8 w-auto object-contain" unoptimized />

@@ -14,9 +14,8 @@ export function SiteFooter() {
             src={company.logo}
             alt="FlameZanzi logo"
             width={200}
-            height={52}
+            height={44}
             className="h-10 w-auto"
-            unoptimized
           />
           <p className="max-w-md text-sm leading-relaxed text-neutral-300/80">
             {company.description}

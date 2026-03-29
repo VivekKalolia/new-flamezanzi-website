@@ -1,3 +1,5 @@
+import { testimonialPlaceholderAvatars, treatsCafeGallery, treatsCafeUnsplash } from "./stock-images";
+
 export type VentureType = "restaurant" | "cafe" | "hotel";
 
 export type Venture = {
@@ -67,8 +69,8 @@ function aqueliaOpt(file: string) {
 
 export const company = {
   name: "FlameZanzi Restaurant Ltd.",
-  /** Primary mark: `public/logos/flamezanzi.png` */
-  logo: "/logos/flamezanzi.png",
+  /** Primary mark: `public/images/optimized/logo-flamezanzi.webp` (source: `public/logos/flamezanzi/`) */
+  logo: "/images/optimized/logo-flamezanzi.webp",
   founded: 2013,
   domain: "https://flamezanzi.com",
   description:
@@ -138,18 +140,21 @@ export const company = {
         "FlameZanzi consistently delivers premium quality with disciplined operations and warm hospitality.",
       author: "Corporate Events Lead",
       company: "East Africa Business Council",
+      avatar: testimonialPlaceholderAvatars[0],
     },
     {
       quote:
         "From food quality to service delivery, every touchpoint reflects a high-caliber brand.",
       author: "Regional Travel Advisor",
       company: "Oceanline Travel Group",
+      avatar: testimonialPlaceholderAvatars[1],
     },
     {
       quote:
         "Their venues are elegant, dependable, and ideal for both executive and leisure experiences.",
       author: "Operations Director",
       company: "Global Haven Partners",
+      avatar: testimonialPlaceholderAvatars[2],
     },
   ],
   contact: {
@@ -240,12 +245,8 @@ export const ventures: Venture[] = [
     color: "#D81B60",
     logo: mainBrandLogo("Treats Cafe & Bakery - Logo (WHITE BG).png"),
     images: {
-      hero: "/images/optimized/treats/treats-cafe-bakery-hero.webp",
-      gallery: [
-        "/images/optimized/treats/treats-cafe-bakery-hero.webp",
-        "/images/optimized/about-mission.webp",
-        "/images/optimized/team-corporate.webp",
-      ],
+      hero: treatsCafeUnsplash.interior,
+      gallery: [...treatsCafeGallery],
     },
   },
   {

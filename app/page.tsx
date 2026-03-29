@@ -4,7 +4,9 @@ import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   Building2,
+  CalendarDays,
   Coffee,
+  Handshake,
   Hotel,
   Layers3,
   MapPin,
@@ -240,27 +242,38 @@ export default function Home() {
             <h2 className="mt-3 font-heading text-4xl">What Clients and Partners Experience</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {[
-              {
-                title: "Corporate Event Hosting",
-                text: "Structured venue support for executive dinners, private functions, and business events.",
-              },
-              {
-                title: "Brand Consistency",
-                text: "Unified service standards, curated environments, and portfolio-level quality control.",
-              },
-              {
-                title: "Partnership Programs",
-                text: "Long-term collaboration models for agencies, travel partners, and institutional clients.",
-              },
-            ].map((item, i) => (
+            {(
+              [
+                {
+                  title: "Corporate Event Hosting",
+                  text: "Structured venue support for executive dinners, private functions, and business events.",
+                  Icon: CalendarDays,
+                },
+                {
+                  title: "Brand Consistency",
+                  text: "Unified service standards, curated environments, and portfolio-level quality control.",
+                  Icon: Layers3,
+                },
+                {
+                  title: "Partnership Programs",
+                  text: "Long-term collaboration models for agencies, travel partners, and institutional clients.",
+                  Icon: Handshake,
+                },
+              ] as const
+            ).map((item, i) => {
+              const ServiceIcon = item.Icon;
+              return (
               <Card key={item.title} className={`reveal reveal-delay-${i + 1} border border-border/70 bg-card py-5 shadow-sm`}>
                 <CardContent className="pt-2">
+                  <div className="mb-4 inline-flex size-12 items-center justify-center rounded-xl bg-primary/12 text-primary">
+                    <ServiceIcon className="size-6" strokeWidth={1.5} aria-hidden />
+                  </div>
                   <p className="font-heading text-2xl">{item.title}</p>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                 </CardContent>
               </Card>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -275,6 +288,16 @@ export default function Home() {
           {company.testimonials.map((testimonial, i) => (
             <Card key={testimonial.author} className={`reveal reveal-delay-${i + 1} border border-border/70 py-5 shadow-sm`}>
               <CardContent className="flex flex-col items-center gap-5 pt-2 text-center">
+                <div className="relative size-28 shrink-0 overflow-hidden rounded-full border-2 border-border/60 bg-muted shadow-md ring-4 ring-background md:size-32">
+                  <Image
+                    src={testimonial.avatar}
+                    alt=""
+                    width={128}
+                    height={128}
+                    className="size-full object-cover"
+                    sizes="(max-width: 768px) 112px, 128px"
+                  />
+                </div>
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
