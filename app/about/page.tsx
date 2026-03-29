@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { AnimatedStat } from "@/components/animated-stat";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { company } from "@/lib/site-data";
 
 export const metadata: Metadata = {
@@ -12,88 +17,177 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="bg-background text-foreground">
-      <section className="page-section border-b border-border/70 bg-card">
-        <div className="mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
-          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">About FlameZanzi</p>
-          <h1 className="mt-3 font-heading text-5xl">Our Story</h1>
-          <p className="mt-6 max-w-3xl leading-relaxed text-muted-foreground">{company.description}</p>
+      {/* Hero */}
+      <section className="page-section relative min-h-88 overflow-hidden border-b border-border/70">
+        <Image
+          src="/images/optimized/about-mission.webp"
+          alt="FlameZanzi — our story"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-[#070a0f]/85 via-[#0b0f14]/65 to-[#0b0f14]/30" />
+        <div className="relative mx-auto w-full max-w-6xl px-6 py-24 text-white md:py-32">
+          <Badge
+            variant="outline"
+            className="rounded-full border-white/35 bg-black/15 px-3 py-1 text-[11px] tracking-[0.2em] text-white uppercase backdrop-blur"
+          >
+            About FlameZanzi
+          </Badge>
+          <h1 className="mt-5 max-w-2xl font-heading text-5xl leading-tight md:text-6xl">
+            A Decade of Premium Hospitality
+          </h1>
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80">
+            {company.description}
+          </p>
         </div>
       </section>
 
-      <section className="page-section mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card className="border border-border/70 py-5">
-            <CardHeader>
-              <CardTitle className="font-heading text-3xl">Mission</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="leading-relaxed text-muted-foreground">{company.mission}</p>
-            </CardContent>
-          </Card>
-          <Card className="border border-border/70 py-5">
-            <CardHeader>
-              <CardTitle className="font-heading text-3xl">Vision</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="leading-relaxed text-muted-foreground">{company.vision}</p>
-            </CardContent>
-          </Card>
+      {/* Mission & Vision */}
+      <section className="page-section mx-auto w-full max-w-6xl px-6 py-24 md:py-28">
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="space-y-5 rounded-2xl border border-border/70 bg-card p-8 md:p-10">
+            <p className="text-xs tracking-[0.2em] uppercase text-primary">Mission</p>
+            <Separator className="w-12 bg-primary/40" />
+            <h2 className="font-heading text-3xl">Why We Do This</h2>
+            <p className="leading-relaxed text-muted-foreground">{company.mission}</p>
+          </div>
+          <div className="space-y-5 rounded-2xl border border-border/70 bg-card p-8 md:p-10">
+            <p className="text-xs tracking-[0.2em] uppercase text-primary">Vision</p>
+            <Separator className="w-12 bg-primary/40" />
+            <h2 className="font-heading text-3xl">Where We&rsquo;re Going</h2>
+            <p className="leading-relaxed text-muted-foreground">{company.vision}</p>
+          </div>
         </div>
       </section>
 
-      <section className="page-section bg-secondary/40 py-20 md:py-24">
+      {/* Stats band — animated counters */}
+      <section className="page-section border-y border-border/70 bg-primary py-14 text-primary-foreground">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-8 px-6 md:grid-cols-4">
+          {company.stats.map((stat) => (
+            <AnimatedStat
+              key={stat.label}
+              value={stat.value}
+              numeric={stat.numeric}
+              label={stat.label}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="page-section bg-secondary/30 py-24 md:py-28">
         <div className="mx-auto w-full max-w-6xl px-6">
-          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Core Values</p>
-          <h2 className="mt-3 font-heading text-4xl">How We Operate</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
-            {company.values.map((value) => (
-              <Card key={value.title} className="border border-border/70 py-5">
-                <CardHeader>
-                  <CardTitle>{value.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {value.description}
-                  </p>
-                </CardContent>
-              </Card>
+          <div className="mb-12 max-w-xl">
+            <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Core Values</p>
+            <h2 className="mt-3 font-heading text-4xl">The Standards We Hold</h2>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              Our values are not aspirational slogans — they are the operational standards embedded in every interaction across our venues.
+            </p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2">
+            {company.values.map((value, i) => (
+              <div
+                key={value.title}
+                className="group flex gap-5 rounded-2xl border border-border/70 bg-card p-7 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-lg font-semibold text-primary">
+                  {i + 1}
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-heading text-xl">{value.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{value.description}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="page-section mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
-        <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Milestones</p>
-        <h2 className="mt-3 font-heading text-4xl">Growth Timeline</h2>
-        <div className="mt-10 space-y-4">
-          {company.milestones.map((milestone) => (
-            <Card key={milestone.year} className="border border-border/70 py-4">
-              <CardContent className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                <p className="font-heading text-2xl text-primary">{milestone.year}</p>
-                <Separator className="hidden md:block md:w-20" />
-                <p className="text-muted-foreground">{milestone.title}</p>
-              </CardContent>
-            </Card>
+      {/* Timeline / Milestones */}
+      <section className="page-section mx-auto w-full max-w-6xl px-6 py-24 md:py-28">
+        <div className="mb-12">
+          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Milestones</p>
+          <h2 className="mt-3 font-heading text-4xl">Our Growth Story</h2>
+        </div>
+        <div className="relative space-y-0">
+          <div className="absolute left-[2.4rem] top-0 hidden h-full w-px bg-border/60 md:block" />
+          {company.milestones.map((milestone, i) => (
+            <div
+              key={milestone.year}
+              className="relative flex gap-6 pb-8 last:pb-0 motion-safe:animate-fade-up"
+              style={{ animationDelay: `${i * 80}ms` }}
+            >
+              <div className="relative z-10 flex h-[4.8rem] w-[4.8rem] shrink-0 flex-col items-center justify-center rounded-full border-2 border-primary/30 bg-background font-mono text-sm font-semibold text-primary">
+                {milestone.year}
+              </div>
+              <div className="flex flex-col justify-center rounded-2xl border border-border/70 bg-card px-6 py-4 flex-1">
+                <p className="font-medium">{milestone.title}</p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="page-section bg-card py-20 md:py-24">
+      {/* Leadership */}
+      <section className="page-section bg-card py-24 md:py-28">
         <div className="mx-auto w-full max-w-6xl px-6">
-          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Leadership</p>
-          <h2 className="mt-3 font-heading text-4xl">Meet Our Team</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="mb-12">
+            <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Leadership</p>
+            <h2 className="mt-3 font-heading text-4xl">The Team Behind the Group</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
             {company.leadership.map((leader) => (
-              <Card key={leader.name} className="border border-border/70 py-5">
-                <CardHeader>
-                  <CardTitle>{leader.name}</CardTitle>
-                  <p className="text-sm text-muted-foreground">{leader.role}</p>
-                </CardHeader>
-                <CardContent>
+              <div
+                key={leader.name}
+                className="group overflow-hidden rounded-2xl border border-border/70 bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="relative h-52 overflow-hidden bg-secondary/40">
+                  <Image
+                    src={leader.image}
+                    alt={leader.name}
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <p className="font-heading text-xl">{leader.name}</p>
+                  <p className="mt-1 text-xs tracking-[0.14em] uppercase text-primary">{leader.role}</p>
+                  <Separator className="my-4 bg-border/60" />
                   <p className="text-sm leading-relaxed text-muted-foreground">{leader.bio}</p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="page-section border-t border-border/70 bg-secondary/30 py-20 md:py-24">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between">
+          <div className="max-w-xl space-y-3">
+            <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Partner With Us</p>
+            <h3 className="font-heading text-3xl">Interested in Collaboration?</h3>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Reach out for partnerships, event hosting, and corporate hospitality inquiries across our four venues.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/contact"
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Get in Touch <ArrowRight className="size-4" />
+            </Link>
+            <Link
+              href={`https://wa.me/${company.contact.whatsapp.replace(/\D/g, "")}`}
+              target="_blank"
+              className="inline-flex h-10 items-center gap-2 rounded-lg border border-border px-5 text-sm font-medium transition-colors hover:bg-muted"
+            >
+              <WhatsAppIcon className="size-[1.1rem] text-[#25D366]" />
+              WhatsApp
+            </Link>
           </div>
         </div>
       </section>

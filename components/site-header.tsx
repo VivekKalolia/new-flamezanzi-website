@@ -3,43 +3,39 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { navLinks } from "@/lib/site-data";
 
 function navLinkClass(isActive: boolean) {
-  if (isActive) {
-    return "text-white";
-  }
-
-  return "text-white/70 hover:text-white";
+  return isActive ? "text-white" : "text-white/70 hover:text-white";
 }
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0b0f14]/95 text-white backdrop-blur">
-      <div className="mx-auto flex h-20 w-full max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 md:h-20">
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src="/logos/flamezanzi-logo.svg"
+            src="/logos/flamezanzi.png"
             alt="FlameZanzi logo"
-            width={148}
-            height={40}
-            className="h-9 w-auto"
+            width={200}
+            height={52}
+            className="h-8 w-auto md:h-9"
             priority
           />
         </Link>
 
+        {/* Desktop nav */}
         <nav className="hidden items-center gap-8 text-sm md:flex">
           {navLinks.map((link) => (
             <Link
@@ -59,38 +55,79 @@ export function SiteHeader() {
           Contact Us
         </Link>
 
-        <Dialog>
-          <DialogTrigger
-            render={<Button size="icon-lg" variant="ghost" className="md:hidden" />}
+        {/* Mobile hamburger — slides in from right */}
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger
+            render={
+              <button
+                type="button"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-white/80 hover:bg-white/10 hover:text-white md:hidden"
+                aria-label="Open menu"
+              />
+            }
           >
-            <Menu className="size-5 text-white" />
-            <span className="sr-only">Open menu</span>
-          </DialogTrigger>
-          <DialogContent className="max-w-88 bg-[#0f141b] text-white">
-            <DialogHeader>
-              <DialogTitle>Menu</DialogTitle>
-            </DialogHeader>
-            <nav className="mt-2 flex flex-col gap-2">
+            <Menu className="size-5" />
+          </SheetTrigger>
+          <SheetContent
+            side="right"
+            showCloseButton={false}
+            className="w-72 border-l border-white/10 bg-[#0b0f14] p-0 text-white"
+          >
+            {/* Header inside sheet */}
+            <div className="flex h-16 items-center justify-between border-b border-white/10 px-5">
+              <Image
+                src="/logos/flamezanzi.png"
+                alt="FlameZanzi logo"
+                width={180}
+                height={48}
+                className="h-7 w-auto"
+              />
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-white/60 hover:bg-white/10 hover:text-white"
+                aria-label="Close menu"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-0.5 px-4 py-5">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`rounded-lg px-3 py-2 text-sm transition-colors ${
-                    pathname === link.href ? "bg-white/10 text-white" : "text-white/80 hover:bg-white/10 hover:text-white"
+                  onClick={() => setOpen(false)}
+                  className={`rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                    pathname === link.href
+                      ? "bg-white/10 text-white"
+                      : "text-white/75 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
+            </nav>
+
+            <div className="border-t border-white/10 px-4 py-5">
               <Link
                 href="/contact"
-                className="mt-2 inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                onClick={() => setOpen(false)}
+                className="flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 Contact Us
               </Link>
-            </nav>
-          </DialogContent>
-        </Dialog>
+            </div>
+            <div className="mt-auto border-t border-white/10 px-4 py-4 text-center">
+              <p className="text-[11px] tracking-[0.12em] text-white/65 uppercase">
+                FlameZanzi Restaurant Ltd.
+              </p>
+              <p className="mt-1 text-xs text-white/50">
+                © {new Date().getFullYear()} FlameZanzi Restaurant Ltd.
+              </p>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );

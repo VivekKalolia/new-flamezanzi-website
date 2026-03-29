@@ -3,6 +3,7 @@ import { DM_Sans, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { ScrollRevealInit } from "@/components/scroll-reveal";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />
+        <ScrollRevealInit />
       </body>
     </html>
   );

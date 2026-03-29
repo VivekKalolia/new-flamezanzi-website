@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-type Region = "TZ" | "ZNZ";
+type Region = "Tanzania" | "Zanzibar";
 
 export type GalleryImageItem = {
   ventureSlug: string;
@@ -10,14 +10,7 @@ export type GalleryImageItem = {
   image: string;
 };
 
-const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
-
-function toPublicUrl(relativePath: string) {
-  return `/${relativePath
-    .split(path.sep)
-    .map((segment) => encodeURIComponent(segment))
-    .join("/")}`;
-}
+const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
 
 function listPublicImages(relativeDirectory: string) {
   const absoluteDirectory = path.join(process.cwd(), "public", relativeDirectory);
@@ -29,22 +22,18 @@ function listPublicImages(relativeDirectory: string) {
   return files
     .filter((file) => IMAGE_EXTENSIONS.has(path.extname(file).toLowerCase()))
     .sort((a, b) => a.localeCompare(b))
-    .map((file) => toPublicUrl(path.join(relativeDirectory, file)));
+    .map((file) => `/${relativeDirectory.replace(/\\/g, "/")}/${file}`);
 }
 
-const flamesImages = listPublicImages(path.join("images", "flames"));
-const silkRouteImages = listPublicImages(path.join("images", "silk route"));
+// All galleries now point to optimised WebP copies
+const flamesImages = listPublicImages("images/optimized/flames");
+const silkRouteImages = listPublicImages("images/optimized/silk-route");
+const aqueliaImages = listPublicImages("images/optimized/aquelia");
 
 const treatsImages = [
-  "/images/optimized/venture-treats.jpg",
-  "/images/corporate-reference-2.png",
-  "/images/optimized/about-mission.jpg",
-];
-
-const aqueliaImages = [
-  "/images/optimized/venture-hotel.jpg",
-  "/images/optimized/team-corporate.jpg",
-  "/images/corporate-reference-1.png",
+  "/images/optimized/treats/treats-cafe-bakery-hero.webp",
+  "/images/optimized/about-mission.webp",
+  "/images/optimized/team-corporate.webp",
 ];
 
 export function getVentureGalleryImages(slug: string, fallback: string[]) {
@@ -58,7 +47,7 @@ export function getVentureGalleryImages(slug: string, fallback: string[]) {
     return treatsImages;
   }
   if (slug === "aquelia-rose") {
-    return aqueliaImages;
+    return aqueliaImages.length ? aqueliaImages : fallback;
   }
   return fallback;
 }
@@ -68,25 +57,25 @@ export function getPortfolioGalleryItems(): GalleryImageItem[] {
     ...flamesImages.map((image) => ({
       ventureSlug: "flames-restaurant",
       ventureName: "Flames Restaurant",
-      region: "TZ" as const,
+      region: "Tanzania" as const,
       image,
     })),
     ...treatsImages.map((image) => ({
       ventureSlug: "treats-cafe",
       ventureName: "Treats Cafe & Bakery",
-      region: "TZ" as const,
+      region: "Tanzania" as const,
       image,
     })),
     ...silkRouteImages.map((image) => ({
       ventureSlug: "silk-route",
       ventureName: "The Silk Route Restaurant",
-      region: "ZNZ" as const,
+      region: "Zanzibar" as const,
       image,
     })),
     ...aqueliaImages.map((image) => ({
       ventureSlug: "aquelia-rose",
       ventureName: "Aquelia Rose Hotel",
-      region: "ZNZ" as const,
+      region: "Zanzibar" as const,
       image,
     })),
   ];

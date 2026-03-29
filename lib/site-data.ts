@@ -55,66 +55,81 @@ export type MenuCategory = {
   items: MenuItem[];
 };
 
+/** Brand marks in `public/logos/MAIN/` (filenames with spaces). */
+function mainBrandLogo(filename: string) {
+  return `/logos/MAIN/${encodeURIComponent(filename)}`;
+}
+
+/** Aquelia optimised WebP in `public/images/optimized/aquelia/`. */
+function aqueliaOpt(file: string) {
+  return `/images/optimized/aquelia/${file}`;
+}
+
 export const company = {
   name: "FlameZanzi Restaurant Ltd.",
-  logo: "/logos/flamezanzi-logo.svg",
-  founded: 2015,
+  /** Primary mark: `public/logos/flamezanzi.png` */
+  logo: "/logos/flamezanzi.png",
+  founded: 2013,
   domain: "https://flamezanzi.com",
   description:
-    "FlameZanzi Restaurant Ltd. is a premium hospitality group operating signature restaurants, a cafe, and a boutique hotel across Tanzania and Zanzibar.",
+    "Flamezanzi Restaurant Limited is a dynamic hospitality group operating in Dar es Salaam and Zanzibar, known for blending culinary excellence with immersive guest experiences. From fine dining and artisanal bakeries to beachfront hotels, our ventures celebrate local flavors while delivering world-class service.",
   mission:
-    "To create memorable hospitality experiences through culinary quality, refined service, and thoughtful venue design.",
+    "To create memorable dining and hospitality experiences that honor local culture, delight our guests, and inspire lasting connections.",
   vision:
-    "To be East Africa's most trusted premium hospitality portfolio for guests, partners, and communities.",
+    "To be East Africa's most trusted and celebrated hospitality brand, continuously growing and expanding through innovation, authenticity, and exceptional guest care.",
   values: [
     {
-      title: "Excellence",
-      description: "We uphold high standards in food quality, service, and consistency.",
+      title: "Authenticity",
+      description: "We celebrate local heritage and flavors, ensuring every guest feels connected to the culture.",
     },
     {
-      title: "Warm Hospitality",
-      description: "We combine professional operations with genuine care for every guest.",
+      title: "Excellence",
+      description: "We uphold the highest standards in food, service, and hospitality operations.",
     },
     {
       title: "Innovation",
-      description: "We evolve experiences through modern concepts and smart systems.",
+      description: "We continuously evolve our menus, experiences, and systems to meet modern guest expectations.",
+    },
+    {
+      title: "Community",
+      description: "We support local producers, artisans, and staff, fostering sustainable growth.",
     },
     {
       title: "Integrity",
-      description: "We lead transparently with trust, safety, and accountability.",
+      description: "We build trust through transparency, respect, and consistency in everything we do.",
     },
   ],
   stats: [
-    { label: "Ventures", value: "4" },
-    { label: "Team Members", value: "248" },
-    { label: "Annual Guests", value: "250K+" },
-    { label: "Years in Hospitality", value: "10+" },
+    { label: "Ventures", value: "4", numeric: 4 },
+    { label: "Team Members", value: "120+", numeric: 120 },
+    { label: "Annual Guests", value: "50K+", numeric: 50000 },
+    { label: "Years in Operation", value: "8+", numeric: 8 },
   ],
   milestones: [
-    { year: "2015", title: "Group founded in Dar es Salaam" },
-    { year: "2017", title: "Flames Restaurant expansion" },
-    { year: "2019", title: "Treats Cafe & Bakery launched" },
-    { year: "2022", title: "Silk Route opened in Zanzibar" },
-    { year: "2024", title: "Aquelia Rose Hotel portfolio addition" },
+    { year: "2013", title: "Group founded in Dar es Salaam" },
+    { year: "2015", title: "Flames Restaurant established in Masaki" },
+    { year: "2017", title: "Flames Bakery (Treats) launched" },
+    { year: "2021", title: "The Silk Route Restaurant opened in Stone Town, Zanzibar" },
+    { year: "2023", title: "Aquelia Rose Hotel portfolio addition in Jambiani" },
   ],
   leadership: [
     {
       name: "Ben Sheridan",
       role: "Founder & CEO",
       bio: "Leads brand strategy, growth partnerships, and operational standards across ventures.",
-      image: "/images/optimized/team-corporate.jpg",
+      image: "/images/optimized/team-corporate.webp",
     },
     {
       name: "Sophie Lana",
       role: "Director of Operations",
       bio: "Drives quality systems, training, and service excellence across all locations.",
-      image: "/images/optimized/team-corporate.jpg",
+      image: "/images/optimized/team-corporate.webp",
     },
     {
       name: "James Hoult",
       role: "Hospitality Partnerships",
       bio: "Manages corporate relationships, events, and strategic guest experience programs.",
-      image: "/images/optimized/team-corporate.jpg",
+      image: "/images/optimized/team-corporate.webp",
     },
   ],
   testimonials: [
@@ -139,9 +154,10 @@ export const company = {
   ],
   contact: {
     hq: "Dar es Salaam, Tanzania",
-    phone: "+255 22 123 0000",
+    hqFull: "Plot 45, Mikocheni B, Dar es Salaam, Tanzania",
+    phone: "+255 775 111 122",
     email: "hello@flamezanzi.com",
-    whatsapp: "+255221230000",
+    whatsapp: "+255775111122",
     social: {
       facebook: "https://facebook.com",
       instagram: "https://instagram.com",
@@ -181,13 +197,16 @@ export const ventures: Venture[] = [
     menuUrl: "/menus/flames-menu.pdf",
     website: "https://flames.menu.tz",
     color: "#C41E3A",
-    logo: "/logos/flames-restaurant-logo.svg",
+    logo: mainBrandLogo("Flames Logo - Instagram.png"),
     images: {
-      hero: "/images/optimized/venture-flames.jpg",
+      hero: "/images/optimized/venture-flames.webp",
       gallery: [
-        "/images/optimized/about-mission.jpg",
-        "/images/optimized/hero-main.jpg",
-        "/images/optimized/venture-flames.jpg",
+        "/images/optimized/flames/HNK08008.webp",
+        "/images/optimized/flames/HNK08009.webp",
+        "/images/optimized/flames/HNK08020.webp",
+        "/images/optimized/flames/HNK08021.webp",
+        "/images/optimized/flames/HNK08002.webp",
+        "/images/optimized/flames/HNK08003.webp",
       ],
     },
   },
@@ -219,13 +238,13 @@ export const ventures: Venture[] = [
     },
     menuUrl: "/menus/treats-menu.pdf",
     color: "#D81B60",
-    logo: "/logos/treats-cafe-logo.svg",
+    logo: mainBrandLogo("Treats Cafe & Bakery - Logo (WHITE BG).png"),
     images: {
-      hero: "/images/optimized/venture-treats.jpg",
+      hero: "/images/optimized/treats/treats-cafe-bakery-hero.webp",
       gallery: [
-        "/images/optimized/venture-treats.jpg",
-        "/images/corporate-reference-2.png",
-        "/images/optimized/about-mission.jpg",
+        "/images/optimized/treats/treats-cafe-bakery-hero.webp",
+        "/images/optimized/about-mission.webp",
+        "/images/optimized/team-corporate.webp",
       ],
     },
   },
@@ -233,22 +252,22 @@ export const ventures: Venture[] = [
     id: 3,
     slug: "silk-route",
     name: "The Silk Route Restaurant",
-    tagline: "Heritage-inspired culinary journey.",
+    tagline: "A rooftop culinary journey through the ancient Silk Road.",
     shortDescription:
-      "A destination dining concept in Stone Town blending cultural depth with modern presentation.",
+      "The Silk Route Restaurant in Stone Town, Zanzibar, offers a fusion menu inspired by Indian, Asian, and Mediterranean traditions — with breathtaking rooftop views over the historic town.",
     fullDescription:
-      "The Silk Route Restaurant delivers immersive hospitality inspired by heritage trade routes, balancing local authenticity with international hospitality expectations.",
+      "Nestled in the heart of Stone Town, The Silk Route Restaurant celebrates the rich culinary heritage of the ancient Silk Road. Our menu blends Indian, Asian, and Mediterranean influences, reflecting centuries of cultural exchange and flavor. From fragrant curries and tandoori kebabs to refreshing seafood and occasional Italian-inspired dishes, every plate is crafted to delight. Guests can savor authentic tastes while overlooking panoramic rooftop views of Zanzibar's old town and the Indian Ocean.",
     type: "restaurant",
     country: "Tanzania",
     city: "Zanzibar",
     area: "Stone Town",
     coordinates: { lat: -6.164, lng: 39.1896 },
-    cuisine: ["Zanzibari", "Fusion", "Seafood"],
-    features: ["Historic Ambience", "Curated Tasting", "Family Friendly"],
-    hours: "12:30-23:30",
+    cuisine: ["Indian", "Swahili", "Mediterranean", "Fusion Seafood"],
+    features: ["Rooftop Terrace", "Panoramic Views", "Lift Access", "Family Friendly", "Group Bookings"],
+    hours: "11:00-23:00",
     contact: {
       phone: "+255 674 111 122",
-      email: "silkroute@flamezanzi.com",
+      email: "silkrouteznz@gmail.com",
       whatsapp: "+255674111122",
     },
     social: {
@@ -257,13 +276,16 @@ export const ventures: Venture[] = [
     },
     menuUrl: "/menus/silkroute-menu.pdf",
     color: "#E67E22",
-    logo: "/logos/silk-route-logo.svg",
+    logo: mainBrandLogo("Silk Route Logo (Instagram).png"),
     images: {
-      hero: "/images/optimized/venture-silk.jpg",
+      hero: "/images/optimized/venture-silk.webp",
       gallery: [
-        "/images/optimized/venture-silk.jpg",
-        "/images/optimized/venture-hotel.jpg",
-        "/images/corporate-reference-1.png",
+        "/images/optimized/silk-route/HNK08613.webp",
+        "/images/optimized/silk-route/HNK08615.webp",
+        "/images/optimized/silk-route/HNK08617.webp",
+        "/images/optimized/silk-route/HNK08620.webp",
+        "/images/optimized/silk-route/HNK08621.webp",
+        "/images/optimized/silk-route/HNK08624.webp",
       ],
     },
   },
@@ -271,23 +293,23 @@ export const ventures: Venture[] = [
     id: 4,
     slug: "aquelia-rose",
     name: "Aquelia Rose Hotel",
-    tagline: "Refined coastal comfort in Jambiani.",
+    tagline: "Your boutique beachfront retreat in Jambiani, Zanzibar.",
     shortDescription:
-      "A boutique hotel experience focused on comfort, calm design, and attentive service.",
+      "Aquelia Rose Hotel is a boutique beachfront property on the tranquil shores of Jambiani, Zanzibar — with only eight thoughtfully designed rooms, personalized service, and stunning sea views.",
     fullDescription:
-      "Aquelia Rose Hotel complements the group's dining portfolio with premium accommodation, guest-centric service, and a refined coastal atmosphere in Zanzibar.",
+      "At Aquelia Rose Hotel, we believe that every journey deserves a beautiful beginning. Nestled along the soft sands of Jambiani Beach, our boutique property offers guests an intimate escape where the ocean greets you each morning. From savoring authentic Swahili and continental flavors at our beachfront deck restaurant to exploring the vibrant culture of Zanzibar, every moment at Aquelia Rose is designed to connect you with the spirit of the island. Guided by eco-conscious values and a commitment to community, we welcome couples, honeymooners, and solo travelers to share in the warmth of our hospitality.",
     type: "hotel",
     country: "Tanzania",
     city: "Zanzibar",
     area: "Jambiani",
     coordinates: { lat: -6.3218, lng: 39.5507 },
-    cuisine: ["Hotel Dining", "Breakfast", "International"],
-    features: ["Ocean Access", "Family Suites", "Airport Transfer"],
-    hours: "24h",
+    cuisine: ["Swahili Cuisine", "Continental", "Breakfast Included", "Beachfront Dining"],
+    features: ["Beachfront Access", "Swimming Pool", "Air-Conditioned Rooms", "Free Wi-Fi", "Airport Shuttle", "Eco-Conscious", "Yoga Space", "Excursion Planning"],
+    hours: "24h (Restaurant: 08:00–21:00)",
     contact: {
-      phone: "+255 759 900 800",
-      email: "aqueliarose@flamezanzi.com",
-      whatsapp: "+255759900800",
+      phone: "+255 678 111 122",
+      email: "aqueliaroseznz@gmail.com",
+      whatsapp: "+255678111122",
     },
     social: {
       instagram: "https://instagram.com",
@@ -298,13 +320,19 @@ export const ventures: Venture[] = [
     checkOut: "11:00",
     airportDistance: "56 km",
     color: "#16A085",
-    logo: "/logos/aquelia-rose-logo.svg",
+    logo: mainBrandLogo("Aquelia Rose Hotel - Instagram Logo.png"),
     images: {
-      hero: "/images/optimized/venture-hotel.jpg",
+      hero: aqueliaOpt("HNK08340.webp"),
       gallery: [
-        "/images/optimized/venture-hotel.jpg",
-        "/images/optimized/venture-silk.jpg",
-        "/images/corporate-reference-2.png",
+        aqueliaOpt("HNK08342.webp"),
+        aqueliaOpt("HNK08344.webp"),
+        aqueliaOpt("HNK08346.webp"),
+        aqueliaOpt("HNK08348.webp"),
+        aqueliaOpt("HNK08352.webp"),
+        aqueliaOpt("HNK08353.webp"),
+        aqueliaOpt("HNK08354.webp"),
+        aqueliaOpt("HNK08338.webp"),
+        aqueliaOpt("HNK08339.webp"),
       ],
     },
   },

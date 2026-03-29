@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Minus, Plus, ShoppingBag } from "lucide-react";
+import { Clock3, MapPin, Minus, Phone, Plus, ShoppingBag, Trash2, Truck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { MenuCategory, Venture } from "@/lib/site-data";
 
 type CartItem = {
@@ -51,6 +52,7 @@ export function MenuExperience({ venture, categories }: Props) {
     return raw ? (JSON.parse(raw) as CartItem[]) : [];
   });
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(cartStorageKey(venture.slug), JSON.stringify(cart));
@@ -84,6 +86,11 @@ export function MenuExperience({ venture, categories }: Props) {
       .filter(Boolean) as MenuCategory[];
   }, [activeCategory, categories, search, vegOnly]);
 
+  const allFilteredItems = useMemo(
+    () => filteredCategories.flatMap((category) => category.items),
+    [filteredCategories]
+  );
+
   function addToCart(itemName: string, price: number) {
     setCart((current) => {
       const existing = current.find((item) => item.itemName === itemName);
@@ -109,6 +116,14 @@ export function MenuExperience({ venture, categories }: Props) {
     );
   }
 
+  function removeFromCart(itemName: string) {
+    setCart((current) => current.filter((item) => item.itemName !== itemName));
+  }
+
+  function clearCart() {
+    setCart([]);
+  }
+
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const deliveryCharge = deliveryMode === "delivery" ? 3 : 0;
   const total = subtotal + deliveryCharge;
@@ -125,176 +140,323 @@ export function MenuExperience({ venture, categories }: Props) {
     ].join("\n")
   );
 
+  const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
+
+  function formatCurrency(amount: number) {
+    return `TZS ${Math.round(amount).toLocaleString("en-US")}`;
+  }
+
   return (
-    <div className="space-y-8">
-      <Card className="border border-border/70 py-5">
-        <CardContent className="grid gap-4 md:grid-cols-[1fr_auto_auto] md:items-end">
-          <div className="space-y-2">
-            <p className="text-xs tracking-[0.16em] uppercase text-muted-foreground">Search Menu</p>
+    <div className="grid gap-7 lg:grid-cols-[260px_1fr]">
+      <div className="space-y-5 lg:sticky lg:top-24 lg:self-start">
+        <Card className="border border-border/70 py-4">
+          <CardHeader>
+            <CardTitle>Categories</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-1">
+            <button
+              type="button"
+              onClick={() => setActiveCategory("all")}
+              className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                activeCategory === "all"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-foreground hover:bg-muted"
+              }`}
+            >
+              All
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category.name}
+                type="button"
+                onClick={() => setActiveCategory(category.name)}
+                className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                  activeCategory === category.name
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-muted"
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
+          </CardContent>
+        </Card>
+
+        <Card className="border border-border/70 py-4">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Clock3 className="size-4 text-primary" />
+              Opening Hours
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm">
+            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+              <div key={day} className="flex items-center justify-between text-muted-foreground">
+                <span>{day}</span>
+                <span>{venture.hours}</span>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        <Card className="border border-border/70 py-4">
+          <CardHeader>
+            <CardTitle className="text-lg">Contact</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted-foreground">
+            <p className="flex items-center gap-2">
+              <Phone className="size-4" />
+              {venture.contact.phone}
+            </p>
+            <p className="flex items-center gap-2">
+              <MapPin className="size-4" />
+              {venture.area}, {venture.city}
+            </p>
+            <Link
+              href={`https://wa.me/${venture.contact.whatsapp.replace(/\D/g, "")}`}
+              target="_blank"
+              className="inline-flex items-center gap-2 text-primary hover:underline"
+            >
+              <WhatsAppIcon className="size-[1.05rem] text-[#25D366]" />
+              WhatsApp
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="space-y-6">
+        <Card className="border border-border/70 py-4">
+          <CardContent className="space-y-4">
             <Input
-              placeholder="Search by name, description, tags..."
+              placeholder="Search dishes, ingredients, categories..."
               value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
-          </div>
-          <div className="space-y-2">
-            <p className="text-xs tracking-[0.16em] uppercase text-muted-foreground">Diet Filter</p>
-            <label className="flex items-center gap-3 text-sm">
-              <Switch checked={vegOnly} onCheckedChange={setVegOnly} />
-              Vegetarian only
-            </label>
-          </div>
-          <div className="space-y-2">
-            <p className="text-xs tracking-[0.16em] uppercase text-muted-foreground">Order Mode</p>
-            <Tabs
-              value={deliveryMode}
-              onValueChange={(value) => setDeliveryMode(value as "pickup" | "delivery")}
-            >
-              <TabsList>
-                <TabsTrigger value="pickup">Pickup</TabsTrigger>
-                <TabsTrigger value="delivery">Delivery</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => setActiveCategory("all")}
-          className={`rounded-full border px-4 py-2 text-sm ${
-            activeCategory === "all" ? "border-primary bg-primary text-primary-foreground" : "border-border"
-          }`}
-        >
-          All
-        </button>
-        {categories.map((category) => (
-          <button
-            key={category.name}
-            type="button"
-            onClick={() => setActiveCategory(category.name)}
-            className={`rounded-full border px-4 py-2 text-sm ${
-              activeCategory === category.name
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border"
-            }`}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
-
-      <div className="space-y-8">
-        {filteredCategories.map((category) => (
-          <section key={category.name} className="space-y-4">
-            <h3 className="font-heading text-3xl">{category.name}</h3>
-            <p className="text-sm text-muted-foreground">{category.description}</p>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {category.items.map((item) => (
-                <Card key={item.name} className="border border-border/70 py-4">
-                  <CardHeader>
-                    <CardTitle className="flex items-start justify-between gap-4 text-lg">
-                      <span>{item.name}</span>
-                      <span className="text-primary">${item.price.toFixed(2)}</span>
-                    </CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex flex-wrap gap-2">
-                      {item.tags.map((tag) => (
-                        <Badge key={tag} variant="outline">
-                          {tag}
-                        </Badge>
-                      ))}
-                      {item.isVegetarian ? <Badge variant="secondary">Vegetarian</Badge> : null}
-                      {item.isSpicy ? <Badge variant="destructive">Spicy</Badge> : null}
-                    </div>
-                    <Button onClick={() => addToCart(item.name, item.price)}>Add to Cart</Button>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-sm text-muted-foreground">Filter:</span>
+              <button
+                type="button"
+                onClick={() => setVegOnly(false)}
+                className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                  !vegOnly
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border hover:bg-muted"
+                }`}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                onClick={() => setVegOnly(true)}
+                className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                  vegOnly
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border hover:bg-muted"
+                }`}
+              >
+                Vegetarian
+              </button>
+              <label className="ml-auto hidden items-center gap-2 text-sm text-muted-foreground md:flex">
+                <Switch checked={vegOnly} onCheckedChange={setVegOnly} />
+                Veg only
+              </label>
             </div>
-          </section>
-        ))}
+            <div className="rounded-lg border border-border/70 bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+              <span className="font-medium text-foreground">Legend:</span> Vegetarian (green) and Spicy (red) badges
+            </div>
+          </CardContent>
+        </Card>
 
-        {filteredCategories.length === 0 ? (
-          <Card className="border border-border/70 py-4">
-            <CardContent className="text-muted-foreground">No menu items found for the current filters.</CardContent>
-          </Card>
-        ) : null}
+        <div className="space-y-8">
+          {filteredCategories.map((category) => (
+            <section key={category.name} className="space-y-3">
+              <h3 className="font-heading text-4xl">{category.name}</h3>
+              <p className="text-sm text-muted-foreground">{category.description}</p>
+              <div className="space-y-3">
+                {category.items.map((item) => {
+                  const existingQty = cart.find((entry) => entry.itemName === item.name)?.quantity ?? 0;
+                  return (
+                    <Card key={item.name} className="border border-border/70 py-0">
+                      <CardContent className="flex flex-col gap-4 py-5 md:flex-row md:items-start md:justify-between">
+                        <div className="min-w-0 space-y-2">
+                          <h4 className="text-xl font-semibold leading-tight">{item.name}</h4>
+                          <p className="text-sm text-muted-foreground">{item.description}</p>
+                          <div className="flex flex-wrap gap-2">
+                            {item.tags.map((tag) => (
+                              <Badge key={tag} variant="outline">
+                                {tag}
+                              </Badge>
+                            ))}
+                            {item.isVegetarian ? (
+                              <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">Vegetarian</Badge>
+                            ) : null}
+                            {item.isSpicy ? (
+                              <Badge className="bg-rose-50 text-rose-700 hover:bg-rose-50">Spicy</Badge>
+                            ) : null}
+                          </div>
+                        </div>
+
+                        <div className="flex min-w-[170px] flex-col items-end gap-3">
+                          <p className="text-xl font-semibold text-primary">{formatCurrency(item.price)}</p>
+                          {existingQty > 0 ? (
+                            <div className="inline-flex items-center gap-3 rounded-full border border-primary/30 bg-primary/5 px-2 py-1">
+                              <button
+                                type="button"
+                                onClick={() => adjustQuantity(item.name, -1)}
+                                className="inline-flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+                              >
+                                <Minus className="size-3.5" />
+                              </button>
+                              <span className="w-5 text-center text-sm font-medium">{existingQty}</span>
+                              <button
+                                type="button"
+                                onClick={() => adjustQuantity(item.name, 1)}
+                                className="inline-flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+                              >
+                                <Plus className="size-3.5" />
+                              </button>
+                            </div>
+                          ) : (
+                            <Button onClick={() => addToCart(item.name, item.price)} className="h-9 rounded-full px-5">
+                              Add
+                            </Button>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+
+          {filteredCategories.length === 0 ? (
+            <Card className="border border-border/70 py-4">
+              <CardContent className="text-muted-foreground">No menu items found for the current filters.</CardContent>
+            </Card>
+          ) : null}
+        </div>
       </div>
 
       <div className="fixed right-5 bottom-5 z-30">
-        <Dialog>
+        <Dialog open={cartOpen} onOpenChange={setCartOpen}>
           <DialogTrigger
-            render={
-              <Button size="lg" className="shadow-lg" />
-            }
+            render={<Button size="lg" className="shadow-lg" />}
           >
             <ShoppingBag className="mr-2 size-4" />
-            Cart ({cart.reduce((count, item) => count + item.quantity, 0)})
+            Cart ({cartCount})
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-xl">
             <DialogHeader>
-              <DialogTitle>Order Summary</DialogTitle>
+              <DialogTitle>Your Order</DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {cart.length === 0 ? (
                 <p className="text-sm text-muted-foreground">Your cart is empty.</p>
               ) : (
                 cart.map((item) => (
-                  <div key={item.itemName} className="flex items-center justify-between gap-3 rounded-lg border p-3">
-                    <div>
-                      <p className="text-sm font-medium">{item.itemName}</p>
-                      <p className="text-xs text-muted-foreground">${item.price.toFixed(2)} each</p>
+                  <div key={item.itemName} className="rounded-xl border border-border/70 bg-card p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-base font-semibold">{item.itemName}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {formatCurrency(item.price)} x {item.quantity} = {formatCurrency(item.price * item.quantity)}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeFromCart(item.itemName)}
+                        className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted"
+                      >
+                        <Trash2 className="size-4" />
+                      </button>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => adjustQuantity(item.itemName, -1)}
-                        className="rounded border p-1"
-                      >
-                        <Minus className="size-3" />
-                      </button>
-                      <span className="w-5 text-center text-sm">{item.quantity}</span>
-                      <button
-                        type="button"
-                        onClick={() => adjustQuantity(item.itemName, 1)}
-                        className="rounded border p-1"
-                      >
-                        <Plus className="size-3" />
-                      </button>
+                    <div className="mt-3 flex items-center justify-end">
+                      <div className="inline-flex items-center gap-3 rounded-full border border-border bg-muted/40 px-2 py-1">
+                        <button
+                          type="button"
+                          onClick={() => adjustQuantity(item.itemName, -1)}
+                          className="inline-flex size-7 items-center justify-center rounded-full bg-background transition-colors hover:bg-muted"
+                        >
+                          <Minus className="size-3.5" />
+                        </button>
+                        <span className="w-5 text-center text-sm font-medium">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => adjustQuantity(item.itemName, 1)}
+                          className="inline-flex size-7 items-center justify-center rounded-full bg-background transition-colors hover:bg-muted"
+                        >
+                          <Plus className="size-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))
               )}
 
-              <div className="rounded-lg border p-3 text-sm">
-                <p>Subtotal: ${subtotal.toFixed(2)}</p>
-                <p>Delivery: ${deliveryCharge.toFixed(2)}</p>
-                <p className="font-medium">Total: ${total.toFixed(2)}</p>
+              <div className="rounded-xl border border-dashed border-border p-4 text-sm">
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span>Subtotal</span>
+                  <span>{formatCurrency(subtotal)}</span>
+                </div>
+                <div className="mt-1 flex items-center justify-between text-muted-foreground">
+                  <span>Delivery Charge</span>
+                  <span>{formatCurrency(deliveryCharge)}</span>
+                </div>
+                <div className="mt-3 flex items-center justify-between border-t pt-3 text-xl font-semibold">
+                  <span>Total</span>
+                  <span className="text-primary">{formatCurrency(total)}</span>
+                </div>
               </div>
 
-              <Link
-                href={`https://wa.me/${venture.contact.whatsapp.replace("+", "")}?text=${orderText}`}
-                target="_blank"
-                className={`inline-flex h-9 w-full items-center justify-center rounded-lg text-sm font-medium ${
-                  cart.length === 0
-                    ? "pointer-events-none bg-muted text-muted-foreground"
-                    : "bg-primary text-primary-foreground hover:bg-primary/90"
-                }`}
+              <Card className="border border-border/70 bg-muted/20 py-4">
+                <CardContent className="space-y-3">
+                  <p className="font-medium">How would you like to receive your order?</p>
+                  <Tabs
+                    value={deliveryMode}
+                    onValueChange={(value) => setDeliveryMode(value as "pickup" | "delivery")}
+                  >
+                    <TabsList className="grid h-auto w-full grid-cols-2 gap-3 bg-transparent p-0">
+                      <TabsTrigger
+                        value="delivery"
+                        className="h-12 rounded-lg border border-border data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                      >
+                        <Truck className="mr-2 size-4" />
+                        Delivery
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="pickup"
+                        className="h-12 rounded-lg border border-border data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                      >
+                        <ShoppingBag className="mr-2 size-4" />
+                        Pickup
+                      </TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                </CardContent>
+              </Card>
+
+              <Button
+                variant="outline"
+                className="h-11 w-full rounded-full border-primary/50 text-primary hover:bg-primary/10"
+                onClick={clearCart}
+                disabled={cart.length === 0}
               >
-                Checkout on WhatsApp
-              </Link>
+                Clear Cart
+              </Button>
 
               <Link
-                href={venture.menuUrl}
-                className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-sm font-medium hover:bg-muted"
+                href={`https://wa.me/${venture.contact.whatsapp.replace(/\D/g, "")}?text=${orderText}`}
+                target="_blank"
+                className={`inline-flex h-11 w-full items-center justify-center gap-2 rounded-full text-sm font-medium ${
+                  cart.length === 0
+                    ? "pointer-events-none bg-muted text-muted-foreground"
+                    : "bg-[#25D366] text-white hover:bg-[#20bb59]"
+                }`}
               >
-                Download PDF Menu
+                <WhatsAppIcon className="size-[1.2rem]" />
+                Order on WhatsApp
               </Link>
             </div>
           </DialogContent>

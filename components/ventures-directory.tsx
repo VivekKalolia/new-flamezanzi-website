@@ -60,26 +60,29 @@ export function VenturesDirectory({ ventures }: Props) {
             {filteredVentures.map((venture) => (
               <Card
                 key={venture.slug}
-                className="overflow-hidden border border-border/70 py-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl motion-safe:animate-fade-up"
+                className="group overflow-hidden border border-border/70 py-0 shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10"
               >
                 <div className="relative h-52 overflow-hidden">
                   <Image
                     src={venture.images.hero}
                     alt={venture.name}
                     fill
-                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <CardHeader className="pt-6">
                   <CardTitle className="flex items-center justify-between gap-4">
-                    <Image
-                      src={venture.logo}
-                      alt={`${venture.name} logo`}
-                      width={140}
-                      height={38}
-                      className="h-8 w-auto"
-                    />
+                    <div className="flex size-16 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/90 p-2 shadow-sm md:size-18">
+                      <Image
+                        src={venture.logo}
+                        alt={`${venture.name} logo`}
+                        width={88}
+                        height={88}
+                        className="h-full w-full rounded-full object-cover"
+                        unoptimized
+                      />
+                    </div>
                     <Badge variant="secondary" className="uppercase">
                       {venture.type}
                     </Badge>
@@ -90,21 +93,21 @@ export function VenturesDirectory({ ventures }: Props) {
                     {venture.area}, {venture.city}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-4 pb-7">
                   <p className="text-sm leading-relaxed text-muted-foreground">
                     {venture.shortDescription}
                   </p>
-                  <div className="flex items-center gap-3">
+                  <div className="mt-1 flex flex-wrap items-center gap-3">
                     <Link
                       href={`/ventures/${venture.slug}`}
-                      className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                      className="inline-flex h-9 items-center self-start rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                     >
                       View Details <ArrowUpRight className="ml-1 size-4" />
                     </Link>
                     <button
                       type="button"
                       onClick={() => setActiveSlug(venture.slug)}
-                      className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
+                      className="inline-flex h-9 items-center self-start rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
                     >
                       View on Map
                     </button>

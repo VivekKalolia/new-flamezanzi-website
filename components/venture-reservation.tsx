@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Venture } from "@/lib/site-data";
 
 type Props = {
@@ -15,12 +16,15 @@ type Props = {
 };
 
 function parseHours(hours: string) {
-  if (hours === "24h") {
+  if (hours.startsWith("24h")) {
     return { open: "00:00", close: "23:59" };
   }
-
-  const [open, close] = hours.split("-");
-  return { open, close };
+  // Match simple HH:MM-HH:MM pattern
+  const match = hours.match(/(\d{2}:\d{2})[–-](\d{2}:\d{2})/);
+  if (match) {
+    return { open: match[1], close: match[2] };
+  }
+  return { open: "00:00", close: "23:59" };
 }
 
 function toMinutes(time: string) {
@@ -60,7 +64,7 @@ export function VentureReservation({ venture }: Props) {
     `Hello ${venture.name}, I'd like to request a reservation.\nDate: ${date}\nTime: ${time}\nParty size: ${partySize}\nThank you.`
   );
 
-  const whatsappLink = `https://wa.me/${venture.contact.whatsapp.replace("+", "")}?text=${whatsappMessage}`;
+  const whatsappLink = `https://wa.me/${venture.contact.whatsapp.replace(/\D/g, "")}?text=${whatsappMessage}`;
 
   return (
     <Dialog>
@@ -114,12 +118,13 @@ export function VentureReservation({ venture }: Props) {
           <Link
             href={whatsappLink}
             target="_blank"
-            className={`inline-flex h-9 w-full items-center justify-center rounded-lg px-4 text-sm font-medium transition-colors ${
+            className={`inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg px-4 text-sm font-medium transition-colors ${
               date && time
                 ? "bg-primary text-primary-foreground hover:bg-primary/90"
                 : "pointer-events-none bg-muted text-muted-foreground"
             }`}
           >
+            <WhatsAppIcon className="size-[1.05rem] text-[#25D366]" />
             Send via WhatsApp
           </Link>
         </div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Building2, Hotel, Leaf, Phone } from "lucide-react";
 
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { company, navLinks, ventures } from "@/lib/site-data";
 
 export function SiteFooter() {
@@ -12,9 +13,10 @@ export function SiteFooter() {
           <Image
             src={company.logo}
             alt="FlameZanzi logo"
-            width={164}
-            height={44}
+            width={200}
+            height={52}
             className="h-10 w-auto"
+            unoptimized
           />
           <p className="max-w-md text-sm leading-relaxed text-neutral-300/80">
             {company.description}
@@ -60,9 +62,10 @@ export function SiteFooter() {
             </p>
           </div>
           <Link
-            href={`https://wa.me/${company.contact.whatsapp.replace("+", "")}`}
-            className="inline-flex h-9 items-center rounded-lg border border-white/20 px-4 text-sm text-white transition-colors hover:bg-white/10"
+            href={`https://wa.me/${company.contact.whatsapp.replace(/\D/g, "")}`}
+            className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/20 px-4 text-sm text-white transition-colors hover:bg-white/10"
           >
+            <WhatsAppIcon className="size-[1.05rem] text-[#25D366]" />
             WhatsApp
           </Link>
         </div>

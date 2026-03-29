@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 import { VenturesDirectory } from "@/components/ventures-directory";
 import { ventures } from "@/lib/site-data";
@@ -23,22 +22,6 @@ export default function VenturesPage() {
       </section>
 
       <section className="page-section mx-auto w-full max-w-6xl px-6 pt-12 pb-20 md:pt-16 md:pb-24">
-        <div className="relative mb-12 overflow-hidden rounded-2xl border border-border/70">
-          <Image
-            src="/images/optimized/venture-treats.jpg"
-            alt="FlameZanzi ventures collage"
-            width={1400}
-            height={520}
-            className="h-auto w-full object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-black/65 to-black/20" />
-          <div className="absolute inset-0 flex items-end p-8 md:p-10">
-            <p className="max-w-2xl font-heading text-3xl text-white">
-              Four distinct hospitality brands. One disciplined standard of premium service.
-            </p>
-          </div>
-        </div>
         <VenturesDirectory ventures={ventures} />
       </section>
     </main>

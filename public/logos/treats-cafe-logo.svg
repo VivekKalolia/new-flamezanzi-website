@@ -1,7 +1,0 @@
-<svg width="220" height="64" viewBox="0 0 220 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="1" y="1" width="62" height="62" rx="14" fill="#D81B60" fill-opacity="0.1" stroke="#D81B60" stroke-width="2"/>
-  <path d="M22 39H42" stroke="#D81B60" stroke-width="3" stroke-linecap="round"/>
-  <path d="M25 33C25 28 28 25 32 25C36 25 39 28 39 33" stroke="#D81B60" stroke-width="3" stroke-linecap="round"/>
-  <text x="74" y="31" fill="#1F2430" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">TREATS CAFE</text>
-  <text x="74" y="47" fill="#6B7280" font-family="Inter, Arial, sans-serif" font-size="11" letter-spacing="1.5">&amp; BAKERY</text>
-</svg>

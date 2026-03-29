@@ -1,6 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Building2, Layers3, MapPin, Sparkles } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  Coffee,
+  Hotel,
+  Layers3,
+  MapPin,
+  UtensilsCrossed,
+  Wine,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -11,99 +21,105 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { AnimatedStat } from "@/components/animated-stat";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { company, ventures } from "@/lib/site-data";
 
 const stats = company.stats;
 
+const offeringBand: { label: string; Icon: LucideIcon }[] = [
+  { label: "Restaurants", Icon: UtensilsCrossed },
+  { label: "Cafe & Bakery", Icon: Coffee },
+  { label: "Hotel", Icon: Hotel },
+  { label: "Bars & More", Icon: Wine },
+];
+
 const primaryButtonClass =
-  "inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90";
+  "inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90";
 
 const outlineButtonClass =
-  "inline-flex h-9 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-medium transition-colors hover:bg-muted";
+  "inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-background px-5 text-sm font-medium transition-colors hover:bg-muted";
 
 const heroOutlineButtonClass =
-  "inline-flex h-9 items-center justify-center rounded-lg border border-white/35 px-4 text-sm font-medium text-white transition-colors hover:bg-white/10";
+  "inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/35 px-5 text-sm font-medium text-white transition-colors hover:bg-white/10";
 
 export default function Home() {
   return (
     <main className="overflow-x-hidden bg-background text-foreground">
-      <section className="page-section relative border-b border-white/10 bg-[#0b0f14]">
-        <div className="relative min-h-128 overflow-hidden lg:min-h-156">
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section className="relative border-b border-white/10 bg-[#0b0f14]">
+        <div className="relative min-h-72 overflow-hidden sm:min-h-80 md:min-h-88 lg:min-h-96">
           <Image
-            src="/images/optimized/hero-main.jpg"
+            src="/images/optimized/hero-main.webp"
             alt="FlameZanzi hospitality portfolio hero"
             fill
             className="object-cover"
             sizes="100vw"
             priority
           />
-          <div className="absolute inset-0 bg-linear-to-r from-[#070a0f]/88 via-[#0b0f14]/72 to-[#0b0f14]/45" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(196,77,49,0.34),transparent_34%)]" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#070a0f]/90 via-[#0b0f14]/70 to-[#0b0f14]/40" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(196,77,49,0.3),transparent_34%)]" />
 
-          <div className="relative mx-auto grid w-full max-w-6xl gap-8 px-6 pb-20 pt-20 text-white lg:grid-cols-[1fr_0.55fr] lg:items-end lg:pt-28">
-            <div className="max-w-2xl space-y-7 motion-safe:animate-fade-up">
+          <div className="relative mx-auto w-full max-w-6xl px-6 py-12 text-white md:py-14 lg:py-16">
+            {/* Badge — delay 0 */}
+            <div className="motion-safe:animate-fade-up motion-safe:[animation-delay:0ms]">
               <Badge
                 variant="outline"
                 className="rounded-full border-white/35 bg-black/15 px-3 py-1 text-[11px] tracking-[0.2em] text-white uppercase backdrop-blur"
               >
                 FlameZanzi Restaurant Ltd.
               </Badge>
-              <div className="space-y-5">
-                <p className="text-xs tracking-[0.2em] uppercase text-white/70">
-                  Corporate Hospitality Portfolio
-                </p>
-                <h1 className="font-heading text-4xl leading-tight md:text-6xl">
-                  Crafting Exceptional Hospitality Experiences
-                </h1>
-                <p className="max-w-xl text-base leading-relaxed text-white/80">
-                  {company.description}
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Link href="/ventures" className={primaryButtonClass}>
-                  Explore Our Ventures
-                </Link>
-                <Link href="/contact" className={heroOutlineButtonClass}>
-                  Contact Us
-                </Link>
-              </div>
-              <div className="flex flex-wrap items-center gap-3 text-white">
-                <div className="rounded-lg border border-white/30 bg-black/35 px-3 py-2 backdrop-blur">
-                  <p className="text-[11px] tracking-[0.14em] uppercase text-white/75">
-                    Headquarters
-                  </p>
-                  <p className="font-heading text-xl">{company.contact.hq}</p>
-                </div>
-                <div className="rounded-lg border border-white/30 bg-black/35 px-3 py-2 text-sm backdrop-blur">
-                  Portfolio: {ventures.length} Ventures
-                </div>
-              </div>
             </div>
-            <div className="hidden space-y-3 lg:block motion-safe:animate-fade-up">
-              <div className="rounded-xl border border-white/25 bg-black/35 p-4 backdrop-blur">
-                <p className="flex items-center gap-2 text-xs tracking-[0.16em] uppercase text-white/70">
-                  <Building2 className="size-4" />
-                  HQ Presence
-                </p>
-                <p className="mt-2 font-heading text-2xl">{company.contact.hq}</p>
-                <p className="mt-1 text-sm text-white/75">Operating across Tanzania and Zanzibar.</p>
+
+            {/* Eyebrow + headline — delay 100ms */}
+            <div className="mt-5 space-y-4 motion-safe:animate-fade-up motion-safe:[animation-delay:100ms]">
+              <p className="text-xs tracking-[0.2em] uppercase text-white/60">
+                Corporate Hospitality Portfolio
+              </p>
+              <h1 className="max-w-2xl font-heading text-4xl leading-tight md:text-6xl">
+                Crafting Exceptional Hospitality Experiences
+              </h1>
+            </div>
+
+            {/* Description — delay 200ms */}
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75 motion-safe:animate-fade-up motion-safe:[animation-delay:200ms]">
+              {company.description}
+            </p>
+
+            {/* CTAs — delay 300ms */}
+            <div className="mt-7 flex flex-wrap gap-3 motion-safe:animate-fade-up motion-safe:[animation-delay:300ms]">
+              <Link href="/ventures" className={primaryButtonClass}>
+                Explore Our Ventures <ArrowRight className="size-4" />
+              </Link>
+              <Link
+                href={`https://wa.me/${company.contact.whatsapp.replace(/\D/g, "")}`}
+                target="_blank"
+                className={heroOutlineButtonClass}
+              >
+                <WhatsAppIcon className="size-[1.1rem] text-[#25D366]" />
+                WhatsApp Us
+              </Link>
+            </div>
+
+            {/* Info chips — delay 420ms, hidden on very small screens to avoid clutter */}
+            <div className="mt-7 hidden flex-wrap items-center gap-2.5 sm:flex motion-safe:animate-fade-up motion-safe:[animation-delay:420ms]">
+              <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-xs backdrop-blur">
+                <Building2 className="size-3.5 text-white/60" />
+                <span className="text-white/80">Dar es Salaam & Zanzibar, Tanzania</span>
               </div>
-              <div className="rounded-xl border border-white/25 bg-black/35 p-4 backdrop-blur">
-                <p className="flex items-center gap-2 text-xs tracking-[0.16em] uppercase text-white/70">
-                  <Layers3 className="size-4" />
-                  Portfolio Scope
-                </p>
-                <p className="mt-2 font-heading text-2xl">{ventures.length} Ventures</p>
-                <p className="mt-1 text-sm text-white/75">Restaurants, cafe, and boutique hotel concepts.</p>
+              <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-xs backdrop-blur">
+                <Layers3 className="size-3.5 text-white/60" />
+                <span className="text-white/80">{ventures.length} Active Ventures</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ── Group Overview ───────────────────────────────────────────── */}
       <section className="page-section mx-auto w-full max-w-6xl px-6 py-24 md:py-28">
         <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
-          <article className="flex min-h-96 flex-col justify-center gap-5 rounded-2xl border border-border/70 bg-card p-8 md:p-12 motion-safe:animate-fade-up">
+          <article className="reveal flex min-h-96 flex-col justify-center gap-5 rounded-2xl border border-border/70 bg-card p-8 md:p-12">
             <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Group Overview</p>
             <p className="font-heading text-3xl">Built for Distinctive Hospitality Brands</p>
             <Separator className="w-16 bg-primary/50" />
@@ -112,15 +128,21 @@ export default function Home() {
             <div className="grid gap-3 pt-2 sm:grid-cols-2">
               {stats.map((stat) => (
                 <div key={stat.label} className="rounded-xl border border-border/70 bg-background/70 p-4">
-                  <p className="font-mono text-2xl font-semibold text-primary">{stat.value}</p>
-                  <p className="mt-1 text-xs tracking-wide uppercase text-muted-foreground">{stat.label}</p>
+                  <AnimatedStat
+                    value={stat.value}
+                    numeric={stat.numeric}
+                    label={stat.label}
+                    className="text-left"
+                    valueClassName="font-mono text-2xl font-semibold text-primary"
+                    labelClassName="mt-1 text-xs tracking-wide uppercase text-muted-foreground"
+                  />
                 </div>
               ))}
             </div>
           </article>
-          <div className="relative min-h-96 overflow-hidden rounded-2xl border border-border/70 motion-safe:animate-fade-up">
+          <div className="reveal reveal-delay-2 relative min-h-96 overflow-hidden rounded-2xl border border-border/70">
             <Image
-              src="/images/optimized/about-mission.jpg"
+              src="/images/optimized/about-mission.webp"
               alt="FlameZanzi service and culinary quality"
               fill
               className="object-cover"
@@ -135,17 +157,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Offering band ────────────────────────────────────────────── */}
       <section className="page-section border-y border-border/70 bg-primary py-11 text-primary-foreground">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-8 px-6 md:grid-cols-4">
-          {["Restaurants", "Cafe & Bakery", "Hotel", "Corporate Services"].map((line) => (
-            <div key={line} className="text-center">
-              <Sparkles className="mx-auto size-5 opacity-90" />
-              <p className="mt-2 text-xs tracking-[0.16em] uppercase opacity-90">{line}</p>
+          {offeringBand.map(({ label, Icon }) => (
+            <div key={label} className="text-center">
+              <Icon className="mx-auto size-6 opacity-95" strokeWidth={1.5} aria-hidden="true" />
+              <p className="mt-2 text-xs tracking-[0.16em] uppercase opacity-90">{label}</p>
             </div>
           ))}
         </div>
       </section>
 
+      {/* ── Ventures ─────────────────────────────────────────────────── */}
       <section className="page-section mx-auto w-full max-w-6xl px-6 py-24 md:py-28">
         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="space-y-3">
@@ -158,29 +182,32 @@ export default function Home() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2">
-          {ventures.map((venture) => (
+          {ventures.map((venture, i) => (
             <Card
               key={venture.slug}
-              className="overflow-hidden border border-border/70 bg-card/90 py-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl motion-safe:animate-fade-up"
+              className={`group reveal reveal-delay-${(i % 4) + 1} overflow-hidden border border-border/70 bg-card/90 py-0 shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10`}
             >
               <div className="relative h-56 overflow-hidden">
                 <Image
                   src={venture.images.hero}
                   alt={venture.name}
                   fill
-                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <CardHeader className="pt-6">
                 <div className="mb-2 flex items-start justify-between gap-4">
-                  <Image
-                    src={venture.logo}
-                    alt={`${venture.name} logo`}
-                    width={150}
-                    height={40}
-                    className="h-9 w-auto"
-                  />
+                  <div className="flex size-16 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/90 p-2 shadow-sm md:size-18">
+                    <Image
+                      src={venture.logo}
+                      alt={`${venture.name} logo`}
+                      width={88}
+                      height={88}
+                      className="h-full w-full rounded-full object-cover"
+                      unoptimized
+                    />
+                  </div>
                   <Badge variant="secondary" className="uppercase">
                     {venture.type}
                   </Badge>
@@ -191,11 +218,11 @@ export default function Home() {
                   {venture.area}, {venture.city}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-5">
+              <CardContent className="space-y-5 pb-7">
                 <p className="text-sm leading-relaxed text-muted-foreground">{venture.shortDescription}</p>
                 <Link
                   href={`/ventures/${venture.slug}`}
-                  className="inline-flex h-9 items-center justify-center gap-1 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                  className="inline-flex h-9 items-center justify-center gap-1 self-start rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                 >
                   Discover venue details <ArrowRight className="size-4" />
                 </Link>
@@ -205,6 +232,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Portfolio Services ────────────────────────────────────────── */}
       <section className="page-section bg-secondary/45 py-24 md:py-28">
         <div className="mx-auto w-full max-w-6xl px-6">
           <div className="mx-auto mb-12 max-w-2xl text-center">
@@ -225,8 +253,8 @@ export default function Home() {
                 title: "Partnership Programs",
                 text: "Long-term collaboration models for agencies, travel partners, and institutional clients.",
               },
-            ].map((item) => (
-              <Card key={item.title} className="border border-border/70 bg-card py-5 shadow-sm motion-safe:animate-fade-up">
+            ].map((item, i) => (
+              <Card key={item.title} className={`reveal reveal-delay-${i + 1} border border-border/70 bg-card py-5 shadow-sm`}>
                 <CardContent className="pt-2">
                   <p className="font-heading text-2xl">{item.title}</p>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
@@ -237,15 +265,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Testimonials ─────────────────────────────────────────────── */}
       <section className="page-section mx-auto w-full max-w-6xl px-6 py-24 md:py-28">
-        <div className="mb-10 space-y-3">
+        <div className="mb-10 space-y-3 text-center">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Testimonials</p>
-          <h2 className="mt-3 font-heading text-4xl">What Partners Say</h2>
+          <h2 className="font-heading text-4xl">What Partners Say</h2>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
-          {company.testimonials.map((testimonial) => (
-            <Card key={testimonial.author} className="border border-border/70 py-5 shadow-sm">
-              <CardContent className="space-y-5 pt-2">
+          {company.testimonials.map((testimonial, i) => (
+            <Card key={testimonial.author} className={`reveal reveal-delay-${i + 1} border border-border/70 py-5 shadow-sm`}>
+              <CardContent className="flex flex-col items-center gap-5 pt-2 text-center">
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
@@ -259,6 +288,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Contact CTA ──────────────────────────────────────────────── */}
       <section className="page-section border-y border-border/70 bg-card py-20 md:py-24">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 md:flex-row md:items-center md:justify-between">
           <div className="max-w-2xl space-y-3">
@@ -274,34 +304,47 @@ export default function Home() {
             <Link href="/contact" className={primaryButtonClass}>
               Contact Us
             </Link>
-            <Link href={`https://wa.me/${company.contact.whatsapp.replace("+", "")}`} className={outlineButtonClass}>
+            <Link
+              href={`https://wa.me/${company.contact.whatsapp.replace(/\D/g, "")}`}
+              target="_blank"
+              className={outlineButtonClass}
+            >
+              <WhatsAppIcon className="size-[1.1rem] text-[#25D366]" />
               WhatsApp
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="page-section mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
-        <div className="relative overflow-hidden rounded-2xl border border-border/70">
+      {/* ── Bottom collage card ───────────────────────────────────────── */}
+      <section className="page-section mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+        <div className="reveal reveal-scale relative min-h-[min(22rem,72vw)] overflow-hidden rounded-2xl border border-border/70 sm:min-h-60 md:min-h-0 md:h-64">
           <Image
-            src="/images/optimized/team-corporate.jpg"
+            src="/images/optimized/venture-silk.webp"
             alt="FlameZanzi portfolio collage"
-            width={1400}
-            height={640}
-            className="h-auto w-full object-cover"
-            sizes="100vw"
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 1152px"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/30" />
-          <div className="absolute inset-0 flex items-end p-8 md:p-10">
-            <div className="max-w-2xl text-white">
-              <p className="text-xs tracking-[0.2em] uppercase text-white/75">FlameZanzi Portfolio</p>
-              <p className="mt-2 font-heading text-3xl">Modern, elegant, and built for premium hospitality brands.</p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link href="/about" className={primaryButtonClass}>
-                  Learn About the Group
+          <div className="absolute inset-0 bg-linear-to-t from-black/88 via-black/55 to-black/35 md:bg-linear-to-r md:from-black/75 md:via-black/45 md:to-black/25" />
+          <div className="absolute inset-0 flex items-end p-5 pb-6 pt-14 sm:items-center sm:p-8 sm:pb-8 sm:pt-8 md:p-12">
+            <div className="w-full max-w-lg text-center text-white sm:text-left">
+              <p className="text-xs tracking-[0.2em] uppercase text-white/70">FlameZanzi Portfolio</p>
+              <p className="mt-2 text-pretty font-heading text-2xl leading-snug sm:text-[1.65rem] md:text-3xl">
+                Modern, elegant, and built for premium hospitality brands.
+              </p>
+              <div className="mt-5 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-start">
+                <Link
+                  href="/about"
+                  className={`${primaryButtonClass} w-full justify-center sm:w-auto`}
+                >
+                  About the Group
                 </Link>
-                <Link href="/ventures" className={heroOutlineButtonClass}>
-                  Explore 4 Ventures
+                <Link
+                  href="/ventures"
+                  className={`${heroOutlineButtonClass} w-full justify-center sm:w-auto`}
+                >
+                  Explore Ventures
                 </Link>
               </div>
             </div>

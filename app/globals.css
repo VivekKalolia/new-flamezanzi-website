@@ -139,7 +139,7 @@
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
@@ -147,14 +147,115 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @layer utilities {
   .animate-fade-up {
-    animation: fadeUp 700ms ease-out both;
+    animation: fadeUp 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 500ms ease-out both;
+  }
+
+  .animate-slide-left {
+    animation: slideInLeft 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Scroll-reveal system — uses a wrapper var so hover transforms can stack cleanly */
+  .reveal {
+    --reveal-y: 20px;
+    opacity: 0;
+    translate: 0 var(--reveal-y);
+    transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+                translate 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.revealed {
+    --reveal-y: 0px;
+    opacity: 1;
+  }
+
+  .reveal-left {
+    --reveal-x: -22px;
+    opacity: 0;
+    translate: var(--reveal-x) 0;
+    transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+                translate 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-left.revealed {
+    --reveal-x: 0px;
+    opacity: 1;
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    scale: 0.96;
+    transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+                scale 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-scale.revealed {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* Staggered delays for child items */
+  .reveal-delay-1 { transition-delay: 80ms; }
+  .reveal-delay-2 { transition-delay: 160ms; }
+  .reveal-delay-3 { transition-delay: 240ms; }
+  .reveal-delay-4 { transition-delay: 320ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-left, .reveal-scale {
+      opacity: 1;
+      translate: none;
+      scale: none;
+      transition: none;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .page-section {
-      animation: fadeUp 560ms ease-out both;
+      animation: fadeUp 580ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .page-section:nth-of-type(2n) {
+      animation-duration: 640ms;
     }
   }
 }

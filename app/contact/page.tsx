@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MapPin, Phone, Send } from "lucide-react";
 
 import { ContactForm } from "@/components/contact-form";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { company, ventures } from "@/lib/site-data";
 
@@ -49,10 +50,11 @@ export default function ContactPage() {
               <Send className="size-4" /> {company.contact.email}
             </p>
             <Link
-              href={`https://wa.me/${company.contact.whatsapp.replace("+", "")}`}
+              href={`https://wa.me/${company.contact.whatsapp.replace(/\D/g, "")}`}
               target="_blank"
-              className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
+              className="inline-flex h-9 items-center gap-2 rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
             >
+              <WhatsAppIcon className="size-[1.05rem] text-[#25D366]" />
               WhatsApp
             </Link>
           </CardContent>

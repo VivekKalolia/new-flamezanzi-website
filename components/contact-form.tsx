@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { Send } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -150,7 +151,8 @@ export function ContactForm() {
         autoComplete="off"
       />
 
-      <Button type="submit" disabled={status === "loading"}>
+      <Button type="submit" disabled={status === "loading"} className="gap-2">
+        <Send className="size-4" />
         {status === "loading" ? "Sending..." : "Send Message"}
       </Button>
 
