@@ -1,11 +1,11 @@
 # FlameZanzi portfolio — project progress
 
-**Repository:** [github.com/VivekKalolia/flamezanzi-portfolio-website](https://github.com/VivekKalolia/flamezanzi-portfolio-website)  
+**Repository:** [github.com/VivekKalolia/new-flamezanzi-website](https://github.com/VivekKalolia/new-flamezanzi-website)  
 **Last updated:** 2026-03-25
 
 ## Summary
 
-Next.js (App Router) rebuild of the FlameZanzi corporate site: core routes, shared chrome (header/footer), venture data in `lib/site-data.ts`, gallery wired to local files under `public/images` (that folder is **gitignored** because of size — keep assets locally or host via CDN and adjust paths).
+Next.js (App Router) rebuild of the FlameZanzi corporate site: core routes, shared chrome (header/footer), venture data in `lib/site-data.ts`, gallery wired to **`public/images/optimized/`** WebP assets (committed). Optional full-res originals under `public/images/flames/`, `silk route/`, and `aquelia hotel/` stay local and are gitignored.
 
 ## Done
 
@@ -32,7 +32,7 @@ Next.js (App Router) rebuild of the FlameZanzi corporate site: core routes, shar
 ## Local setup notes
 
 1. Clone the repo and run `npm install` in the project root.  
-2. Add **`public/images`** on your machine (same structure the app expects: e.g. `images/flames/`, `images/silk route/`, `images/optimized/`, etc.). This directory is not committed.  
+2. Optional: add raw **`public/images/flames/`**, **`silk route/`**, and **`aquelia hotel/`** if you need originals locally; the site ships with **`public/images/optimized/`** in Git.  
 3. `npm run dev` — [http://localhost:3000](http://localhost:3000)
 
 ## Still to tighten (from product brief / polish)

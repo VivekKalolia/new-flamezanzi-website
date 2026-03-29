@@ -3,8 +3,13 @@
 # Cursor IDE (local only)
 .cursor/
 
-# Large local media — keep on disk or CDN; see PROGRESS.md
-/public/images/
+# Raw full-res photos (large). Optimised WebPs in public/images/optimized/ are committed.
+/public/images/flames/
+/public/images/silk route/
+/public/images/aquelia hotel/
+
+# Uncompressed JPEG sources next to WebP in optimized/ (runtime uses .webp only)
+/public/images/optimized/*.jpg
 
 # Design sources and bulky binaries
 *.psd
