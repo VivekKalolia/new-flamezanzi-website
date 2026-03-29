@@ -2,15 +2,19 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Clock3, MapPin, Phone, PhoneCall } from "lucide-react";
+import { ArrowUpRight, MapPin, Phone, PhoneCall } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { MenuCardVisual } from "@/components/menu-card-visual";
+import { OpeningHoursRows } from "@/components/opening-hours-rows";
 import { VentureGallery } from "@/components/venture-gallery";
+import { VentureHeroReserveButton } from "@/components/venture-hero-reserve-button";
 import { VentureReservation } from "@/components/venture-reservation";
+import { VentureTypeBadge } from "@/components/venture-type-badge";
 import { getVentureGalleryImages } from "@/lib/local-gallery";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { company, getVentureBySlug, ventures } from "@/lib/site-data";
+import { getVentureBySlug, ventures } from "@/lib/site-data";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -45,7 +49,8 @@ export default async function VentureDetailPage({ params }: Props) {
 
   const otherVentures = ventures.filter((item) => item.slug !== venture.slug).slice(0, 3);
   const galleryImages = getVentureGalleryImages(venture.slug, venture.images.gallery);
-  const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const typeLabel =
+    venture.type === "cafe" ? "Cafe" : venture.type === "hotel" ? "Hotel" : "Restaurant";
 
   return (
     <main className="bg-background text-foreground">
@@ -53,9 +58,21 @@ export default async function VentureDetailPage({ params }: Props) {
         <Image src={venture.images.hero} alt={venture.name} fill className="object-cover" priority />
         <div className="absolute inset-0 bg-black/55" />
         <div className="relative mx-auto w-full max-w-6xl px-6 py-20 text-white md:py-24">
-          <p className="mb-4 text-xs text-white/70">
-            Home / Ventures / {venture.name}
-          </p>
+          <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-white/70">
+            <Link href="/" className="transition-colors hover:text-white">
+              Home
+            </Link>
+            <span className="text-white/35" aria-hidden>
+              /
+            </span>
+            <Link href="/ventures" className="transition-colors hover:text-white">
+              Ventures
+            </Link>
+            <span className="text-white/35" aria-hidden>
+              /
+            </span>
+            <span className="font-medium text-white/90">{venture.name}</span>
+          </nav>
           <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/30 bg-black/35 p-2 shadow-lg backdrop-blur md:h-28 md:w-28">
             <Image
               src={venture.logo}
@@ -66,9 +83,9 @@ export default async function VentureDetailPage({ params }: Props) {
               unoptimized
             />
           </div>
-          <Badge variant="outline" className="mt-4 border-white/40 bg-black/20 text-white">
-            {venture.type}
-          </Badge>
+          <p className="mt-4 inline-flex rounded-md border border-white/30 bg-white/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em] text-white uppercase sm:text-[11px]">
+            {typeLabel}
+          </p>
           <h1 className="mt-4 max-w-3xl font-heading text-5xl">{venture.name}</h1>
           <p className="mt-3 max-w-2xl text-white/80">{venture.tagline}</p>
           <p className="mt-3 flex items-center gap-2 text-sm text-white/85">
@@ -93,15 +110,52 @@ export default async function VentureDetailPage({ params }: Props) {
               <WhatsAppIcon className="size-[1.1rem] text-[#25D366]" />
               WhatsApp
             </Link>
-            <Link
-              href="#reserve-actions"
-              className="inline-flex h-10 items-center rounded-lg border border-white/40 px-5 text-sm font-medium text-white transition-colors hover:bg-white/10"
-            >
-              Reserve Table
-            </Link>
+            <VentureHeroReserveButton />
           </div>
         </div>
       </section>
+
+      {venture.slug === "flames-restaurant" ? (
+        <section className="border-b border-border/70 bg-card py-10 md:py-12">
+          <div className="mx-auto max-w-6xl px-6 text-center">
+            <p className="mb-8 text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
+              Available on
+            </p>
+            <div className="mx-auto grid w-full max-w-md grid-cols-2 items-center gap-6 sm:max-w-none sm:flex sm:flex-row sm:justify-center sm:gap-20 md:gap-28">
+              <Link
+                href="https://piki.co.tz/store/flames"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex min-h-14 w-full items-center justify-center rounded-lg transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:min-h-0 sm:w-auto"
+              >
+                <Image
+                  src="/logos/PIKI.png"
+                  alt="Order on Piki"
+                  width={180}
+                  height={54}
+                  className="h-12 w-full max-w-[160px] object-contain object-center opacity-95 sm:h-12 sm:w-auto sm:max-w-none md:h-14"
+                  unoptimized
+                />
+              </Link>
+              <Link
+                href="https://web.duka.direct/61022968"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex min-h-14 w-full items-center justify-center rounded-lg transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:min-h-0 sm:w-auto"
+              >
+                <Image
+                  src="/logos/DUKA.png"
+                  alt="Order on Duka"
+                  width={180}
+                  height={54}
+                  className="h-12 w-full max-w-[160px] object-contain object-center opacity-95 sm:h-12 sm:w-auto sm:max-w-none md:h-14"
+                  unoptimized
+                />
+              </Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="page-section mx-auto grid w-full max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1.2fr_0.8fr] md:py-20">
         <div className="space-y-10">
@@ -144,17 +198,14 @@ export default async function VentureDetailPage({ params }: Props) {
         </div>
 
         <div className="space-y-5 md:sticky md:top-24 md:self-start">
+          <VentureReservation venture={venture} showTrigger={false} />
+
           <Card className="border border-border/70 py-4">
             <CardHeader>
               <CardTitle className="font-heading text-2xl">Opening Hours</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2 text-sm text-muted-foreground">
-              {weekDays.map((day) => (
-                <div key={day} className="flex items-center justify-between border-b border-border/50 py-1.5 last:border-0">
-                  <span>{day}</span>
-                  <span>{venture.hours}</span>
-                </div>
-              ))}
+            <CardContent>
+              <OpeningHoursRows hours={venture.hours} />
             </CardContent>
           </Card>
 
@@ -177,8 +228,8 @@ export default async function VentureDetailPage({ params }: Props) {
             <CardHeader>
               <CardTitle className="font-heading text-2xl">View Our Menu</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <VentureReservation venture={venture} />
+            <CardContent className="space-y-4">
+              <MenuCardVisual />
               <Link
                 href={`/menu/${venture.slug}`}
                 className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
@@ -209,49 +260,6 @@ export default async function VentureDetailPage({ params }: Props) {
           </Card>
         </div>
       </section>
-
-      {venture.slug === "flames-restaurant" && (
-        <section className="page-section border-y border-border/70 bg-secondary/30 py-16 md:py-20">
-          <div className="mx-auto w-full max-w-6xl px-6">
-            <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Part of the Flames Family</p>
-            <h2 className="mt-3 mb-10 font-heading text-3xl">Under the Flames Roof</h2>
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-8">
-                <div className="flex flex-wrap items-center gap-3">
-                  <Image
-                    src={company.logo}
-                    alt="FlameZanzi logo"
-                    width={140}
-                    height={31}
-                    className="h-7 w-auto opacity-70"
-                  />
-                  <span className="text-xs text-muted-foreground">×</span>
-                  <Image src="/logos/PIKI.png" alt="Poiki logo" width={120} height={36} className="h-8 w-auto object-contain" unoptimized />
-                </div>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  Poiki is the cocktail and mixology concept within Flames — a sophisticated bar experience offering handcrafted cocktails, curated spirits, and an intimate late-night atmosphere.
-                </p>
-              </div>
-              <div className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-8">
-                <div className="flex flex-wrap items-center gap-3">
-                  <Image
-                    src={company.logo}
-                    alt="FlameZanzi logo"
-                    width={140}
-                    height={31}
-                    className="h-7 w-auto opacity-70"
-                  />
-                  <span className="text-xs text-muted-foreground">×</span>
-                  <Image src="/logos/DUKA.png" alt="Duka logo" width={120} height={36} className="h-8 w-auto object-contain" unoptimized />
-                </div>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  Duka is the retail and takeaway concept at Flames — a curated deli and provisions counter offering premium pantry selections, artisan goods, and Flames-branded products.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {venture.slug === "aquelia-rose" && (
         <section className="page-section border-y border-border/70 bg-secondary/30 py-14 md:py-18">
@@ -289,14 +297,46 @@ export default async function VentureDetailPage({ params }: Props) {
         <h2 className="mb-8 font-heading text-4xl">Other Ventures</h2>
         <div className="grid gap-5 md:grid-cols-3">
           {otherVentures.map((item) => (
-            <Card key={item.slug} className="border border-border/70 py-4">
-              <CardHeader>
-                <CardTitle>{item.name}</CardTitle>
+            <Card
+              key={item.slug}
+              className="group overflow-hidden border border-border/70 py-0 shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10"
+            >
+              <div className="relative h-52 w-full shrink-0 overflow-hidden">
+                <Image
+                  src={item.images.hero}
+                  alt={item.name}
+                  fill
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              </div>
+              <CardHeader className="pt-6">
+                <div className="mb-2 flex items-start justify-between gap-4">
+                  <div className="flex size-17 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/90 p-2 shadow-sm sm:size-20">
+                    <Image
+                      src={item.logo}
+                      alt={`${item.name} logo`}
+                      width={112}
+                      height={112}
+                      className="h-full w-full rounded-full object-cover"
+                      unoptimized
+                    />
+                  </div>
+                  <VentureTypeBadge type={item.type} accentColor={item.color} />
+                </div>
+                <CardTitle className="font-heading text-2xl">{item.name}</CardTitle>
+                <CardDescription className="flex items-center gap-2">
+                  <MapPin className="size-4 shrink-0" />
+                  {item.area}, {item.city}
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <p className="mb-4 text-sm text-muted-foreground">{item.shortDescription}</p>
-                <Link href={`/ventures/${item.slug}`} className="text-sm font-medium text-primary">
-                  View details
+              <CardContent className="space-y-4 pb-7">
+                <p className="text-sm leading-relaxed text-muted-foreground">{item.shortDescription}</p>
+                <Link
+                  href={`/ventures/${item.slug}`}
+                  className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  View Details <ArrowUpRight className="ml-1 size-4" />
                 </Link>
               </CardContent>
             </Card>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Phone, Send } from "lucide-react";
 
@@ -67,14 +68,34 @@ export default function ContactPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {ventures.map((venture) => (
               <Card key={venture.slug} className="border border-border/70 py-4">
-                <CardHeader>
-                  <CardTitle>{venture.name}</CardTitle>
+                <CardHeader className="space-y-0">
+                  <div className="flex items-start gap-4">
+                    <div className="flex size-17 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/95 p-1.5 shadow-sm sm:size-20 md:size-24 md:p-2">
+                      <Image
+                        src={venture.logo}
+                        alt={`${venture.name} logo`}
+                        width={96}
+                        height={96}
+                        className="h-full w-full rounded-full object-cover"
+                        unoptimized
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1 pt-0.5">
+                      <CardTitle className="font-heading text-xl leading-snug md:text-2xl">{venture.name}</CardTitle>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm text-muted-foreground">
-                  <p>
-                    {venture.area}, {venture.city}
+                  <p className="flex items-start gap-2">
+                    <MapPin className="mt-0.5 size-4 shrink-0" />
+                    <span>
+                      {venture.area}, {venture.city}
+                    </span>
                   </p>
-                  <p>{venture.contact.phone}</p>
+                  <p className="flex items-center gap-2">
+                    <Phone className="size-4 shrink-0" />
+                    {venture.contact.phone}
+                  </p>
                 </CardContent>
               </Card>
             ))}

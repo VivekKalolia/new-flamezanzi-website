@@ -5,9 +5,13 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
+const DEFAULT_PAGE_SIZE = 10;
+
 type Props = {
   images: string[];
   venueName: string;
+  /** How many images load per "View more" click (default 10). */
+  pageSize?: number;
 };
 
 function Lightbox({
@@ -105,17 +109,31 @@ function Lightbox({
   );
 }
 
-export function VentureGallery({ images, venueName }: Props) {
+export function VentureGallery({
+  images,
+  venueName,
+  pageSize = DEFAULT_PAGE_SIZE,
+}: Props) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const step = Math.max(1, pageSize);
+  const [visibleCount, setVisibleCount] = useState(() => Math.min(step, images.length));
 
   if (images.length === 0) return null;
+
+  const displayImages = images.slice(0, visibleCount);
+  const remaining = images.length - visibleCount;
+  const hasMore = remaining > 0;
+
+  function loadMore() {
+    setVisibleCount((c) => Math.min(c + step, images.length));
+  }
 
   return (
     <>
       <div className="grid gap-4 md:grid-cols-3">
-        {images.map((image, index) => (
+        {displayImages.map((image, index) => (
           <button
-            key={image}
+            key={`${index}-${image}`}
             type="button"
             className="group relative min-h-72 cursor-zoom-in overflow-hidden rounded-2xl border border-border/70 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
             onClick={() => setActiveIndex(index)}
@@ -135,6 +153,19 @@ export function VentureGallery({ images, venueName }: Props) {
           </button>
         ))}
       </div>
+
+      {hasMore ? (
+        <div className="mt-6 flex justify-center">
+          <button
+            type="button"
+            onClick={loadMore}
+            className="inline-flex h-10 items-center justify-center rounded-lg border border-border bg-background px-6 text-sm font-medium transition-colors hover:bg-muted"
+          >
+            View more · {Math.min(step, remaining)} photo{Math.min(step, remaining) === 1 ? "" : "s"}
+            {remaining > step ? ` (${remaining} left)` : ""}
+          </button>
+        </div>
+      ) : null}
 
       {activeIndex !== null && (
         <Lightbox

@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { AnimatedStat } from "@/components/animated-stat";
+import { GrowthStoryTimeline } from "@/components/growth-story-timeline";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { company } from "@/lib/site-data";
 
@@ -104,30 +105,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline / Milestones */}
-      <section className="page-section mx-auto w-full max-w-6xl px-6 py-24 md:py-28">
-        <div className="mb-12">
-          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Milestones</p>
-          <h2 className="mt-3 font-heading text-4xl">Our Growth Story</h2>
-        </div>
-        <div className="relative space-y-0">
-          <div className="absolute left-[2.4rem] top-0 hidden h-full w-px bg-border/60 md:block" />
-          {company.milestones.map((milestone, i) => (
-            <div
-              key={milestone.year}
-              className="relative flex gap-6 pb-8 last:pb-0 motion-safe:animate-fade-up"
-              style={{ animationDelay: `${i * 80}ms` }}
-            >
-              <div className="relative z-10 flex h-[4.8rem] w-[4.8rem] shrink-0 flex-col items-center justify-center rounded-full border-2 border-primary/30 bg-background font-mono text-sm font-semibold text-primary">
-                {milestone.year}
-              </div>
-              <div className="flex flex-col justify-center rounded-2xl border border-border/70 bg-card px-6 py-4 flex-1">
-                <p className="font-medium">{milestone.title}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <GrowthStoryTimeline milestones={company.milestones} />
 
       {/* Leadership */}
       <section className="page-section bg-card py-24 md:py-28">
@@ -140,21 +118,21 @@ export default function AboutPage() {
             {company.leadership.map((leader) => (
               <div
                 key={leader.name}
-                className="group overflow-hidden rounded-2xl border border-border/70 bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="group flex flex-col items-center rounded-2xl border border-border/70 bg-background px-6 pb-8 pt-10 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="relative h-52 overflow-hidden bg-secondary/40">
+                <div className="relative size-36 overflow-hidden rounded-full border-4 border-border/60 bg-secondary/30 shadow-md ring-4 ring-background transition-transform duration-500 group-hover:scale-[1.03] sm:size-40">
                   <Image
                     src={leader.image}
                     alt={leader.name}
                     fill
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover object-top"
+                    sizes="160px"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                 </div>
-                <div className="p-6">
+                <div className="mt-6 max-w-sm">
                   <p className="font-heading text-xl">{leader.name}</p>
                   <p className="mt-1 text-xs tracking-[0.14em] uppercase text-primary">{leader.role}</p>
-                  <Separator className="my-4 bg-border/60" />
+                  <Separator className="mx-auto my-4 w-12 bg-border/60" />
                   <p className="text-sm leading-relaxed text-muted-foreground">{leader.bio}</p>
                 </div>
               </div>

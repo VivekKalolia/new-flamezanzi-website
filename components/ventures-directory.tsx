@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowUpRight, MapPin } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { VentureTypeBadge } from "@/components/venture-type-badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Venture } from "@/lib/site-data";
 
@@ -73,19 +73,17 @@ export function VenturesDirectory({ ventures }: Props) {
                 </div>
                 <CardHeader className="pt-6">
                   <CardTitle className="flex items-center justify-between gap-4">
-                    <div className="flex size-16 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/90 p-2 shadow-sm md:size-18">
+                    <div className="flex size-17 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/90 p-2 shadow-sm sm:size-20 md:size-24 md:p-2.5">
                       <Image
                         src={venture.logo}
                         alt={`${venture.name} logo`}
-                        width={88}
-                        height={88}
+                        width={112}
+                        height={112}
                         className="h-full w-full rounded-full object-cover"
                         unoptimized
                       />
                     </div>
-                    <Badge variant="secondary" className="uppercase">
-                      {venture.type}
-                    </Badge>
+                    <VentureTypeBadge type={venture.type} accentColor={venture.color} />
                   </CardTitle>
                   <p className="font-heading text-2xl">{venture.name}</p>
                   <CardDescription className="flex items-center gap-2">

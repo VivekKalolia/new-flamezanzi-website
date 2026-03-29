@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -9,10 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { OPEN_VENTURE_RESERVATION } from "@/lib/reservation-events";
 import { Venture } from "@/lib/site-data";
 
 type Props = {
   venture: Venture;
+  /** When false, only the dialog is mounted (e.g. opened from hero); no sidebar button. */
+  showTrigger?: boolean;
 };
 
 function parseHours(hours: string) {
@@ -40,10 +43,19 @@ function toTimeLabel(totalMinutes: number) {
   return `${hour}:${minute}`;
 }
 
-export function VentureReservation({ venture }: Props) {
+export function VentureReservation({ venture, showTrigger = true }: Props) {
+  const [open, setOpen] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [partySize, setPartySize] = useState("2");
+
+  useEffect(() => {
+    function onOpenRequest() {
+      setOpen(true);
+    }
+    window.addEventListener(OPEN_VENTURE_RESERVATION, onOpenRequest);
+    return () => window.removeEventListener(OPEN_VENTURE_RESERVATION, onOpenRequest);
+  }, []);
 
   const timeOptions = useMemo(() => {
     const parsed = parseHours(venture.hours);
@@ -67,11 +79,13 @@ export function VentureReservation({ venture }: Props) {
   const whatsappLink = `https://wa.me/${venture.contact.whatsapp.replace(/\D/g, "")}?text=${whatsappMessage}`;
 
   return (
-    <Dialog>
-      <DialogTrigger render={<Button size="lg" />}>
-        Request Reservation
-      </DialogTrigger>
-      <DialogContent>
+    <Dialog open={open} onOpenChange={setOpen}>
+      {showTrigger ? (
+        <DialogTrigger render={<Button size="lg" />}>
+          Request Reservation
+        </DialogTrigger>
+      ) : null}
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Reservation Request - {venture.name}</DialogTitle>
         </DialogHeader>

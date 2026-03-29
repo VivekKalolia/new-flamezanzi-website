@@ -2,10 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Clock3, MapPin, Minus, Phone, Plus, ShoppingBag, Trash2, Truck } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Minus, Plus, ShoppingBag, ShoppingCart, Trash2, Truck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -181,47 +183,6 @@ export function MenuExperience({ venture, categories }: Props) {
             ))}
           </CardContent>
         </Card>
-
-        <Card className="border border-border/70 py-4">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Clock3 className="size-4 text-primary" />
-              Opening Hours
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm">
-            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
-              <div key={day} className="flex items-center justify-between text-muted-foreground">
-                <span>{day}</span>
-                <span>{venture.hours}</span>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="border border-border/70 py-4">
-          <CardHeader>
-            <CardTitle className="text-lg">Contact</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p className="flex items-center gap-2">
-              <Phone className="size-4" />
-              {venture.contact.phone}
-            </p>
-            <p className="flex items-center gap-2">
-              <MapPin className="size-4" />
-              {venture.area}, {venture.city}
-            </p>
-            <Link
-              href={`https://wa.me/${venture.contact.whatsapp.replace(/\D/g, "")}`}
-              target="_blank"
-              className="inline-flex items-center gap-2 text-primary hover:underline"
-            >
-              <WhatsAppIcon className="size-[1.05rem] text-[#25D366]" />
-              WhatsApp
-            </Link>
-          </CardContent>
-        </Card>
       </div>
 
       <div className="space-y-6">
@@ -338,17 +299,31 @@ export function MenuExperience({ venture, categories }: Props) {
         </div>
       </div>
 
-      <div className="fixed right-5 bottom-5 z-30">
+      <div className="fixed right-4 bottom-4 z-40 sm:right-6 sm:bottom-6">
         <Dialog open={cartOpen} onOpenChange={setCartOpen}>
           <DialogTrigger
-            render={<Button size="lg" className="shadow-lg" />}
+            render={
+              <button
+                type="button"
+                className={cn(
+                  "relative flex size-14 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg ring-4 ring-background transition-transform hover:scale-[1.04] active:scale-[0.98]",
+                  "focus-visible:ring-3 focus-visible:ring-ring/50",
+                )}
+                aria-label={`Shopping cart, ${cartCount} items`}
+              />
+            }
           >
-            <ShoppingBag className="mr-2 size-4" />
-            Cart ({cartCount})
+            <ShoppingCart className="size-6" strokeWidth={1.75} />
+            {cartCount > 0 ? (
+              <span className="absolute -top-0.5 -right-0.5 flex min-h-5 min-w-5 items-center justify-center rounded-full border-2 border-background bg-card px-1 text-[10px] font-bold text-foreground tabular-nums shadow-sm">
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            ) : null}
           </DialogTrigger>
-          <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-xl">
+          <DialogContent className="max-h-[min(92vh,640px)] gap-5 overflow-y-auto rounded-xl p-5 ring-1 ring-foreground/10 sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Your Order</DialogTitle>
+              <DialogTitle className="font-heading text-xl">Your order</DialogTitle>
+              <p className="text-xs text-muted-foreground">{venture.name}</p>
             </DialogHeader>
 
             <div className="space-y-4">
@@ -439,23 +414,32 @@ export function MenuExperience({ venture, categories }: Props) {
 
               <Button
                 variant="outline"
-                className="h-11 w-full rounded-full border-primary/50 text-primary hover:bg-primary/10"
+                className="h-10 w-full border-border text-foreground hover:bg-muted"
                 onClick={clearCart}
                 disabled={cart.length === 0}
               >
-                Clear Cart
+                Clear cart
               </Button>
 
               <Link
-                href={`https://wa.me/${venture.contact.whatsapp.replace(/\D/g, "")}?text=${orderText}`}
-                target="_blank"
-                className={`inline-flex h-11 w-full items-center justify-center gap-2 rounded-full text-sm font-medium ${
+                href={
                   cart.length === 0
-                    ? "pointer-events-none bg-muted text-muted-foreground"
-                    : "bg-[#25D366] text-white hover:bg-[#20bb59]"
-                }`}
+                    ? "#"
+                    : `https://wa.me/${venture.contact.whatsapp.replace(/\D/g, "")}?text=${orderText}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-disabled={cart.length === 0}
+                className={cn(
+                  buttonVariants({ variant: "default" }),
+                  "h-10 w-full gap-2",
+                  cart.length === 0 && "pointer-events-none opacity-50",
+                )}
+                onClick={(e) => {
+                  if (cart.length === 0) e.preventDefault();
+                }}
               >
-                <WhatsAppIcon className="size-[1.2rem]" />
+                <WhatsAppIcon className="size-[1.05rem] text-[#25D366]" />
                 Order on WhatsApp
               </Link>
             </div>

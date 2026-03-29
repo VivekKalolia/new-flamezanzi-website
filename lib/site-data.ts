@@ -116,21 +116,21 @@ export const company = {
   ],
   leadership: [
     {
-      name: "Ben Sheridan",
-      role: "Founder & CEO",
-      bio: "Leads brand strategy, growth partnerships, and operational standards across ventures.",
+      name: "Jiten Chandarana",
+      role: "Owner",
+      bio: "Sets strategic direction for the group and champions long-term growth across Dar es Salaam and Zanzibar.",
       image: "/images/optimized/team-corporate.webp",
     },
     {
-      name: "Sophie Lana",
-      role: "Director of Operations",
-      bio: "Drives quality systems, training, and service excellence across all locations.",
+      name: "Mai Mohamed",
+      role: "General Manager",
+      bio: "Oversees day-to-day operations, guest experience standards, and cross-venue coordination.",
       image: "/images/optimized/team-corporate.webp",
     },
     {
-      name: "James Hoult",
-      role: "Hospitality Partnerships",
-      bio: "Manages corporate relationships, events, and strategic guest experience programs.",
+      name: "Mahesh Chilla",
+      role: "Finance Manager",
+      bio: "Leads financial planning, reporting, and sustainable investment across the portfolio.",
       image: "/images/optimized/team-corporate.webp",
     },
   ],
@@ -204,8 +204,9 @@ export const ventures: Venture[] = [
     color: "#C41E3A",
     logo: mainBrandLogo("Flames Logo - Instagram.png"),
     images: {
-      hero: "/images/optimized/venture-flames.webp",
+      hero: "/images/optimized/flames/HNK08116(1).webp",
       gallery: [
+        "/images/optimized/flames/HNK08116(1).webp",
         "/images/optimized/flames/HNK08008.webp",
         "/images/optimized/flames/HNK08009.webp",
         "/images/optimized/flames/HNK08020.webp",
@@ -279,8 +280,9 @@ export const ventures: Venture[] = [
     color: "#E67E22",
     logo: mainBrandLogo("Silk Route Logo (Instagram).png"),
     images: {
-      hero: "/images/optimized/venture-silk.webp",
+      hero: "/images/optimized/silk-route/HNK08758.webp",
       gallery: [
+        "/images/optimized/silk-route/HNK08758.webp",
         "/images/optimized/silk-route/HNK08613.webp",
         "/images/optimized/silk-route/HNK08615.webp",
         "/images/optimized/silk-route/HNK08617.webp",
@@ -325,6 +327,7 @@ export const ventures: Venture[] = [
     images: {
       hero: aqueliaOpt("HNK08340.webp"),
       gallery: [
+        aqueliaOpt("HNK08340.webp"),
         aqueliaOpt("HNK08342.webp"),
         aqueliaOpt("HNK08344.webp"),
         aqueliaOpt("HNK08346.webp"),
