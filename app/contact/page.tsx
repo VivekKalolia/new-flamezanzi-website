@@ -10,7 +10,8 @@ import { company, ventures } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Contact | FlameZanzi",
-  description: "Get in touch with FlameZanzi Restaurant Ltd. for partnerships and venue inquiries.",
+  description:
+    "Get in touch with FlameZanzi Restaurant Ltd. for partnerships and venue inquiries.",
 };
 
 export default function ContactPage() {
@@ -18,10 +19,15 @@ export default function ContactPage() {
     <main className="bg-background text-foreground">
       <section className="page-section border-b border-border/70 bg-card">
         <div className="mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
-          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Contact</p>
-          <h1 className="mt-3 font-heading text-5xl">Let’s Start a Conversation</h1>
+          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
+            Contact
+          </p>
+          <h1 className="mt-3 font-heading text-5xl">
+            Let’s Start a Conversation
+          </h1>
           <p className="mt-6 max-w-3xl leading-relaxed text-muted-foreground">
-            Reach FlameZanzi headquarters for partnerships, events, and group-wide hospitality inquiries.
+            Reach FlameZanzi headquarters for partnerships, events, and
+            group-wide hospitality inquiries.
           </p>
         </div>
       </section>
@@ -29,7 +35,9 @@ export default function ContactPage() {
       <section className="page-section mx-auto grid w-full max-w-6xl gap-6 px-6 py-20 md:grid-cols-[1.1fr_0.9fr] md:py-24">
         <Card className="border border-border/70 py-5">
           <CardHeader>
-            <CardTitle className="font-heading text-3xl">Send a Message</CardTitle>
+            <CardTitle className="font-heading text-3xl">
+              Send a Message
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ContactForm />
@@ -38,7 +46,9 @@ export default function ContactPage() {
 
         <Card className="border border-border/70 py-5">
           <CardHeader>
-            <CardTitle className="font-heading text-3xl">Headquarters</CardTitle>
+            <CardTitle className="font-heading text-3xl">
+              Headquarters
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-muted-foreground">
             <p className="flex items-center gap-2">
@@ -81,7 +91,9 @@ export default function ContactPage() {
                       />
                     </div>
                     <div className="min-w-0 flex-1 pt-0.5">
-                      <CardTitle className="font-heading text-xl leading-snug md:text-2xl">{venture.name}</CardTitle>
+                      <CardTitle className="font-heading text-xl leading-snug md:text-2xl">
+                        {venture.name}
+                      </CardTitle>
                     </div>
                   </div>
                 </CardHeader>

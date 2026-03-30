@@ -157,9 +157,9 @@ export default async function VentureDetailPage({ params }: Props) {
         </section>
       ) : null}
 
-      <section className="page-section mx-auto grid w-full max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1.2fr_0.8fr] md:py-20">
-        <div className="space-y-10">
-          {/* About — no card box, plain prose */}
+      <section className="page-section mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-16 md:grid md:grid-cols-[1.2fr_0.8fr] md:items-start md:gap-x-10 md:gap-y-10 md:py-20">
+        {/* Mobile order: About → sidebar → Gallery at bottom. Desktop: About + Gallery col1, sidebar spans rows. */}
+        <div className="order-1 md:col-start-1 md:row-start-1">
           <div className="space-y-7">
             <div>
               <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">About</p>
@@ -190,14 +190,9 @@ export default async function VentureDetailPage({ params }: Props) {
               </div>
             </div>
           </div>
-
-          <div>
-            <h2 className="mb-6 font-heading text-3xl">Gallery</h2>
-            <VentureGallery images={galleryImages} venueName={venture.name} />
-          </div>
         </div>
 
-        <div className="space-y-5 md:sticky md:top-24 md:self-start">
+        <div className="order-2 space-y-5 md:col-start-2 md:row-start-1 md:row-span-2 md:sticky md:top-24 md:self-start">
           <VentureReservation venture={venture} showTrigger={false} />
 
           <Card className="border border-border/70 py-4">
@@ -258,6 +253,11 @@ export default async function VentureDetailPage({ params }: Props) {
               src={`https://www.google.com/maps?q=${venture.coordinates.lat},${venture.coordinates.lng}&z=15&output=embed`}
             />
           </Card>
+        </div>
+
+        <div className="order-3 md:col-start-1 md:row-start-2">
+          <h2 className="mb-6 font-heading text-3xl">Gallery</h2>
+          <VentureGallery images={galleryImages} venueName={venture.name} />
         </div>
       </section>
 

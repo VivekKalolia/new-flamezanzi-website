@@ -51,23 +51,30 @@ export default async function MenuPage({ params }: Props) {
               />
             </div>
             <div className="min-w-0 flex-1 space-y-3 pt-0.5">
-              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">{venture.name}</p>
-              <h1 className="font-heading text-4xl leading-tight md:text-5xl">Interactive Menu</h1>
+              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
+                {venture.name}
+              </p>
+              <h1 className="font-heading text-4xl leading-tight md:text-5xl">
+                Interactive Menu
+              </h1>
               <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                Search items, apply dietary filters, build your cart, and place your order on WhatsApp.
+                Search items, apply dietary filters, build your cart, and place
+                your order on WhatsApp.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="page-section mx-auto w-full max-w-6xl px-6 py-16 md:py-20">
-        <MenuExperience venture={venture} categories={menu.categories} />
+      <section className="page-section mx-auto w-full max-w-6xl px-6 pt-16 pb-28 md:pt-20 md:pb-32">
+        <MenuExperience key={venture.slug} venture={venture} categories={menu.categories} />
       </section>
 
-      <section className="page-section border-t border-border/70 bg-secondary/25 py-14 md:py-20">
+      <section className="page-section border-t border-border/70 bg-secondary/25 py-14 md:py-20 lg:hidden">
         <div className="mx-auto w-full max-w-6xl px-6">
-          <p className="mb-6 text-xs tracking-[0.2em] uppercase text-muted-foreground">Venue details</p>
+          <p className="mb-6 text-xs tracking-[0.2em] uppercase text-muted-foreground">
+            Venue details
+          </p>
           <MenuVenueMeta venture={venture} />
         </div>
       </section>
