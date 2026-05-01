@@ -8,6 +8,11 @@
 /public/images/silk route/
 /public/images/aquelia hotel/
 
+# Source JPEGs (slideshow / food sources); runtime uses WebP under public/images/optimized/.
+/public/images/food pics/
+/public/images/*.JPG
+/public/images/*.jpg
+
 # Uncompressed JPEG sources next to WebP in optimized/ (runtime uses .webp only)
 /public/images/optimized/*.jpg
 

@@ -149,7 +149,7 @@ export default function Home() {
       <FoodRibbonMarquee slides={foodPictureSlides} />
 
       {/* ── Group Overview ───────────────────────────────────────────── */}
-      <section className="page-section mx-auto w-full max-w-6xl px-6 pt-12 pb-24 md:pt-14 md:pb-28 lg:pt-16">
+      <section className="page-section mx-auto w-full max-w-6xl px-6 pt-0 pb-24 md:pb-28">
         <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
           <article className="reveal flex min-h-96 flex-col justify-center gap-5 rounded-2xl border border-border/70 bg-card p-8 md:p-12">
             <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Group Overview</p>
