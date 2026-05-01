@@ -1,6 +1,6 @@
 import { UtensilsCrossed } from "lucide-react";
 
-/** Polished teaser for the “View Our Menu” sidebar card — centered, minimal chrome. */
+/** Polished teaser for the “View Our Menu” sidebar card: centered, minimal chrome. */
 export function MenuCardVisual() {
   return (
     <div

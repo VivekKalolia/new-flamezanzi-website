@@ -91,7 +91,7 @@ function Lightbox({
       </div>
 
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-4 py-1.5 text-sm text-white/90 backdrop-blur">
-        {venueName} — {activeIndex + 1} / {images.length}
+        {venueName} · {activeIndex + 1} / {images.length}
       </div>
 
       {images.length > 1 && (

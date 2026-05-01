@@ -55,7 +55,7 @@ export function SiteHeader() {
           Contact Us
         </Link>
 
-        {/* Mobile hamburger — slides in from right */}
+        {/* Mobile hamburger slides in from right */}
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger
             render={
@@ -120,10 +120,10 @@ export function SiteHeader() {
             </div>
             <div className="mt-auto border-t border-white/10 px-4 py-4 text-center">
               <p className="text-[11px] tracking-[0.12em] text-white/65 uppercase">
-                FlameZanzi Restaurant Ltd.
+                {company.name}
               </p>
               <p className="mt-1 text-xs text-white/50">
-                © {new Date().getFullYear()} FlameZanzi Restaurant Ltd.
+                © {new Date().getFullYear()} {company.name}
               </p>
             </div>
           </SheetContent>

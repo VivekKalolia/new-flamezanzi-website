@@ -1,4 +1,4 @@
-# FlameZanzi portfolio — Cursor / agent rules
+# FlameZanzi portfolio: Cursor / agent rules
 
 ## GitHub progress (required)
 
@@ -13,8 +13,8 @@
 
 ## Do not commit
 
-- **`.cursor/`** — local Cursor/IDE state; it must stay out of Git (listed in `.gitignore`).
-- **`public/images/`** — large local media; not tracked. Document new image *paths* or conventions in `PROGRESS.md` / code comments if needed, not the binaries.
+- **`.cursor/`**: local Cursor/IDE state; it must stay out of Git (listed in `.gitignore`).
+- **`public/images/`**: large local media; not tracked. Document new image *paths* or conventions in `PROGRESS.md` / code comments if needed, not the binaries.
 - Secrets: never commit `.env*` files or API keys.
 
 ## Code style

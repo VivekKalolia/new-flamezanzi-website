@@ -18,7 +18,7 @@ export function SiteFooter() {
             className="h-10 w-auto"
           />
           <p className="max-w-md text-sm leading-relaxed text-neutral-300/80">
-            {company.description}
+            {company.elevatorPitch}
           </p>
         </div>
 
@@ -48,7 +48,7 @@ export function SiteFooter() {
           <p className="font-semibold text-white">Contact</p>
           <div className="space-y-2 text-neutral-300/85">
             <p className="flex items-center gap-2">
-              <Building2 className="size-4" /> {company.contact.hq}
+              <Building2 className="size-4" /> <span>{company.contact.hqFull}</span>
             </p>
             <p className="flex items-center gap-2">
               <Phone className="size-4" /> {company.contact.phone}
@@ -71,7 +71,7 @@ export function SiteFooter() {
       </div>
 
       <div className="mx-auto mt-10 flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 border-t border-white/15 px-6 pt-6 text-xs text-neutral-400">
-        <p>© {new Date().getFullYear()} FlameZanzi Restaurant Ltd.</p>
+        <p>© {new Date().getFullYear()} {company.name}.</p>
         <div className="flex items-center gap-4">
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>

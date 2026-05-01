@@ -6,10 +6,12 @@ import {
   Building2,
   CalendarDays,
   Coffee,
+  Star,
   Handshake,
   Hotel,
   Layers3,
   MapPin,
+  UserRound,
   UtensilsCrossed,
   Wine,
 } from "lucide-react";
@@ -25,7 +27,10 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { AnimatedStat } from "@/components/animated-stat";
+import { FoodRibbonMarquee } from "@/components/food-ribbon-marquee";
+import { GroupOverviewSlideshow } from "@/components/group-overview-slideshow";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { foodPictureSlides } from "@/lib/food-pic-slides";
 import { company, ventures } from "@/lib/site-data";
 
 const stats = company.stats;
@@ -47,6 +52,22 @@ const heroOutlineButtonClass =
   "inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/35 px-5 text-sm font-medium text-white transition-colors hover:bg-white/10";
 
 export default function Home() {
+  const groupOverviewSlides = (
+    [
+      ["HNK08106", "FlameZanzi hospitality: service"],
+      ["HNK08561", "FlameZanzi hospitality: ambiance"],
+      ["HNK08109", "FlameZanzi hospitality: dining detail"],
+      ["HNK08536", "FlameZanzi hospitality: experience"],
+      ["HNK08537", "FlameZanzi hospitality: venue"],
+      ["HNK08540", "FlameZanzi hospitality: moments"],
+      ["HNK08546", "FlameZanzi hospitality: atmosphere"],
+      ["HNK08550", "FlameZanzi hospitality: celebration"],
+    ] as const
+  ).map(([base, alt]) => ({
+    src: `/images/optimized/group-overview/${base}.webp`,
+    alt,
+  }));
+
   return (
     <main className="overflow-x-hidden bg-background text-foreground">
       {/* ── Hero ─────────────────────────────────────────────────────── */}
@@ -64,17 +85,17 @@ export default function Home() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(196,77,49,0.3),transparent_34%)]" />
 
           <div className="relative mx-auto w-full max-w-6xl px-6 py-12 text-white md:py-14 lg:py-16">
-            {/* Badge — delay 0 */}
+            {/* Badge - delay 0 */}
             <div className="motion-safe:animate-fade-up motion-safe:[animation-delay:0ms]">
               <Badge
                 variant="outline"
                 className="rounded-full border-white/35 bg-black/15 px-3 py-1 text-[11px] tracking-[0.2em] text-white uppercase backdrop-blur"
               >
-                FlameZanzi Restaurant Ltd.
+                Flamezanzi Restaurant Limited
               </Badge>
             </div>
 
-            {/* Eyebrow + headline — delay 100ms */}
+            {/* Eyebrow + headline - delay 100ms */}
             <div className="mt-5 space-y-4 motion-safe:animate-fade-up motion-safe:[animation-delay:100ms]">
               <p className="text-xs tracking-[0.2em] uppercase text-white/60">
                 Corporate Hospitality Portfolio
@@ -84,12 +105,18 @@ export default function Home() {
               </h1>
             </div>
 
-            {/* Description — delay 200ms */}
+            {/* Short pitch; full company story on /about */}
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75 motion-safe:animate-fade-up motion-safe:[animation-delay:200ms]">
-              {company.description}
+              {company.elevatorPitch}{" "}
+              <Link
+                href="/about"
+                className="font-medium text-white underline-offset-4 transition-colors hover:text-white/95 hover:underline"
+              >
+                Read our story
+              </Link>
             </p>
 
-            {/* CTAs — delay 300ms */}
+            {/* CTAs - delay 300ms */}
             <div className="mt-7 flex flex-wrap gap-3 motion-safe:animate-fade-up motion-safe:[animation-delay:300ms]">
               <Link href="/ventures" className={primaryButtonClass}>
                 Explore Our Ventures <ArrowRight className="size-4" />
@@ -104,7 +131,7 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Info chips — delay 420ms, hidden on very small screens to avoid clutter */}
+            {/* Info chips - delay 420ms, hidden on very small screens to avoid clutter */}
             <div className="mt-7 hidden flex-wrap items-center gap-2.5 sm:flex motion-safe:animate-fade-up motion-safe:[animation-delay:420ms]">
               <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-xs backdrop-blur">
                 <Building2 className="size-3.5 text-white/60" />
@@ -119,15 +146,25 @@ export default function Home() {
         </div>
       </section>
 
+      <FoodRibbonMarquee slides={foodPictureSlides} />
+
       {/* ── Group Overview ───────────────────────────────────────────── */}
-      <section className="page-section mx-auto w-full max-w-6xl px-6 py-24 md:py-28">
+      <section className="page-section mx-auto w-full max-w-6xl px-6 pt-12 pb-24 md:pt-14 md:pb-28 lg:pt-16">
         <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
           <article className="reveal flex min-h-96 flex-col justify-center gap-5 rounded-2xl border border-border/70 bg-card p-8 md:p-12">
             <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Group Overview</p>
             <p className="font-heading text-3xl">Built for Distinctive Hospitality Brands</p>
             <Separator className="w-16 bg-primary/50" />
-            <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">{company.mission}</p>
-            <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">{company.vision}</p>
+            <p className="line-clamp-3 max-w-xl text-sm leading-relaxed text-muted-foreground md:line-clamp-4">{company.mission}</p>
+            <p className="line-clamp-4 max-w-xl text-sm leading-relaxed text-muted-foreground">{company.vision}</p>
+            <div className="pt-2">
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 transition-colors hover:underline"
+              >
+                Mission, vision &amp; core values <ArrowRight className="size-4" aria-hidden />
+              </Link>
+            </div>
             <div className="grid gap-3 pt-2 sm:grid-cols-2">
               {stats.map((stat) => (
                 <div key={stat.label} className="rounded-xl border border-border/70 bg-background/70 p-4">
@@ -143,20 +180,7 @@ export default function Home() {
               ))}
             </div>
           </article>
-          <div className="reveal reveal-delay-2 relative min-h-96 overflow-hidden rounded-2xl border border-border/70">
-            <Image
-              src="/images/optimized/about-mission.webp"
-              alt="FlameZanzi service and culinary quality"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 40vw"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black/45 to-transparent" />
-            <div className="absolute right-6 bottom-6 left-6 rounded-xl border border-white/20 bg-black/40 p-4 text-white backdrop-blur">
-              <p className="text-xs tracking-[0.16em] uppercase text-white/70">Positioning</p>
-              <p className="mt-1 text-sm">Premium restaurants, cafe culture, and boutique stays under one corporate standard.</p>
-            </div>
-          </div>
+          <GroupOverviewSlideshow slides={groupOverviewSlides} />
         </div>
       </section>
 
@@ -278,31 +302,43 @@ export default function Home() {
       </section>
 
       {/* ── Testimonials ─────────────────────────────────────────────── */}
-      <section className="page-section mx-auto w-full max-w-6xl px-6 py-24 md:py-28">
+      <section className="page-section mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
         <div className="mb-10 space-y-3 text-center">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Testimonials</p>
-          <h2 className="font-heading text-4xl">What Partners Say</h2>
+          <h2 className="font-heading text-4xl">What Customers Say</h2>
         </div>
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {company.testimonials.map((testimonial, i) => (
-            <Card key={testimonial.author} className={`reveal reveal-delay-${i + 1} border border-border/70 py-5 shadow-sm`}>
+            <Card
+              key={`${testimonial.author}-${testimonial.venture}-${i}`}
+              className={`reveal reveal-delay-${(i % 4) + 1} border border-border/70 bg-card py-5 shadow-md`}
+            >
               <CardContent className="flex flex-col items-center gap-5 pt-2 text-center">
-                <div className="relative size-24 shrink-0 overflow-hidden rounded-full border-2 border-border/60 bg-muted shadow-md ring-4 ring-background sm:size-28 md:size-32">
-                  <Image
-                    src={testimonial.avatar}
-                    alt=""
-                    width={128}
-                    height={128}
-                    className="size-full object-cover"
-                    sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 128px"
-                  />
+                <div
+                  aria-hidden
+                  className="flex size-12.5 shrink-0 items-center justify-center rounded-full border border-border/60 bg-muted text-muted-foreground shadow-sm ring-2 ring-background/80 sm:size-14 md:size-14.5"
+                >
+                  <UserRound className="size-[42%] opacity-85" strokeWidth={1.5} />
                 </div>
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
+                <div
+                  className="flex items-center gap-0.5 text-amber-500"
+                  aria-label={`${testimonial.rating} star rating`}
+                >
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star
+                      key={`${testimonial.author}-${index}`}
+                      className={`size-4 ${index < testimonial.rating ? "fill-amber-500" : "text-amber-300/60"}`}
+                      strokeWidth={1.5}
+                      aria-hidden
+                    />
+                  ))}
+                </div>
                 <div>
                   <p className="font-medium">{testimonial.author}</p>
-                  <p className="text-xs text-muted-foreground">{testimonial.company}</p>
+                  <p className="text-xs text-muted-foreground">{testimonial.venture}</p>
                 </div>
               </CardContent>
             </Card>

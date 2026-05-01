@@ -4,14 +4,14 @@ import Link from "next/link";
 import { MapPin, Phone, Send } from "lucide-react";
 
 import { ContactForm } from "@/components/contact-form";
+import { VentureLocationMapSection } from "@/components/venture-location-map-section";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { company, ventures } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Contact | FlameZanzi",
-  description:
-    "Get in touch with FlameZanzi Restaurant Ltd. for partnerships and venue inquiries.",
+  description: `Get in touch with ${company.name} for partnerships and venue inquiries.`,
 };
 
 export default function ContactPage() {
@@ -113,16 +113,7 @@ export default function ContactPage() {
             ))}
           </div>
 
-          <div className="mt-10 overflow-hidden rounded-2xl border border-border/70">
-            <iframe
-              title="FlameZanzi HQ map"
-              width="100%"
-              height="360"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps?q=-6.7924,39.2083&z=12&output=embed"
-            />
-          </div>
+          <VentureLocationMapSection ventures={ventures} className="mt-14 space-y-4" />
         </div>
       </section>
     </main>

@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import { DM_Sans, Inter, Playfair_Display } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ScrollRevealInit } from "@/components/scroll-reveal";
+import { company } from "@/lib/site-data";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -21,9 +17,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "FlameZanzi Restaurant Ltd.",
+  metadataBase: new URL(company.domain),
+  title: `${company.name} | Hospitality`,
   description:
-    "Crafting exceptional hospitality experiences across Tanzania and Zanzibar.",
+    "Flamezanzi Restaurant Limited blends culinary excellence with immersive hospitality across Dar es Salaam and Zanzibar.",
 };
 
 export default function RootLayout({
@@ -35,7 +32,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${dmSans.variable} ${playfair.variable} ${inter.variable} h-full antialiased`}
+      className={`${outfit.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <SiteHeader />

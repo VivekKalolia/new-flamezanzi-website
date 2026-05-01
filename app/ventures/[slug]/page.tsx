@@ -2,19 +2,23 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight, MapPin, Phone, PhoneCall } from "lucide-react";
+import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MenuCardVisual } from "@/components/menu-card-visual";
 import { OpeningHoursRows } from "@/components/opening-hours-rows";
 import { VentureGallery } from "@/components/venture-gallery";
-import { VentureHeroReserveButton } from "@/components/venture-hero-reserve-button";
 import { VentureReservation } from "@/components/venture-reservation";
 import { VentureTypeBadge } from "@/components/venture-type-badge";
+import { VentureCtaBar } from "@/components/venture-cta-bar";
+import { FlamesEventHalls } from "@/components/flames-event-halls";
+import { FlamesPhotoStrip } from "@/components/flames-photo-strip";
+import { FlamesStorySection } from "@/components/flames-story-section";
+import { FlamesTestimonials } from "@/components/flames-testimonials";
+import { OtherExperiencesCarousel } from "@/components/other-experiences-carousel";
 import { getVentureGalleryImages } from "@/lib/local-gallery";
-import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { getVentureBySlug, ventures } from "@/lib/site-data";
+import { company, flamesContent, getVentureBySlug, ventures } from "@/lib/site-data";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -30,6 +34,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!venture) {
     return {
       title: "Venture Not Found | FlameZanzi",
+    };
+  }
+
+  if (venture.slug === "flames-restaurant") {
+    return {
+      title: "Flames Restaurant | Fine Dining in Masaki, Dar es Salaam | FlameZanzi",
+      description: flamesContent.shortMetaDescription,
+      keywords: flamesContent.seoKeywords,
+      openGraph: {
+        title: "Flames Restaurant | Fine Dining in Masaki, Dar es Salaam",
+        description: flamesContent.shortMetaDescription,
+        type: "website",
+        images: [{ url: venture.images.hero }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Flames Restaurant | Fine Dining in Masaki, Dar es Salaam",
+        description: flamesContent.shortMetaDescription,
+        images: [venture.images.hero],
+      },
     };
   }
 
@@ -51,11 +75,85 @@ export default async function VentureDetailPage({ params }: Props) {
   const galleryImages = getVentureGalleryImages(venture.slug, venture.images.gallery);
   const typeLabel =
     venture.type === "cafe" ? "Cafe" : venture.type === "hotel" ? "Hotel" : "Restaurant";
+  const isFlames = venture.slug === "flames-restaurant";
+  const isHotel = venture.type === "hotel";
+  /** Hero crop: anchor to top edge (Silk Route + Aquelia art direction). */
+  const heroAnchoredTop = venture.slug === "silk-route" || venture.slug === "aquelia-rose";
+
+  // Restaurant JSON-LD for Flames helps target keywords like "Dar es Salaam fine dining"
+  // and "Masaki seafood restaurant"; search engines pick this up directly.
+  const flamesJsonLd = isFlames
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        name: venture.name,
+        url: `${company.domain}/ventures/${venture.slug}`,
+        image: [venture.images.hero, ...venture.images.gallery.slice(0, 4)],
+        servesCuisine: venture.cuisine,
+        priceRange: "$$$",
+        telephone: venture.contact.phone,
+        email: venture.contact.email,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Masaki",
+          addressLocality: venture.city,
+          addressRegion: "Dar es Salaam",
+          addressCountry: "TZ",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: venture.coordinates.lat,
+          longitude: venture.coordinates.lng,
+        },
+        openingHours: "Mo-Su 12:00-23:00",
+        keywords: flamesContent.seoKeywords.join(", "),
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: (
+            flamesContent.testimonials.reduce((acc, t) => acc + t.rating, 0) /
+            flamesContent.testimonials.length
+          ).toFixed(1),
+          reviewCount: flamesContent.testimonials.length,
+        },
+        review: flamesContent.testimonials.map((testimonial) => ({
+          "@type": "Review",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: testimonial.rating,
+            bestRating: 5,
+          },
+          author: {
+            "@type": "Person",
+            name: testimonial.author,
+          },
+          reviewBody: testimonial.quote,
+        })),
+        amenityFeature: flamesContent.eventHalls.map((hall) => ({
+          "@type": "LocationFeatureSpecification",
+          name: hall.name,
+          value: hall.capacity,
+        })),
+      }
+    : null;
 
   return (
     <main className="bg-background text-foreground">
+      {flamesJsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(flamesJsonLd) }}
+        />
+      ) : null}
+
       <section className="page-section relative min-h-100 overflow-hidden border-b border-border/70">
-        <Image src={venture.images.hero} alt={venture.name} fill className="object-cover" priority />
+        <Image
+          src={venture.images.hero}
+          alt={venture.name}
+          fill
+          priority
+          className="object-cover"
+          style={heroAnchoredTop ? { objectPosition: "50% 0%" } : undefined}
+        />
         <div className="absolute inset-0 bg-black/55" />
         <div className="relative mx-auto w-full max-w-6xl px-6 py-20 text-white md:py-24">
           <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-white/70">
@@ -92,28 +190,21 @@ export default async function VentureDetailPage({ params }: Props) {
             <MapPin className="size-4" />
             {venture.city === "Zanzibar"
               ? "Zanzibar, Tanzania"
-              : "Dar es Salaam, Tanzania"}
+              : isFlames
+                ? "Masaki, Dar es Salaam, Tanzania"
+                : "Dar es Salaam, Tanzania"}
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href={`tel:${venture.contact.phone.replace(/\s+/g, "")}`}
-              className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              <PhoneCall className="size-4" />
-              Call Now
-            </Link>
-            <Link
-              href={`https://wa.me/${venture.contact.whatsapp.replace(/\D/g, "")}`}
-              target="_blank"
-              className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/40 bg-white/10 px-5 text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/20"
-            >
-              <WhatsAppIcon className="size-[1.1rem] text-[#25D366]" />
-              WhatsApp
-            </Link>
-            <VentureHeroReserveButton />
-          </div>
         </div>
       </section>
+
+      <VentureCtaBar
+        phone={venture.contact.phone}
+        whatsapp={venture.contact.whatsapp}
+        reservePrimary={isHotel ? "Book Your Stay" : "Book A Table"}
+        reserveSecondary={isHotel ? "Request availability · rooms & dates" : "Reserve in 30 seconds"}
+      />
+
+      {isFlames ? <FlamesPhotoStrip collage={flamesContent.heroCollage} /> : null}
 
       {venture.slug === "flames-restaurant" ? (
         <section className="border-b border-border/70 bg-card py-10 md:py-12">
@@ -157,15 +248,23 @@ export default async function VentureDetailPage({ params }: Props) {
         </section>
       ) : null}
 
+      {isFlames ? <FlamesStorySection story={flamesContent.story} /> : null}
+
       <section className="page-section mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-16 md:grid md:grid-cols-[1.2fr_0.8fr] md:items-start md:gap-x-10 md:gap-y-10 md:py-20">
         {/* Mobile order: About → sidebar → Gallery at bottom. Desktop: About + Gallery col1, sidebar spans rows. */}
         <div className="order-1 md:col-start-1 md:row-start-1">
           <div className="space-y-7">
             <div>
-              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">About</p>
-              <h2 className="mt-2 font-heading text-3xl">About {venture.name}</h2>
+              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
+                {isFlames ? "At a glance" : "About"}
+              </p>
+              <h2 className="mt-2 font-heading text-3xl">
+                {isFlames ? "Visit Flames Restaurant" : `About ${venture.name}`}
+              </h2>
             </div>
-            <p className="leading-relaxed text-muted-foreground">{venture.fullDescription}</p>
+            {!isFlames ? (
+              <p className="leading-relaxed text-muted-foreground">{venture.fullDescription}</p>
+            ) : null}
 
             <div className="space-y-3">
               <p className="text-sm font-semibold tracking-wide uppercase text-muted-foreground">Cuisine</p>
@@ -189,6 +288,19 @@ export default async function VentureDetailPage({ params }: Props) {
                 ))}
               </div>
             </div>
+
+            {isFlames ? (
+              <div className="grid gap-2 rounded-2xl border border-border/70 bg-card p-4 sm:grid-cols-2 sm:p-5">
+                {flamesContent.quickFacts.map((fact) => (
+                  <div key={fact.label} className="space-y-0.5">
+                    <p className="text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+                      {fact.label}
+                    </p>
+                    <p className="text-sm text-foreground">{fact.value}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
 
@@ -261,6 +373,18 @@ export default async function VentureDetailPage({ params }: Props) {
         </div>
       </section>
 
+      {isFlames ? (
+        <FlamesEventHalls
+          halls={flamesContent.eventHalls}
+          phone={venture.contact.phone}
+          whatsapp={venture.contact.whatsapp}
+        />
+      ) : null}
+
+      {isFlames ? (
+        <FlamesTestimonials testimonials={flamesContent.testimonials} />
+      ) : null}
+
       {venture.slug === "aquelia-rose" && (
         <section className="page-section border-y border-border/70 bg-secondary/30 py-14 md:py-18">
           <div className="mx-auto w-full max-w-6xl px-6">
@@ -293,56 +417,60 @@ export default async function VentureDetailPage({ params }: Props) {
         </section>
       )}
 
-      <section className="page-section mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
-        <h2 className="mb-8 font-heading text-4xl">Other Ventures</h2>
-        <div className="grid gap-5 md:grid-cols-3">
-          {otherVentures.map((item) => (
-            <Card
-              key={item.slug}
-              className="group overflow-hidden border border-border/70 py-0 shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10"
-            >
-              <div className="relative h-52 w-full shrink-0 overflow-hidden">
-                <Image
-                  src={item.images.hero}
-                  alt={item.name}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-              </div>
-              <CardHeader className="pt-6">
-                <div className="mb-2 flex items-start justify-between gap-4">
-                  <div className="flex size-17 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/90 p-2 shadow-sm sm:size-20">
-                    <Image
-                      src={item.logo}
-                      alt={`${item.name} logo`}
-                      width={112}
-                      height={112}
-                      className="h-full w-full rounded-full object-cover"
-                      unoptimized
-                    />
-                  </div>
-                  <VentureTypeBadge type={item.type} accentColor={item.color} />
+      {isFlames ? (
+        <OtherExperiencesCarousel ventures={otherVentures} />
+      ) : (
+        <section className="page-section mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
+          <h2 className="mb-8 font-heading text-4xl">Other Ventures</h2>
+          <div className="grid gap-5 md:grid-cols-3">
+            {otherVentures.map((item) => (
+              <Card
+                key={item.slug}
+                className="group overflow-hidden border border-border/70 py-0 shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10"
+              >
+                <div className="relative h-52 w-full shrink-0 overflow-hidden">
+                  <Image
+                    src={item.images.hero}
+                    alt={item.name}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
-                <CardTitle className="font-heading text-2xl">{item.name}</CardTitle>
-                <CardDescription className="flex items-center gap-2">
-                  <MapPin className="size-4 shrink-0" />
-                  {item.area}, {item.city}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 pb-7">
-                <p className="text-sm leading-relaxed text-muted-foreground">{item.shortDescription}</p>
-                <Link
-                  href={`/ventures/${item.slug}`}
-                  className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                >
-                  View Details <ArrowUpRight className="ml-1 size-4" />
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+                <CardHeader className="pt-6">
+                  <div className="mb-2 flex items-start justify-between gap-4">
+                    <div className="flex size-17 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/90 p-2 shadow-sm sm:size-20">
+                      <Image
+                        src={item.logo}
+                        alt={`${item.name} logo`}
+                        width={112}
+                        height={112}
+                        className="h-full w-full rounded-full object-cover"
+                        unoptimized
+                      />
+                    </div>
+                    <VentureTypeBadge type={item.type} accentColor={item.color} />
+                  </div>
+                  <CardTitle className="font-heading text-2xl">{item.name}</CardTitle>
+                  <CardDescription className="flex items-center gap-2">
+                    <MapPin className="size-4 shrink-0" />
+                    {item.area}, {item.city}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4 pb-7">
+                  <p className="text-sm leading-relaxed text-muted-foreground">{item.shortDescription}</p>
+                  <Link
+                    href={`/ventures/${item.slug}`}
+                    className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                  >
+                    View Details <ArrowUpRight className="ml-1 size-4" />
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }

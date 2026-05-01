@@ -99,7 +99,7 @@ function Lightbox({
 
       {/* Caption */}
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-4 py-1.5 text-sm text-white/90 backdrop-blur">
-        {item.ventureName} — {activeIndex + 1} / {items.length}
+        {item.ventureName} · {activeIndex + 1} / {items.length}
       </div>
 
       {/* Next */}

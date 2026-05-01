@@ -7,7 +7,9 @@
     "dev:lan": "next dev --hostname 0.0.0.0 --port 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "optimize:group-overview": "node scripts/optimize-group-overview-images.mjs",
+    "optimize:food-pics": "node scripts/optimize-food-pics.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
@@ -30,6 +32,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -9,7 +9,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-inter);
-  --font-heading: var(--font-playfair);
+  --font-heading: var(--font-outfit);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,7 +49,7 @@
 }
 
 :root {
-  --font-sans: var(--font-dm-sans);
+  --font-sans: var(--font-outfit);
   --background: oklch(0.978 0.004 84);
   --foreground: oklch(0.2 0.01 30);
   --card: oklch(0.995 0.002 82);
@@ -122,6 +122,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  .font-heading {
+    font-weight: 500;
+  }
   body {
     @apply bg-background text-foreground;
     background-image: radial-gradient(
@@ -178,6 +181,15 @@
   }
 }
 
+@keyframes progressLinear {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 @layer utilities {
   .animate-fade-up {
     animation: fadeUp 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -195,7 +207,7 @@
     animation: scaleIn 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* Scroll-reveal system — uses a wrapper var so hover transforms can stack cleanly */
+  /* Scroll-reveal system: uses a wrapper var so hover transforms can stack cleanly */
   .reveal {
     --reveal-y: 20px;
     opacity: 0;

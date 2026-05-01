@@ -1,4 +1,4 @@
-# FlameZanzi portfolio — project progress
+# FlameZanzi portfolio: project progress
 
 **Repository:** [github.com/VivekKalolia/new-flamezanzi-website](https://github.com/VivekKalolia/new-flamezanzi-website)  
 **Last updated:** 2026-03-25
@@ -11,7 +11,7 @@ Next.js (App Router) rebuild of the FlameZanzi corporate site: core routes, shar
 
 | Area | Status |
 |------|--------|
-| Home | `app/page.tsx` — hero, highlights, CTAs |
+| Home | `app/page.tsx`: hero, highlights, CTAs |
 | About | `app/about/page.tsx` |
 | Ventures list + filters | `app/ventures/page.tsx`, `components/ventures-directory.tsx` |
 | Venture detail | `app/ventures/[slug]/page.tsx` |
@@ -33,7 +33,7 @@ Next.js (App Router) rebuild of the FlameZanzi corporate site: core routes, shar
 
 1. Clone the repo and run `npm install` in the project root.  
 2. Optional: add raw **`public/images/flames/`**, **`silk route/`**, and **`aquelia hotel/`** if you need originals locally; the site ships with **`public/images/optimized/`** in Git.  
-3. `npm run dev` — [http://localhost:3000](http://localhost:3000)
+3. `npm run dev`: [http://localhost:3000](http://localhost:3000)
 
 ## Still to tighten (from product brief / polish)
 

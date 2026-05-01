@@ -4,7 +4,7 @@ import { company } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Terms of Service | FlameZanzi",
-  description: "Terms of service for FlameZanzi Restaurant Ltd.",
+  description: `Terms of service for ${company.name}.`,
 };
 
 export default function TermsPage() {

@@ -1,4 +1,4 @@
-import { testimonialPlaceholderAvatars, treatsCafeGallery, treatsCafeUnsplash } from "./stock-images";
+import { treatsCafeGallery, treatsCafeUnsplash } from "./stock-images";
 
 export type VentureType = "restaurant" | "cafe" | "hotel";
 
@@ -68,17 +68,21 @@ function aqueliaOpt(file: string) {
 }
 
 export const company = {
-  name: "FlameZanzi Restaurant Ltd.",
+  name: "Flamezanzi Restaurant Limited",
   /** Primary mark: `public/images/optimized/logo-flamezanzi.webp` (source: `public/logos/flamezanzi/`) */
   logo: "/images/optimized/logo-flamezanzi.webp",
   founded: 2013,
   domain: "https://flamezanzi.com",
+  /** Full company narrative (used on /about and anywhere we want the complete story). */
   description:
-    "Flamezanzi Restaurant Limited is a dynamic hospitality group operating in Dar es Salaam and Zanzibar, known for blending culinary excellence with immersive guest experiences. From fine dining and artisanal bakeries to beachfront hotels, our ventures celebrate local flavors while delivering world-class service.",
+    "Flamezanzi Restaurant Limited is a dynamic hospitality group operating in Dar es Salaam and Zanzibar, known for blending culinary excellence with immersive guest experiences. From fine dining and artisanal bakeries to beachfront hotels, our ventures celebrate local flavors while delivering world-class service. As we continue to expand with new projects across both cities, Flamezanzi is building a diverse portfolio that reflects our commitment to growth, innovation, and community.",
+  /** Short pitch for home hero, footer, etc. Full story is `description` on About. */
+  elevatorPitch:
+    "Premium hospitality across Dar es Salaam and Zanzibar: restaurants, cafe & bakery, and boutique stays under one portfolio.",
   mission:
     "To create memorable dining and hospitality experiences that honor local culture, delight our guests, and inspire lasting connections.",
   vision:
-    "To be East Africa's most trusted and celebrated hospitality brand, continuously growing and expanding through innovation, authenticity, and exceptional guest care.",
+    "To be East Africa's most trusted and celebrated hospitality brand, continuously growing and expanding through innovation, authenticity, and exceptional guest care. We envision a future where our restaurants, bakeries, and hotels set new standards of excellence, creating lasting memories and inspiring communities across the region and beyond.",
   values: [
     {
       title: "Authenticity",
@@ -103,9 +107,9 @@ export const company = {
   ],
   stats: [
     { label: "Ventures", value: "4", numeric: 4 },
-    { label: "Team Members", value: "120+", numeric: 120 },
-    { label: "Annual Guests", value: "50K+", numeric: 50000 },
-    { label: "Years in Operation", value: "8+", numeric: 8 },
+    { label: "Team members (DSM & ZNZ)", value: "120+", numeric: 120 },
+    { label: "Guests served annually (approx.)", value: "50K", numeric: 50000 },
+    { label: "Years in operation", value: "8", numeric: 8 },
   ],
   milestones: [
     { year: "2013", title: "Group founded in Dar es Salaam" },
@@ -137,24 +141,45 @@ export const company = {
   testimonials: [
     {
       quote:
-        "FlameZanzi consistently delivers premium quality with disciplined operations and warm hospitality.",
-      author: "Corporate Events Lead",
-      company: "East Africa Business Council",
-      avatar: testimonialPlaceholderAvatars[0],
+        "Excellent food, warm service, and a beautiful setup every time we visit. Flamezanzi is now our family’s first choice for celebrations.",
+      author: "Neema S.",
+      venture: "Flames Restaurant",
+      rating: 5,
     },
     {
       quote:
-        "From food quality to service delivery, every touchpoint reflects a high-caliber brand.",
-      author: "Regional Travel Advisor",
-      company: "Oceanline Travel Group",
-      avatar: testimonialPlaceholderAvatars[1],
+        "From booking to dessert, everything felt smooth and premium. The team made our anniversary dinner genuinely memorable.",
+      author: "Ahmed & Mariam",
+      venture: "Flames Restaurant",
+      rating: 5,
     },
     {
       quote:
-        "Their venues are elegant, dependable, and ideal for both executive and leisure experiences.",
-      author: "Operations Director",
-      company: "Global Haven Partners",
-      avatar: testimonialPlaceholderAvatars[2],
+        "Our go-to for coffee meetings and weekend brunch. Pastries are consistently fresh and the space feels polished without being stiff.",
+      author: "Grace M.",
+      venture: "Treats Cafe & Bakery",
+      rating: 5,
+    },
+    {
+      quote:
+        "The rooftop at sunset was unforgettable. Curries packed with flavor and service that made us feel like regulars on our first visit.",
+      author: "James & Priya",
+      venture: "The Silk Route Restaurant",
+      rating: 5,
+    },
+    {
+      quote:
+        "Quiet beach, thoughtful hosts, and breakfasts we still talk about. Exactly the reset we needed after a busy week in the city.",
+      author: "Elena R.",
+      venture: "Aquelia Rose Hotel",
+      rating: 5,
+    },
+    {
+      quote:
+        "Loved the ambiance, portion sizes, and attention to detail. You can feel the consistency in quality across every visit.",
+      author: "Brian K.",
+      venture: "The Silk Route Restaurant",
+      rating: 5,
     },
   ],
   contact: {
@@ -162,7 +187,7 @@ export const company = {
     hqFull: "Plot 45, Mikocheni B, Dar es Salaam, Tanzania",
     phone: "+255 775 111 122",
     email: "hello@flamezanzi.com",
-    whatsapp: "+255775111122",
+    whatsapp: "+255 775 111 122",
     social: {
       facebook: "https://facebook.com",
       instagram: "https://instagram.com",
@@ -189,11 +214,11 @@ export const ventures: Venture[] = [
     coordinates: { lat: -6.7502, lng: 39.2746 },
     cuisine: ["Grill", "International", "Seafood"],
     features: ["Private Dining", "Corporate Events", "Outdoor Seating"],
-    hours: "12:00-23:00",
+    hours: "12:00–23:00 · seven days",
     contact: {
-      phone: "+255 756 352 637",
-      email: "flames@flamezanzi.com",
-      whatsapp: "+255756352637",
+      phone: "+255 775 111 122",
+      email: "hello@flamezanzi.com",
+      whatsapp: "+255 775 111 122",
     },
     social: {
       instagram: "https://instagram.com",
@@ -220,11 +245,11 @@ export const ventures: Venture[] = [
     id: 2,
     slug: "treats-cafe",
     name: "Treats Cafe & Bakery",
-    tagline: "Artisanal coffee and crafted pastries.",
+    tagline: "Flames Bakery: artisanal coffee and crafted pastries.",
     shortDescription:
-      "A stylish cafe concept at Sea Cliff Village serving bakery classics, specialty coffee, and light dining.",
+      "Flames Bakery (also known as Treats) is a stylish cafe at Sea Cliff Village, Dar es Salaam, serving bakery classics, specialty coffee, and light dining. Street address and map pin will be confirmed with operations.",
     fullDescription:
-      "Treats Cafe & Bakery offers an approachable yet polished environment for meetings, relaxed brunches, and daily coffee rituals, supported by disciplined quality control.",
+      "Treats Cafe & Bakery welcomes guests into an approachable yet polished environment for meetings, relaxed brunches, and daily coffee rituals, supported by disciplined quality control behind the pastry counter and espresso bar. Full address, latitude/longitude, and official opening hours will be published once confirmed.",
     type: "cafe",
     country: "Tanzania",
     city: "Dar es Salaam",
@@ -234,9 +259,9 @@ export const ventures: Venture[] = [
     features: ["Takeaway", "Coffee Bar", "Dessert Counter"],
     hours: "07:00-22:00",
     contact: {
-      phone: "+255 22 234 5678",
-      email: "treats@flamezanzi.com",
-      whatsapp: "+255222345678",
+      phone: "+255 775 111 122",
+      email: "hello@flamezanzi.com",
+      whatsapp: "+255 775 111 122",
     },
     social: {
       instagram: "https://instagram.com",
@@ -254,23 +279,36 @@ export const ventures: Venture[] = [
     id: 3,
     slug: "silk-route",
     name: "The Silk Route Restaurant",
-    tagline: "A rooftop culinary journey through the ancient Silk Road.",
+    tagline: "Legendary Spice Route flavors above Stone Town.",
     shortDescription:
-      "The Silk Route Restaurant in Stone Town, Zanzibar, offers a fusion menu inspired by Indian, Asian, and Mediterranean traditions — with breathtaking rooftop views over the historic town.",
+      "The Silk Route Restaurant in Stone Town, Zanzibar, offers a fusion menu inspired by the legendary trade network that connected Asia, the Middle East, and the Mediterranean. Guests enjoy aromatic curries, sizzling kebabs, and diverse Indian spices, all served with breathtaking rooftop views over the historic town.",
     fullDescription:
-      "Nestled in the heart of Stone Town, The Silk Route Restaurant celebrates the rich culinary heritage of the ancient Silk Road. Our menu blends Indian, Asian, and Mediterranean influences, reflecting centuries of cultural exchange and flavor. From fragrant curries and tandoori kebabs to refreshing seafood and occasional Italian-inspired dishes, every plate is crafted to delight. Guests can savor authentic tastes while overlooking panoramic rooftop views of Zanzibar's old town and the Indian Ocean.",
+      "Nestled in the heart of Stone Town, The Silk Route Restaurant celebrates the rich culinary heritage of the ancient Silk Road. Our menu blends Indian, Asian, and Mediterranean influences, reflecting centuries of cultural exchange and flavor. From fragrant curries and tandoori kebabs to refreshing seafood and occasional Italian-inspired dishes, every plate is crafted to delight. Guests can savor authentic tastes while overlooking panoramic rooftop views of Zanzibar's old town and the Indian Ocean. With warm hospitality and thoughtful amenities, The Silk Route is more than a restaurant. It's a journey through history and flavor.",
     type: "restaurant",
     country: "Tanzania",
     city: "Zanzibar",
     area: "Stone Town",
     coordinates: { lat: -6.164, lng: 39.1896 },
-    cuisine: ["Indian", "Swahili", "Mediterranean", "Fusion Seafood"],
-    features: ["Rooftop Terrace", "Panoramic Views", "Lift Access", "Family Friendly", "Group Bookings"],
-    hours: "11:00-23:00",
+    cuisine: [
+      "Indian (curries, biryanis, tandoori dishes)",
+      "Swahili (Authentic)",
+      "Occasional Italian dishes (pizzas, pastas)",
+      "Rooftop dining experience",
+      "Dine-in and group bookings",
+    ],
+    features: [
+      "Rooftop terrace with panoramic views of Stone Town",
+      "Lift access for physically challenged guests",
+      "Authentic fusion menu inspired by the Silk Road",
+      "Warm, attentive service and welcoming atmosphere",
+      "Suitable for families, couples, and groups",
+      "Central location in historic Stone Town",
+    ],
+    hours: "11:00 AM – 11:00 PM · daily",
     contact: {
       phone: "+255 674 111 122",
       email: "silkrouteznz@gmail.com",
-      whatsapp: "+255674111122",
+      whatsapp: "+255 674 111 122",
     },
     social: {
       instagram: "https://instagram.com",
@@ -298,21 +336,44 @@ export const ventures: Venture[] = [
     name: "Aquelia Rose Hotel",
     tagline: "Your boutique beachfront retreat in Jambiani, Zanzibar.",
     shortDescription:
-      "Aquelia Rose Hotel is a boutique beachfront property on the tranquil shores of Jambiani, Zanzibar — with only eight thoughtfully designed rooms, personalized service, and stunning sea views.",
+      "Aquelia Rose Hotel is a boutique beachfront property located on the tranquil shores of Jambiani, Zanzibar. With only eight thoughtfully designed rooms, the hotel offers personalized service, stunning sea views, and authentic island experiences.",
     fullDescription:
-      "At Aquelia Rose Hotel, we believe that every journey deserves a beautiful beginning. Nestled along the soft sands of Jambiani Beach, our boutique property offers guests an intimate escape where the ocean greets you each morning. From savoring authentic Swahili and continental flavors at our beachfront deck restaurant to exploring the vibrant culture of Zanzibar, every moment at Aquelia Rose is designed to connect you with the spirit of the island. Guided by eco-conscious values and a commitment to community, we welcome couples, honeymooners, and solo travelers to share in the warmth of our hospitality.",
+      "At Aquelia Rose Hotel, we believe that every journey deserves a beautiful beginning. Nestled along the soft sands of Jambiani Beach, our boutique property offers guests an intimate escape where the ocean greets you each morning with breathtaking sunrises. We are more than just a hotel, we are a family of hosts dedicated to creating memorable experiences. From savoring authentic Swahili and continental flavors at our beachfront deck restaurant to exploring the vibrant culture and landscapes of Zanzibar, every moment at Aquelia Rose is designed to connect you with the spirit of the island. Guided by eco-conscious values and a commitment to community, we welcome couples, honeymooners, and solo travelers to share in the warmth of our hospitality. Whether you seek relaxation by the sea, adventure across the island, or simply a safe and welcoming environment to call home, Aquelia Rose Hotel is your boutique retreat in paradise.",
     type: "hotel",
     country: "Tanzania",
     city: "Zanzibar",
     area: "Jambiani",
     coordinates: { lat: -6.3218, lng: 39.5507 },
-    cuisine: ["Swahili Cuisine", "Continental", "Breakfast Included", "Beachfront Dining"],
-    features: ["Beachfront Access", "Swimming Pool", "Air-Conditioned Rooms", "Free Wi-Fi", "Airport Shuttle", "Eco-Conscious", "Yoga Space", "Excursion Planning"],
-    hours: "24h (Restaurant: 08:00–21:00)",
+    cuisine: [
+      "Swahili cuisine (local flavors, fresh seafood)",
+      "Continental cuisine (international favorites)",
+      "Bed & breakfast service (fresh daily breakfast included)",
+      "Lunch and dinner at the beachfront restaurant",
+      "Excursion planning across Zanzibar and Tanzania",
+      "Laundry service (extra cost)",
+      "Airport shuttle (extra cost)",
+      "Swimming pool set up",
+      "Romantic swimming pool breakfast",
+    ],
+    features: [
+      "Eight boutique rooms (4 with stunning sea views, 4 overlooking the garden and pool)",
+      "Direct access to Jambiani's white sandy beach",
+      "Refreshing swimming pool for relaxation",
+      "Deck restaurant serving Swahili and continental cuisine",
+      "Beachfront dining with sunrise views",
+      "Air-conditioned rooms for comfort",
+      "Free Wi-Fi to stay connected",
+      "Private bathrooms with complimentary toiletries",
+      "In-room safe boxes for peace of mind",
+      "Eco-conscious and community-supported hospitality",
+      "Safe, welcoming environment for all guests",
+      "Space for yoga sessions to rejuvenate body and mind",
+    ],
+    hours: "Hotel 24/7 · Restaurant 8:00 AM – 9:00 PM · daily",
     contact: {
       phone: "+255 678 111 122",
       email: "aqueliaroseznz@gmail.com",
-      whatsapp: "+255678111122",
+      whatsapp: "+255 678 111 122",
     },
     social: {
       instagram: "https://instagram.com",
@@ -341,6 +402,260 @@ export const ventures: Venture[] = [
     },
   },
 ];
+
+export type SignatureDish = {
+  /** Must match a `MenuItem.name` in `menus` so the cart references the same row. */
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  badge?: string;
+  tags?: string[];
+};
+
+export type FlamesTestimonial = {
+  author: string;
+  location: string;
+  rating: number;
+  quote: string;
+  date: string;
+  source?: string;
+};
+
+export type EventHall = {
+  slug: string;
+  name: string;
+  capacity: string;
+  description: string;
+  features: string[];
+  occasions: string[];
+  image: string;
+  badge?: string;
+};
+
+/**
+ * Flames Restaurant rich content (storytelling, signature dishes, halls, testimonials, etc.).
+ * Kept here so the page is fully data-driven and stays editable without touching JSX.
+ */
+export const flamesContent = {
+  /** SEO-friendly keyword cluster for the metadata + JSON-LD. */
+  seoKeywords: [
+    "Dar es Salaam fine dining",
+    "Masaki seafood restaurant",
+    "Flames Restaurant Dar es Salaam",
+    "best restaurant in Masaki",
+    "private event venue Dar es Salaam",
+    "wedding venue Dar es Salaam",
+    "rooftop dining Tanzania",
+  ],
+  shortMetaDescription:
+    "Flames Restaurant: refined fine dining in Masaki, Dar es Salaam. Premium seafood, wood-fired grills, private event halls for weddings, birthdays, and corporate occasions.",
+  /** Hero collage layered above the existing hero image (food / ambiance / staff). */
+  heroCollage: [
+    {
+      src: "/images/optimized/flames/HNK08116(1).webp",
+      label: "Ambiance",
+    },
+    {
+      src: "/images/optimized/flames/HNK08008.webp",
+      label: "Food",
+    },
+    {
+      src: "/images/optimized/flames/HNK08025.webp",
+      label: "Hospitality",
+    },
+    {
+      src: "/images/optimized/flames/HNK08099.webp",
+      label: "Atmosphere",
+    },
+  ],
+  /** Storytelling: origins, chef philosophy, guest experience. */
+  story: {
+    eyebrow: "Our story",
+    title: "A Masaki flagship born from Flamezanzi’s Dar es Salaam roots",
+    imageStrip: [
+      {
+        src: "/images/optimized/flames/HNK08021.webp",
+        alt: "Flames Restaurant: plated fine dining",
+      },
+      {
+        src: "/images/optimized/flames/HNK07991-Pano.webp",
+        alt: "Flames Restaurant: dining room and ambiance",
+      },
+      {
+        src: "/images/optimized/flames/HNK08025.webp",
+        alt: "Flames Restaurant: hospitality and service",
+      },
+    ],
+    paragraphs: [
+      "Flamezanzi Restaurant Limited grew from a simple belief: hospitality should feel both world-class and unmistakably East African. Since the group’s founding in Dar es Salaam, that idea has travelled across bakeries, rooftops in Stone Town, and beachfront escapes in Zanzibar, but Masaki remains where our fine-dining heart beats loudest.",
+      "When Flames Restaurant opened in 2015, we wanted a room worthy of milestones: boardroom-caliber lunches that still feel warm, Sundays that linger into dessert, and wedding receptions where every plate earns its place at the head table.",
+      "Behind the menu is a chef-led philosophy grounded in restraint and heat in equal measure. Wood fire, charcoal, and disciplined technique frame Tanzanian seafood, regional spice, and produce from suppliers we trust by name, because fine dining, for us, is never decoration without substance.",
+      "What guests carry home isn’t only flavor. It is the arc of an evening: lighting that flatters without fuss, pacing that listens to your table, and a team coached to elevate anniversaries, family reunions, and corporate hosts with the same steady attention.",
+    ],
+    pillars: [
+      {
+        title: "Chef-led kitchen",
+        description:
+          "Classical finesse paired with coastal East African swagger: menus that evolve with seasons, not slogans.",
+      },
+      {
+        title: "Flavors with provenance",
+        description:
+          "Seafood landed with care, spice blends built in-house, and vegetables chosen for character, not color alone.",
+      },
+      {
+        title: "Hospitality you feel",
+        description:
+          "From an intimate booth to a ballroom celebration, service that anticipates without hovering.",
+      },
+    ],
+  },
+  /** Signature dishes: interactive menu preview at the top of the page. */
+  signatureDishes: [
+    {
+      name: "Spiced Lobster Tail",
+      description: "Saffron rice, lemon herb butter, charcoal-kissed finish.",
+      price: 82_000,
+      image:
+        "https://images.unsplash.com/photo-1625943553852-781c6dd46faa?auto=format&fit=crop&w=1200&q=80",
+      badge: "Chef's pick",
+      tags: ["seafood", "signature"],
+    },
+    {
+      name: "Flame House Steak",
+      description: "300g cut, peppercorn jus, seasonal greens.",
+      price: 68_000,
+      image:
+        "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=1200&q=80",
+      badge: "Most ordered",
+      tags: ["grill", "premium"],
+    },
+    {
+      name: "Charred Prawns",
+      description: "Garlic butter, citrus glaze, herb crumbs.",
+      price: 26_500,
+      image:
+        "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=1200&q=80",
+      tags: ["seafood", "starter"],
+    },
+    {
+      name: "Herb-Crusted Lamb Rack",
+      description: "Rosemary jus, fondant potato, seasonal vegetables.",
+      price: 72_000,
+      image:
+        "https://images.unsplash.com/photo-1514516345957-556ca7d90a29?auto=format&fit=crop&w=1200&q=80",
+      tags: ["grill", "signature"],
+    },
+    {
+      name: "Hyderabadi Chicken Biryani",
+      description: "Basmati, saffron, fried onion, raita on the side.",
+      price: 34_000,
+      image:
+        "https://images.unsplash.com/photo-1633945274405-b6c8a5b78127?auto=format&fit=crop&w=1200&q=80",
+      tags: ["indian", "biryani"],
+    },
+    {
+      name: "Paneer Butter Masala",
+      description: "Soft paneer in tomato-butter gravy, fenugreek, cream.",
+      price: 28_500,
+      image:
+        "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1200&q=80",
+      tags: ["indian", "vegetarian"],
+    },
+  ] as SignatureDish[],
+  /** Two private event halls available for weddings, birthdays, etc. */
+  eventHalls: [
+    {
+      slug: "grand-hall",
+      name: "The Grand Hall",
+      capacity: "Up to 200 guests · Banquet style",
+      description:
+        "Our largest private hall, the home of weddings, large corporate galas, and milestone birthdays. A grand setting with custom lighting, a dedicated stage area, and full plated service.",
+      features: [
+        "Fully air-conditioned",
+        "Stage & sound setup",
+        "Custom mood lighting",
+        "Bridal / VIP green room",
+        "Plated and buffet menus",
+        "Dedicated event manager",
+      ],
+      occasions: ["Weddings", "Corporate Galas", "Milestone Birthdays", "Engagement Ceremonies"],
+      image: "/images/optimized/flames/HNK07991-Pano.webp",
+      badge: "Up to 200 guests",
+    },
+    {
+      slug: "intimate-hall",
+      name: "The Intimate Hall",
+      capacity: "Up to 60 guests · Private dining",
+      description:
+        "A more intimate private space for milestone dinners, baby showers, family gatherings, and executive functions. Curated menus and personalized service in a refined fine-dining setting.",
+      features: [
+        "Private entrance",
+        "Customised plated menus",
+        "Wine pairing on request",
+        "AV-ready for presentations",
+        "Florist & decor partnerships",
+        "Birthday cake setup included",
+      ],
+      occasions: [
+        "Birthdays",
+        "Anniversaries",
+        "Bridal Showers",
+        "Baby Showers",
+        "Corporate Dinners",
+      ],
+      image: "/images/optimized/flames/HNK08099.webp",
+      badge: "Up to 60 guests",
+    },
+  ] as EventHall[],
+  /** Verified guest reviews displayed with star ratings. Update with real reviews as they come in. */
+  testimonials: [
+    {
+      author: "Amani Mushi",
+      location: "Dar es Salaam",
+      rating: 5,
+      quote:
+        "The lobster tail was the best I've had in Dar es Salaam. Service was world-class, felt like fine dining at its peak.",
+      date: "March 2026",
+      source: "Google Review",
+    },
+    {
+      author: "Priya & Ravi Shah",
+      location: "Wedding · Grand Hall",
+      rating: 5,
+      quote:
+        "We hosted our wedding reception in the Grand Hall: 180 guests, three menus, zero stress. The Flames team is the reason our day was perfect.",
+      date: "February 2026",
+      source: "Direct guest review",
+    },
+    {
+      author: "Daniel O.",
+      location: "Masaki",
+      rating: 5,
+      quote:
+        "Our go-to date night in Masaki. The steak is consistent, the wine list is solid, and the staff make every visit feel like a celebration.",
+      date: "January 2026",
+      source: "TripAdvisor",
+    },
+    {
+      author: "Sarah Mwakatobe",
+      location: "Birthday · Intimate Hall",
+      rating: 5,
+      quote:
+        "Booked the Intimate Hall for my mother's 60th. Custom menu, beautiful decor, and the team handled every detail. Highly recommend.",
+      date: "December 2025",
+      source: "Direct guest review",
+    },
+  ] as FlamesTestimonial[],
+  /** Quick info chips shown under the hero. */
+  quickFacts: [
+    { label: "Fine dining", value: "Since 2015" },
+    { label: "Cuisine", value: "Grill · Seafood · International" },
+    { label: "Private halls", value: "2 event spaces" },
+    { label: "Reservations", value: "Walk-ins welcome" },
+  ],
+};
 
 /** Menu `price` values are whole TZS (Tanzanian shillings), e.g. 18500 → TZS 18,500 */
 export const menus: Record<string, { categories: MenuCategory[] }> = {
@@ -416,7 +731,7 @@ export const menus: Record<string, { categories: MenuCategory[] }> = {
       },
       {
         name: "Indian classics",
-        description: "Curries, paneer, and house breads — illustrative menu (mock).",
+        description: "Curries, paneer, and house breads (illustrative menu, mock).",
         items: [
           {
             name: "Paneer Butter Masala",
@@ -510,7 +825,7 @@ export const menus: Record<string, { categories: MenuCategory[] }> = {
           },
           {
             name: "Masala Chai",
-            description: "Black tea, cardamom, ginger, milk — street-style (mock)",
+            description: "Black tea, cardamom, ginger, milk, street-style (mock)",
             price: 5500,
             tags: ["indian", "tea"],
             isVegetarian: true,

@@ -7,12 +7,15 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { AnimatedStat } from "@/components/animated-stat";
 import { GrowthStoryTimeline } from "@/components/growth-story-timeline";
+import { FoodRibbonMarquee } from "@/components/food-ribbon-marquee";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { foodPictureSlides } from "@/lib/food-pic-slides";
 import { company } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "About Us | FlameZanzi",
-  description: "Learn about FlameZanzi Restaurant Ltd., our mission, vision, values, and leadership.",
+  title: "About Us | Flamezanzi Restaurant Limited",
+  description:
+    "Learn about Flamezanzi Restaurant Limited: mission, vision, values, milestones, and leadership.",
 };
 
 export default function AboutPage() {
@@ -22,7 +25,7 @@ export default function AboutPage() {
       <section className="page-section relative min-h-88 overflow-hidden border-b border-border/70">
         <Image
           src="/images/optimized/about-mission.webp"
-          alt="FlameZanzi — our story"
+          alt="FlameZanzi: our story"
           fill
           className="object-cover"
           priority
@@ -33,10 +36,10 @@ export default function AboutPage() {
             variant="outline"
             className="rounded-full border-white/35 bg-black/15 px-3 py-1 text-[11px] tracking-[0.2em] text-white uppercase backdrop-blur"
           >
-            About FlameZanzi
+            About Flamezanzi Restaurant Limited
           </Badge>
           <h1 className="mt-5 max-w-2xl font-heading text-5xl leading-tight md:text-6xl">
-            A Decade of Premium Hospitality
+            Over a decade of premium hospitality
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80">
             {company.description}
@@ -62,7 +65,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Stats band — animated counters */}
+      <FoodRibbonMarquee slides={foodPictureSlides} />
+
+      {/* Stats band - animated counters */}
       <section className="page-section border-y border-border/70 bg-primary py-14 text-primary-foreground">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-8 px-6 md:grid-cols-4">
           {company.stats.map((stat) => (
@@ -83,7 +88,7 @@ export default function AboutPage() {
             <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Core Values</p>
             <h2 className="mt-3 font-heading text-4xl">The Standards We Hold</h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Our values are not aspirational slogans — they are the operational standards embedded in every interaction across our venues.
+              How every venue shows up in the kitchen and at the guest&apos;s side.
             </p>
           </div>
           <div className="grid gap-5 md:grid-cols-2">

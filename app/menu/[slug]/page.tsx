@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import { FlamesSignatureDishes } from "@/components/flames-signature-dishes";
 import { MenuExperience } from "@/components/menu-experience";
 import { MenuVenueMeta } from "@/components/menu-venue-meta";
-import { getVentureBySlug, menus, ventures } from "@/lib/site-data";
+import { flamesContent, getVentureBySlug, menus, ventures } from "@/lib/site-data";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -66,7 +67,14 @@ export default async function MenuPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="page-section mx-auto w-full max-w-6xl px-6 pt-16 pb-28 md:pt-20 md:pb-32">
+      {slug === "flames-restaurant" ? (
+        <FlamesSignatureDishes dishes={flamesContent.signatureDishes} />
+      ) : null}
+
+      <section
+        id="menu-experience-top"
+        className="page-section mx-auto w-full max-w-6xl scroll-mt-28 px-6 pt-8 pb-28 md:scroll-mt-32 md:pt-10 md:pb-32"
+      >
         <MenuExperience key={venture.slug} venture={venture} categories={menu.categories} />
       </section>
 

@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { ArrowUpRight, MapPin } from "lucide-react";
 
 import { VentureTypeBadge } from "@/components/venture-type-badge";
+import { VentureLocationMapSection } from "@/components/venture-location-map-section";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Venture } from "@/lib/site-data";
 
@@ -25,9 +26,6 @@ export function VenturesDirectory({ ventures }: Props) {
     }
     return ventures.filter((venture) => venture.type === typeFilter);
   }, [typeFilter, ventures]);
-
-  const activeVenture =
-    ventures.find((venture) => venture.slug === activeSlug) ?? filteredVentures[0] ?? ventures[0];
 
   return (
     <div className="space-y-14">
@@ -117,43 +115,12 @@ export function VenturesDirectory({ ventures }: Props) {
         )}
       </div>
 
-      {activeVenture ? (
-        <section className="space-y-4">
-          <h3 className="font-heading text-3xl">Location Map</h3>
-          <div className="flex flex-wrap gap-2">
-            {ventures.map((venture) => (
-              <button
-                key={venture.slug}
-                type="button"
-                onClick={() => setActiveSlug(venture.slug)}
-                className={`rounded-full border px-4 py-2 text-sm transition-colors ${
-                  activeVenture.slug === venture.slug
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card hover:bg-muted"
-                }`}
-              >
-                {venture.name}
-              </button>
-            ))}
-          </div>
-          <div className="overflow-hidden rounded-2xl border border-border/70">
-            <iframe
-              title={`${activeVenture.name} map`}
-              width="100%"
-              height="360"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              src={`https://www.google.com/maps?q=${activeVenture.coordinates.lat},${activeVenture.coordinates.lng}&z=15&output=embed`}
-            />
-          </div>
-          <Link
-            href={`https://maps.google.com/?q=${activeVenture.coordinates.lat},${activeVenture.coordinates.lng}`}
-            target="_blank"
-            className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
-          >
-            Open in Google Maps
-          </Link>
-        </section>
+      {ventures.length > 0 ? (
+        <VentureLocationMapSection
+          ventures={ventures}
+          activeSlug={activeSlug}
+          onActiveSlugChange={setActiveSlug}
+        />
       ) : null}
     </div>
   );

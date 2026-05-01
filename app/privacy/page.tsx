@@ -4,7 +4,7 @@ import { company } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | FlameZanzi",
-  description: "Privacy policy for FlameZanzi Restaurant Ltd.",
+  description: `Privacy policy for ${company.name}.`,
 };
 
 export default function PrivacyPage() {
