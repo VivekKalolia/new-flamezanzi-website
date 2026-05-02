@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useMemo, useState } from "react";
 
-import { GalleryImageItem } from "@/lib/local-gallery";
+import { PhotoGalleryModal } from "@/components/photo-gallery-modal";
+import type { GalleryImageItem } from "@/lib/local-gallery";
 
 function shuffle<T>(source: T[]) {
   const array = [...source];
@@ -19,102 +18,6 @@ function shuffle<T>(source: T[]) {
 type Props = {
   items: GalleryImageItem[];
 };
-
-function Lightbox({
-  items,
-  activeIndex,
-  onClose,
-  onNav,
-}: {
-  items: GalleryImageItem[];
-  activeIndex: number;
-  onClose: () => void;
-  onNav: (index: number) => void;
-}) {
-  const item = items[activeIndex];
-  const overlayRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, []);
-
-  useEffect(() => {
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") onNav((activeIndex + 1) % items.length);
-      if (e.key === "ArrowLeft") onNav((activeIndex - 1 + items.length) % items.length);
-    }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeIndex, items.length, onClose, onNav]);
-
-  if (!item) return null;
-  if (typeof document === "undefined") return null;
-
-  return createPortal(
-    <div
-      ref={overlayRef}
-      className="fixed inset-0 z-9999 flex items-center justify-center bg-black"
-      style={{ margin: 0, padding: 0 }}
-      onClick={(e) => {
-        if (e.target === overlayRef.current) onClose();
-      }}
-    >
-      {/* Close */}
-      <button
-        type="button"
-        onClick={onClose}
-        className="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white transition-colors hover:bg-white/20"
-        aria-label="Close"
-      >
-        <X className="size-5" />
-      </button>
-
-      {/* Prev */}
-      <button
-        type="button"
-        onClick={() => onNav((activeIndex - 1 + items.length) % items.length)}
-        className="absolute left-5 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white transition-colors hover:bg-white/20"
-        aria-label="Previous"
-      >
-        <ChevronLeft className="size-6" />
-      </button>
-
-      {/* Image */}
-      <div className="flex h-full w-full items-center justify-center p-16">
-        <div className="relative h-full w-full">
-          <Image
-            src={item.image}
-            alt={item.ventureName}
-            fill
-            className="rounded-xl object-contain shadow-2xl"
-            sizes="100vw"
-            priority
-          />
-        </div>
-      </div>
-
-      {/* Caption */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-4 py-1.5 text-sm text-white/90 backdrop-blur">
-        {item.ventureName} · {activeIndex + 1} / {items.length}
-      </div>
-
-      {/* Next */}
-      <button
-        type="button"
-        onClick={() => onNav((activeIndex + 1) % items.length)}
-        className="absolute right-5 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white transition-colors hover:bg-white/20"
-        aria-label="Next"
-      >
-        <ChevronRight className="size-6" />
-      </button>
-    </div>,
-    document.body,
-  );
-}
 
 export function GalleryGrid({ items }: Props) {
   const [filter, setFilter] = useState("all");
@@ -215,14 +118,14 @@ export function GalleryGrid({ items }: Props) {
         </div>
       )}
 
-      {activeIndex !== null && (
-        <Lightbox
+      {activeIndex !== null ? (
+        <PhotoGalleryModal
           items={filtered}
-          activeIndex={activeIndex}
+          index={activeIndex}
           onClose={() => setActiveIndex(null)}
-          onNav={setActiveIndex}
+          onNavigate={(i) => setActiveIndex(i)}
         />
-      )}
+      ) : null}
     </div>
   );
 }

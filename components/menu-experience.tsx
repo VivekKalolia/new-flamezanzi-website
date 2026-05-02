@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import Link from "next/link";
 
 import {
@@ -15,7 +16,6 @@ import {
   Plus,
   ShoppingBag,
   ShoppingCart,
-  Tag,
   Trash2,
   Truck,
 } from "lucide-react";
@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/sheet";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { cn } from "@/lib/utils";
-import type { MenuCategory, Venture } from "@/lib/site-data";
+import { MENU_ITEM_PLACEHOLDER_IMAGE, type MenuCategory, type Venture } from "@/lib/site-data";
 
 type CartItem = {
   itemName: string;
@@ -142,7 +142,7 @@ export function MenuExperience({ venture, categories }: Props) {
     return categories
       .map((category) => {
         const items = category.items.filter((item) => {
-          const searchBlob = `${item.name} ${item.description} ${item.tags.join(" ")} ${category.name}`.toLowerCase();
+          const searchBlob = `${item.name} ${item.description} ${category.name}`.toLowerCase();
           const matchesSearch = searchBlob.includes(search.toLowerCase());
           const matchesDiet =
             dietFilter === "all" ||
@@ -360,16 +360,16 @@ export function MenuExperience({ venture, categories }: Props) {
                   <span>Vegetarian</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="flex size-8 items-center justify-center rounded-lg bg-rose-500/15 text-rose-700">
+                  <span className="flex size-8 items-center justify-center rounded-lg bg-amber-500/15 text-amber-800 dark:text-amber-200">
+                    <Drumstick className="size-4" strokeWidth={1.75} aria-hidden />
+                  </span>
+                  <span>Non-vegetarian</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="flex size-8 items-center justify-center rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-200">
                     <Flame className="size-4" strokeWidth={1.75} aria-hidden />
                   </span>
                   <span>Spicy</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="flex size-8 items-center justify-center rounded-lg bg-muted text-foreground/80 ring-1 ring-border/60">
-                    <Tag className="size-4" strokeWidth={1.75} aria-hidden />
-                  </span>
-                  <span>Chef / category tags</span>
                 </li>
               </ul>
             </div>
@@ -388,59 +388,80 @@ export function MenuExperience({ venture, categories }: Props) {
               <div className="space-y-3">
                 {category.items.map((item) => {
                   const existingQty = cart.find((entry) => entry.itemName === item.name)?.quantity ?? 0;
+                  const thumbSrc = item.image ?? MENU_ITEM_PLACEHOLDER_IMAGE;
                   return (
-                    <Card key={item.name} className="border border-border/70 py-0">
-                      <CardContent className="flex flex-col gap-4 py-5 md:flex-row md:items-start md:justify-between">
-                        <div className="min-w-0 space-y-2">
-                          <h4 className="text-xl font-semibold leading-tight">{item.name}</h4>
-                          <p className="text-sm text-muted-foreground">{item.description}</p>
-                          <div className="flex flex-wrap gap-2">
-                            {item.tags.map((tag) => (
-                              <Badge key={tag} variant="outline" className="gap-1 font-normal">
-                                <Tag className="size-3 opacity-70" aria-hidden />
-                                {tag}
-                              </Badge>
-                            ))}
-                            {item.isVegetarian ? (
-                              <Badge className="gap-1 border-0 bg-emerald-600/12 font-normal text-emerald-800 hover:bg-emerald-600/12 dark:text-emerald-200">
-                                <Leaf className="size-3.5 shrink-0" aria-hidden />
-                                Vegetarian
-                              </Badge>
-                            ) : null}
-                            {item.isSpicy ? (
-                              <Badge className="gap-1 border-0 bg-rose-600/12 font-normal text-rose-800 hover:bg-rose-600/12 dark:text-rose-200">
-                                <Flame className="size-3.5 shrink-0" aria-hidden />
-                                Spicy
-                              </Badge>
-                            ) : null}
-                          </div>
+                    <Card
+                      key={item.name}
+                      className="group overflow-hidden border border-border/70 py-0 shadow-sm transition-shadow hover:shadow-md"
+                    >
+                      <CardContent className="flex flex-col gap-0 p-0 md:flex-row">
+                        <div className="relative aspect-[16/10] w-full min-h-[176px] shrink-0 border-b border-border/60 bg-muted md:aspect-auto md:min-h-[240px] md:w-[260px] md:max-w-[34%] md:border-border/60 md:border-r">
+                          <Image
+                            src={thumbSrc}
+                            alt=""
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                            sizes="(max-width: 768px) 100vw, 260px"
+                          />
                         </div>
-
-                        <div className="flex min-w-[170px] flex-col items-end gap-3">
-                          <p className="text-xl font-semibold text-primary">{formatCurrency(item.price)}</p>
-                          {existingQty > 0 ? (
-                            <div className="inline-flex items-center gap-3 rounded-full border border-primary/30 bg-primary/5 px-2 py-1">
-                              <button
-                                type="button"
-                                onClick={() => adjustQuantity(item.name, -1)}
-                                className="inline-flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
-                              >
-                                <Minus className="size-3.5" />
-                              </button>
-                              <span className="w-5 text-center text-sm font-medium">{existingQty}</span>
-                              <button
-                                type="button"
-                                onClick={() => adjustQuantity(item.name, 1)}
-                                className="inline-flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
-                              >
-                                <Plus className="size-3.5" />
-                              </button>
+                        <div className="flex min-w-0 flex-1 flex-col justify-between gap-4 p-5 md:flex-row md:items-stretch md:gap-6 md:p-6">
+                          <div className="min-w-0 space-y-2 md:max-w-[65%]">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h4 className="text-xl font-semibold leading-snug">{item.name}</h4>
                             </div>
-                          ) : (
-                            <Button onClick={() => addToCart(item.name, item.price)} className="h-9 rounded-full px-5">
-                              Add
-                            </Button>
-                          )}
+                            <div className="flex flex-wrap gap-2">
+                              {item.isVegetarian ? (
+                                <Badge className="gap-1 border-0 bg-emerald-600/12 font-normal text-emerald-800 hover:bg-emerald-600/12 dark:text-emerald-200">
+                                  <Leaf className="size-3.5 shrink-0" aria-hidden />
+                                  Vegetarian
+                                </Badge>
+                              ) : (
+                                <Badge className="gap-1 border-0 bg-amber-600/12 font-normal text-amber-900 hover:bg-amber-600/12 dark:text-amber-100">
+                                  <Drumstick className="size-3.5 shrink-0" aria-hidden />
+                                  Non-veg
+                                </Badge>
+                              )}
+                              {item.isSpicy ? (
+                                <Badge className="gap-1 border-0 bg-rose-600/12 font-normal text-rose-800 hover:bg-rose-600/12 dark:text-rose-200">
+                                  <Flame className="size-3.5 shrink-0" aria-hidden />
+                                  Spicy
+                                </Badge>
+                              ) : null}
+                            </div>
+                            <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                          </div>
+
+                          <div className="flex shrink-0 flex-col items-stretch gap-3 border-t border-border/50 pt-4 md:w-[220px] md:border-t-0 md:items-end md:pt-0 md:pl-2">
+                            <p className="text-xl font-semibold text-primary tabular-nums md:text-right">
+                              {formatCurrency(item.price)}
+                            </p>
+                            {existingQty > 0 ? (
+                              <div className="inline-flex w-full items-center justify-end gap-3 rounded-full border border-primary/30 bg-primary/5 px-2 py-1 md:w-auto">
+                                <button
+                                  type="button"
+                                  onClick={() => adjustQuantity(item.name, -1)}
+                                  className="inline-flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+                                >
+                                  <Minus className="size-4" />
+                                </button>
+                                <span className="w-6 text-center text-sm font-medium tabular-nums">{existingQty}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => adjustQuantity(item.name, 1)}
+                                  className="inline-flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+                                >
+                                  <Plus className="size-4" />
+                                </button>
+                              </div>
+                            ) : (
+                              <Button
+                                onClick={() => addToCart(item.name, item.price)}
+                                className="h-10 w-full rounded-full px-5 md:w-auto"
+                              >
+                                Add to cart
+                              </Button>
+                            )}
+                          </div>
                         </div>
                       </CardContent>
                     </Card>

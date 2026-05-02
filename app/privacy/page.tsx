@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { company } from "@/lib/site-data";
+import { BRAND_WORDMARK, company } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | FlameZanzi",
+  title: `Privacy Policy | ${BRAND_WORDMARK}`,
   description: `Privacy policy for ${company.name}.`,
 };
 
@@ -13,7 +13,7 @@ export default function PrivacyPage() {
       <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
         Legal
       </p>
-      <h1 className="mt-3 font-heading text-5xl">Privacy Policy</h1>
+      <h1 className="mt-3 max-w-2xl font-heading text-4xl leading-tight md:text-6xl">Privacy Policy</h1>
       <p className="mt-3 text-sm text-muted-foreground">
         Last updated: January 2026
       </p>
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
           <p className="mt-2">
             Information is used to respond to inquiries, process service
             requests, improve operations, and maintain service quality across
-            FlameZanzi ventures.
+            {BRAND_WORDMARK} ventures.
           </p>
         </section>
 

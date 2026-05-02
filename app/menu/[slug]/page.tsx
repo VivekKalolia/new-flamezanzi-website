@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { FlamesSignatureDishes } from "@/components/flames-signature-dishes";
 import { MenuExperience } from "@/components/menu-experience";
 import { MenuVenueMeta } from "@/components/menu-venue-meta";
-import { flamesContent, getVentureBySlug, menus, ventures } from "@/lib/site-data";
+import { BRAND_WORDMARK, getVentureBySlug, menus, ventures } from "@/lib/site-data";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -19,10 +18,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const venture = getVentureBySlug(slug);
   if (!venture) {
-    return { title: "Menu Not Found | FlameZanzi" };
+    return { title: `Menu Not Found | ${BRAND_WORDMARK}` };
   }
   return {
-    title: `${venture.name} Menu | FlameZanzi`,
+    title: `${venture.name} Menu | ${BRAND_WORDMARK}`,
     description: `Explore the interactive menu for ${venture.name}.`,
   };
 }
@@ -55,7 +54,7 @@ export default async function MenuPage({ params }: Props) {
               <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
                 {venture.name}
               </p>
-              <h1 className="font-heading text-4xl leading-tight md:text-5xl">
+              <h1 className="max-w-2xl font-heading text-4xl leading-tight md:text-6xl">
                 Interactive Menu
               </h1>
               <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
@@ -66,10 +65,6 @@ export default async function MenuPage({ params }: Props) {
           </div>
         </div>
       </section>
-
-      {slug === "flames-restaurant" ? (
-        <FlamesSignatureDishes dishes={flamesContent.signatureDishes} />
-      ) : null}
 
       <section
         id="menu-experience-top"

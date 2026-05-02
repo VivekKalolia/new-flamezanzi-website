@@ -35,7 +35,7 @@ const aqueliaImages = listPublicImages("images/optimized/aquelia");
 /** Match `site-data` venture `images.hero` so folder scans list the main shot first. */
 const FLAMES_MAIN = "/images/optimized/flames/HNK08116(1).webp";
 const SILK_MAIN = "/images/optimized/silk-route/HNK08758.webp";
-const AQUELIA_MAIN = "/images/optimized/aquelia/HNK08340.webp";
+const AQUELIA_MAIN = "/images/optimized/aquelia/HNK08486.webp";
 
 function withMainImageFirst(images: string[], mainPath: string) {
   const rest = images.filter((src) => src !== mainPath);

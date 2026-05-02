@@ -2,23 +2,33 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight, MapPin, Phone } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MenuCardVisual } from "@/components/menu-card-visual";
 import { OpeningHoursRows } from "@/components/opening-hours-rows";
 import { VentureGallery } from "@/components/venture-gallery";
 import { VentureReservation } from "@/components/venture-reservation";
-import { VentureTypeBadge } from "@/components/venture-type-badge";
 import { VentureCtaBar } from "@/components/venture-cta-bar";
 import { FlamesEventHalls } from "@/components/flames-event-halls";
-import { FlamesPhotoStrip } from "@/components/flames-photo-strip";
 import { FlamesStorySection } from "@/components/flames-story-section";
 import { FlamesTestimonials } from "@/components/flames-testimonials";
 import { OtherExperiencesCarousel } from "@/components/other-experiences-carousel";
+import { VentureMenuPreview } from "@/components/venture-menu-preview";
 import { getVentureGalleryImages } from "@/lib/local-gallery";
-import { company, flamesContent, getVentureBySlug, ventures } from "@/lib/site-data";
+import {
+  BRAND_WORDMARK,
+  company,
+  flamesContent,
+  getVentureBySlug,
+  menus,
+  ventureDetailTestimonials,
+  ventureQuickFacts,
+  ventureStories,
+  ventures,
+  type VentureRichSlug,
+} from "@/lib/site-data";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -33,13 +43,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const venture = getVentureBySlug(slug);
   if (!venture) {
     return {
-      title: "Venture Not Found | FlameZanzi",
+      title: `Venture Not Found | ${BRAND_WORDMARK}`,
     };
   }
 
   if (venture.slug === "flames-restaurant") {
     return {
-      title: "Flames Restaurant | Fine Dining in Masaki, Dar es Salaam | FlameZanzi",
+      title: `Flames Restaurant | Fine Dining in Masaki, Dar es Salaam | ${BRAND_WORDMARK}`,
       description: flamesContent.shortMetaDescription,
       keywords: flamesContent.seoKeywords,
       openGraph: {
@@ -58,7 +68,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${venture.name} | FlameZanzi`,
+    title: `${venture.name} | ${BRAND_WORDMARK}`,
     description: venture.shortDescription,
   };
 }
@@ -73,10 +83,17 @@ export default async function VentureDetailPage({ params }: Props) {
 
   const otherVentures = ventures.filter((item) => item.slug !== venture.slug).slice(0, 3);
   const galleryImages = getVentureGalleryImages(venture.slug, venture.images.gallery);
+  const ventureMenu = menus[venture.slug];
   const typeLabel =
     venture.type === "cafe" ? "Cafe" : venture.type === "hotel" ? "Hotel" : "Restaurant";
   const isFlames = venture.slug === "flames-restaurant";
   const isHotel = venture.type === "hotel";
+  const richSlug = venture.slug as VentureRichSlug;
+  const storyForPage = isFlames ? flamesContent.story : ventureStories[richSlug];
+  const quickFactsForPage = isFlames ? flamesContent.quickFacts : ventureQuickFacts[richSlug];
+  const testimonialsForPage = isFlames
+    ? flamesContent.testimonials
+    : ventureDetailTestimonials[richSlug];
   /** Hero crop: anchor to top edge (Silk Route + Aquelia art direction). */
   const heroAnchoredTop = venture.slug === "silk-route" || venture.slug === "aquelia-rose";
 
@@ -184,7 +201,9 @@ export default async function VentureDetailPage({ params }: Props) {
           <p className="mt-4 inline-flex rounded-md border border-white/30 bg-white/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em] text-white uppercase sm:text-[11px]">
             {typeLabel}
           </p>
-          <h1 className="mt-4 max-w-3xl font-heading text-5xl">{venture.name}</h1>
+          <h1 className="mt-4 max-w-3xl font-heading text-4xl leading-tight md:text-6xl">
+            {venture.name}
+          </h1>
           <p className="mt-3 max-w-2xl text-white/80">{venture.tagline}</p>
           <p className="mt-3 flex items-center gap-2 text-sm text-white/85">
             <MapPin className="size-4" />
@@ -203,8 +222,6 @@ export default async function VentureDetailPage({ params }: Props) {
         reservePrimary={isHotel ? "Book Your Stay" : "Book A Table"}
         reserveSecondary={isHotel ? "Request availability · rooms & dates" : "Reserve in 30 seconds"}
       />
-
-      {isFlames ? <FlamesPhotoStrip collage={flamesContent.heroCollage} /> : null}
 
       {venture.slug === "flames-restaurant" ? (
         <section className="border-b border-border/70 bg-card py-10 md:py-12">
@@ -248,23 +265,34 @@ export default async function VentureDetailPage({ params }: Props) {
         </section>
       ) : null}
 
-      {isFlames ? <FlamesStorySection story={flamesContent.story} /> : null}
+      {storyForPage ? <FlamesStorySection story={storyForPage} /> : null}
+
+      {isFlames ? (
+        <FlamesEventHalls
+          halls={flamesContent.eventHalls}
+          phone={venture.contact.phone}
+          whatsapp={venture.contact.whatsapp}
+        />
+      ) : null}
+
+      {ventureMenu ? (
+        <VentureMenuPreview
+          ventureSlug={venture.slug}
+          ventureName={venture.name}
+          categories={ventureMenu.categories}
+        />
+      ) : null}
 
       <section className="page-section mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-16 md:grid md:grid-cols-[1.2fr_0.8fr] md:items-start md:gap-x-10 md:gap-y-10 md:py-20">
         {/* Mobile order: About → sidebar → Gallery at bottom. Desktop: About + Gallery col1, sidebar spans rows. */}
         <div className="order-1 md:col-start-1 md:row-start-1">
           <div className="space-y-7">
             <div>
-              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
-                {isFlames ? "At a glance" : "About"}
-              </p>
+              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">At a glance</p>
               <h2 className="mt-2 font-heading text-3xl">
-                {isFlames ? "Visit Flames Restaurant" : `About ${venture.name}`}
+                {isHotel ? `Stay at ${venture.name}` : `Visit ${venture.name}`}
               </h2>
             </div>
-            {!isFlames ? (
-              <p className="leading-relaxed text-muted-foreground">{venture.fullDescription}</p>
-            ) : null}
 
             <div className="space-y-3">
               <p className="text-sm font-semibold tracking-wide uppercase text-muted-foreground">Cuisine</p>
@@ -289,18 +317,16 @@ export default async function VentureDetailPage({ params }: Props) {
               </div>
             </div>
 
-            {isFlames ? (
-              <div className="grid gap-2 rounded-2xl border border-border/70 bg-card p-4 sm:grid-cols-2 sm:p-5">
-                {flamesContent.quickFacts.map((fact) => (
-                  <div key={fact.label} className="space-y-0.5">
-                    <p className="text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
-                      {fact.label}
-                    </p>
-                    <p className="text-sm text-foreground">{fact.value}</p>
-                  </div>
-                ))}
-              </div>
-            ) : null}
+            <div className="grid gap-2 rounded-2xl border border-border/70 bg-card p-4 sm:grid-cols-2 sm:p-5">
+              {quickFactsForPage.map((fact) => (
+                <div key={fact.label} className="space-y-0.5">
+                  <p className="text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+                    {fact.label}
+                  </p>
+                  <p className="text-sm text-foreground">{fact.value}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -338,7 +364,7 @@ export default async function VentureDetailPage({ params }: Props) {
             <CardContent className="space-y-4">
               <MenuCardVisual />
               <Link
-                href={`/menu/${venture.slug}`}
+                href={`/menu/${venture.slug}#menu-experience-top`}
                 className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 View Menu Online
@@ -373,17 +399,16 @@ export default async function VentureDetailPage({ params }: Props) {
         </div>
       </section>
 
-      {isFlames ? (
-        <FlamesEventHalls
-          halls={flamesContent.eventHalls}
-          phone={venture.contact.phone}
-          whatsapp={venture.contact.whatsapp}
-        />
-      ) : null}
-
-      {isFlames ? (
-        <FlamesTestimonials testimonials={flamesContent.testimonials} />
-      ) : null}
+      <FlamesTestimonials
+        testimonials={testimonialsForPage}
+        headline={
+          isFlames
+            ? undefined
+            : isHotel
+              ? "Loved by travelers who checked in"
+              : "What guests are saying"
+        }
+      />
 
       {venture.slug === "aquelia-rose" && (
         <section className="page-section border-y border-border/70 bg-secondary/30 py-14 md:py-18">
@@ -417,60 +442,7 @@ export default async function VentureDetailPage({ params }: Props) {
         </section>
       )}
 
-      {isFlames ? (
-        <OtherExperiencesCarousel ventures={otherVentures} />
-      ) : (
-        <section className="page-section mx-auto w-full max-w-6xl px-6 py-20 md:py-24">
-          <h2 className="mb-8 font-heading text-4xl">Other Ventures</h2>
-          <div className="grid gap-5 md:grid-cols-3">
-            {otherVentures.map((item) => (
-              <Card
-                key={item.slug}
-                className="group overflow-hidden border border-border/70 py-0 shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10"
-              >
-                <div className="relative h-52 w-full shrink-0 overflow-hidden">
-                  <Image
-                    src={item.images.hero}
-                    alt={item.name}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-                <CardHeader className="pt-6">
-                  <div className="mb-2 flex items-start justify-between gap-4">
-                    <div className="flex size-17 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background/90 p-2 shadow-sm sm:size-20">
-                      <Image
-                        src={item.logo}
-                        alt={`${item.name} logo`}
-                        width={112}
-                        height={112}
-                        className="h-full w-full rounded-full object-cover"
-                        unoptimized
-                      />
-                    </div>
-                    <VentureTypeBadge type={item.type} accentColor={item.color} />
-                  </div>
-                  <CardTitle className="font-heading text-2xl">{item.name}</CardTitle>
-                  <CardDescription className="flex items-center gap-2">
-                    <MapPin className="size-4 shrink-0" />
-                    {item.area}, {item.city}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4 pb-7">
-                  <p className="text-sm leading-relaxed text-muted-foreground">{item.shortDescription}</p>
-                  <Link
-                    href={`/ventures/${item.slug}`}
-                    className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                  >
-                    View Details <ArrowUpRight className="ml-1 size-4" />
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-      )}
+      <OtherExperiencesCarousel ventures={otherVentures} />
     </main>
   );
 }

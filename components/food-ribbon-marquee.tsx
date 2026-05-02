@@ -47,11 +47,11 @@ function wrapOffset(value: number, half: number): number {
 }
 
 /**
- * Full viewport–width food ribbon: auto-drifts + pointer drag (touch / mouse).
+ * Full viewport width food ribbon: auto-drifts + pointer drag (touch / mouse).
  */
 export function FoodRibbonMarquee({
   slides,
-  ariaLabel = "Food photography across Flamezanzi venues",
+  ariaLabel = "Food photography across FlameZanzi venues",
   className,
 }: Props) {
   const reducedMotion = usePrefersReducedMotion();

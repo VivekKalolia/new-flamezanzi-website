@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 
 import { GalleryGrid } from "@/components/gallery-grid";
 import { getPortfolioGalleryItems } from "@/lib/local-gallery";
+import { BRAND_WORDMARK } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Gallery | FlameZanzi",
-  description: "Explore FlameZanzi venue moments and hospitality visuals.",
+  title: `Gallery | ${BRAND_WORDMARK}`,
+  description: `Explore ${BRAND_WORDMARK} venue moments and hospitality visuals.`,
 };
 
 export default function GalleryPage() {
@@ -18,7 +19,7 @@ export default function GalleryPage() {
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
             Gallery
           </p>
-          <h1 className="mt-3 font-heading text-5xl">
+          <h1 className="mt-3 max-w-2xl font-heading text-4xl leading-tight md:text-6xl">
             Visual Stories from Our Ventures
           </h1>
           <p className="mt-6 max-w-3xl leading-relaxed text-muted-foreground">

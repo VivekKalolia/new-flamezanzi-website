@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 
 import { VentureTypeBadge } from "@/components/venture-type-badge";
-import type { Venture } from "@/lib/site-data";
+import { BRAND_WORDMARK, type Venture } from "@/lib/site-data";
 
 type Props = {
   ventures: Venture[];
@@ -57,8 +57,8 @@ export function OtherExperiencesCarousel({ ventures }: Props) {
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="space-y-3">
-            <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
-              The FlameZanzi family
+            <p className="text-xs tracking-[0.16em] text-muted-foreground">
+              The {BRAND_WORDMARK} family
             </p>
             <h2 className="font-heading text-3xl md:text-4xl">
               Discover our other experiences
@@ -116,8 +116,8 @@ export function OtherExperiencesCarousel({ ventures }: Props) {
                       sizes="(max-width: 640px) 85vw, (max-width: 1024px) 44vw, 38vw"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/55 via-transparent to-transparent" />
-                    <div className="absolute top-3 right-3">
-                      <VentureTypeBadge type={venture.type} accentColor={venture.color} />
+                    <div className="absolute top-3 right-3 z-10">
+                      <VentureTypeBadge type={venture.type} accentColor={venture.color} variant="solid" />
                     </div>
                   </div>
 

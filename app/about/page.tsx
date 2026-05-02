@@ -10,12 +10,12 @@ import { GrowthStoryTimeline } from "@/components/growth-story-timeline";
 import { FoodRibbonMarquee } from "@/components/food-ribbon-marquee";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { foodPictureSlides } from "@/lib/food-pic-slides";
-import { company } from "@/lib/site-data";
+import { BRAND_WORDMARK, company } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "About Us | Flamezanzi Restaurant Limited",
+  title: `About Us | ${company.name}`,
   description:
-    "Learn about Flamezanzi Restaurant Limited: mission, vision, values, milestones, and leadership.",
+    `Learn about ${company.name}: mission, vision, values, milestones, and leadership.`,
 };
 
 export default function AboutPage() {
@@ -25,7 +25,7 @@ export default function AboutPage() {
       <section className="page-section relative min-h-88 overflow-hidden border-b border-border/70">
         <Image
           src="/images/optimized/about-mission.webp"
-          alt="FlameZanzi: our story"
+          alt={`${BRAND_WORDMARK}: our story`}
           fill
           className="object-cover"
           priority
@@ -34,11 +34,11 @@ export default function AboutPage() {
         <div className="relative mx-auto w-full max-w-6xl px-6 py-24 text-white md:py-32">
           <Badge
             variant="outline"
-            className="rounded-full border-white/35 bg-black/15 px-3 py-1 text-[11px] tracking-[0.2em] text-white uppercase backdrop-blur"
+            className="rounded-full border-white/35 bg-black/15 px-3 py-1 text-[11px] tracking-wide text-white normal-case backdrop-blur"
           >
-            About Flamezanzi Restaurant Limited
+            About {company.name}
           </Badge>
-          <h1 className="mt-5 max-w-2xl font-heading text-5xl leading-tight md:text-6xl">
+          <h1 className="mt-5 max-w-2xl font-heading text-4xl leading-tight md:text-6xl">
             Over a decade of premium hospitality
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80">

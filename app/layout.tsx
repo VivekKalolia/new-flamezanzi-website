@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(company.domain),
   title: `${company.name} | Hospitality`,
   description:
-    "Flamezanzi Restaurant Limited blends culinary excellence with immersive hospitality across Dar es Salaam and Zanzibar.",
+    `${company.name} blends culinary excellence with immersive hospitality across Dar es Salaam and Zanzibar.`,
 };
 
 export default function RootLayout({

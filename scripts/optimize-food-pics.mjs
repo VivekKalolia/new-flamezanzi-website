@@ -81,7 +81,7 @@ for (const abs of files) {
   const label = venueLabel(folder);
   slides.push({
     src,
-    alt: `${label}, Flamezanzi food`,
+    alt: `${label}, FlameZanzi food`,
   });
   console.log("wrote", path.relative(process.cwd(), outAbs));
 }

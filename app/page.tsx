@@ -31,7 +31,7 @@ import { FoodRibbonMarquee } from "@/components/food-ribbon-marquee";
 import { GroupOverviewSlideshow } from "@/components/group-overview-slideshow";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { foodPictureSlides } from "@/lib/food-pic-slides";
-import { company, ventures } from "@/lib/site-data";
+import { BRAND_WORDMARK, company, ventures } from "@/lib/site-data";
 
 const stats = company.stats;
 
@@ -54,18 +54,18 @@ const heroOutlineButtonClass =
 export default function Home() {
   const groupOverviewSlides = (
     [
-      ["HNK08106", "FlameZanzi hospitality: service"],
-      ["HNK08561", "FlameZanzi hospitality: ambiance"],
-      ["HNK08109", "FlameZanzi hospitality: dining detail"],
-      ["HNK08536", "FlameZanzi hospitality: experience"],
-      ["HNK08537", "FlameZanzi hospitality: venue"],
-      ["HNK08540", "FlameZanzi hospitality: moments"],
-      ["HNK08546", "FlameZanzi hospitality: atmosphere"],
-      ["HNK08550", "FlameZanzi hospitality: celebration"],
+      ["HNK08106", "service"],
+      ["HNK08561", "ambiance"],
+      ["HNK08109", "dining detail"],
+      ["HNK08536", "experience"],
+      ["HNK08537", "venue"],
+      ["HNK08540", "moments"],
+      ["HNK08546", "atmosphere"],
+      ["HNK08550", "celebration"],
     ] as const
-  ).map(([base, alt]) => ({
+  ).map(([base, caption]) => ({
     src: `/images/optimized/group-overview/${base}.webp`,
-    alt,
+    alt: `${BRAND_WORDMARK} hospitality: ${caption}`,
   }));
 
   return (
@@ -75,7 +75,7 @@ export default function Home() {
         <div className="relative min-h-72 overflow-hidden sm:min-h-80 md:min-h-88 lg:min-h-96">
           <Image
             src="/images/optimized/hero-main.webp"
-            alt="FlameZanzi hospitality portfolio hero"
+            alt={`${BRAND_WORDMARK} hospitality portfolio hero`}
             fill
             className="object-cover"
             sizes="100vw"
@@ -89,9 +89,9 @@ export default function Home() {
             <div className="motion-safe:animate-fade-up motion-safe:[animation-delay:0ms]">
               <Badge
                 variant="outline"
-                className="rounded-full border-white/35 bg-black/15 px-3 py-1 text-[11px] tracking-[0.2em] text-white uppercase backdrop-blur"
+                className="rounded-full border-white/35 bg-black/15 px-3 py-1 text-[11px] tracking-wide text-white normal-case backdrop-blur"
               >
-                Flamezanzi Restaurant Limited
+                {company.name}
               </Badge>
             </div>
 
@@ -379,7 +379,7 @@ export default function Home() {
         <div className="reveal reveal-scale relative min-h-[min(22rem,72vw)] overflow-hidden rounded-2xl border border-border/70 sm:min-h-60 md:min-h-0 md:h-64">
           <Image
             src="/images/optimized/silk-route/HNK08758.webp"
-            alt="FlameZanzi portfolio collage"
+            alt={`${BRAND_WORDMARK} portfolio collage`}
             fill
             className="object-cover object-center"
             sizes="(max-width: 768px) 100vw, 1152px"
@@ -387,7 +387,9 @@ export default function Home() {
           <div className="absolute inset-0 bg-linear-to-t from-black/88 via-black/55 to-black/35 md:bg-linear-to-r md:from-black/75 md:via-black/45 md:to-black/25" />
           <div className="absolute inset-0 flex items-end p-5 pb-6 pt-14 sm:items-center sm:p-8 sm:pb-8 sm:pt-8 md:p-12">
             <div className="w-full max-w-lg text-center text-white sm:text-left">
-              <p className="text-xs tracking-[0.2em] uppercase text-white/70">FlameZanzi Portfolio</p>
+              <p className="text-xs tracking-[0.2em] uppercase text-white/70">
+                <span className="normal-case">{BRAND_WORDMARK}</span> portfolio
+              </p>
               <p className="mt-2 text-pretty font-heading text-2xl leading-snug sm:text-[1.65rem] md:text-3xl">
                 Modern, elegant, and built for premium hospitality brands.
               </p>

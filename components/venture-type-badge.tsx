@@ -14,13 +14,32 @@ type Props = {
   type: VentureType;
   /** Venture theme colour (hex), used as a subtle accent */
   accentColor: string;
-  /** `onDark` for hero overlays; `default` for cards */
-  variant?: "default" | "onDark";
+  /** `onDark` for hero overlays; `default` for cards; `solid` for opaque labels on photos */
+  variant?: "default" | "onDark" | "solid";
   className?: string;
 };
 
 export function VentureTypeBadge({ type, accentColor, variant = "default", className }: Props) {
   const { label, Icon } = typeConfig[type];
+
+  if (variant === "solid") {
+    return (
+      <span
+        className={cn(
+          "inline-flex items-center gap-1.5 rounded-full border border-border bg-card py-0.5 pr-3 pl-0.5 text-[10px] font-semibold tracking-[0.11em] text-foreground uppercase shadow-md sm:gap-2 sm:py-1 sm:pr-3.5 sm:pl-1 sm:text-[11px] sm:tracking-[0.14em]",
+          className,
+        )}
+      >
+        <span
+          className="flex size-7 items-center justify-center rounded-full border border-border bg-background shadow-sm sm:size-8"
+          style={{ color: accentColor }}
+        >
+          <Icon className="size-3.5 sm:size-4" strokeWidth={2} aria-hidden />
+        </span>
+        <span>{label}</span>
+      </span>
+    );
+  }
 
   if (variant === "onDark") {
     return (

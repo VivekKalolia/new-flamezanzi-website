@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Building2, Hotel, Leaf, Phone } from "lucide-react";
 
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { company, navLinks, ventures } from "@/lib/site-data";
+import { BRAND_WORDMARK, company, navLinks, ventures } from "@/lib/site-data";
 
 export function SiteFooter() {
   return (
@@ -12,7 +12,7 @@ export function SiteFooter() {
         <div className="space-y-4">
           <Image
             src={company.logo}
-            alt="FlameZanzi logo"
+            alt={`${BRAND_WORDMARK} logo`}
             width={200}
             height={44}
             className="h-10 w-auto"

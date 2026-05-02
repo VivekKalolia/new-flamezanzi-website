@@ -94,7 +94,7 @@ export function GrowthStoryTimeline({ milestones }: Props) {
 
   const spanYears =
     milestones.length > 1
-      ? `${milestones[0]?.year} – ${milestones[milestones.length - 1]?.year}`
+      ? `${milestones[0]?.year} to ${milestones[milestones.length - 1]?.year}`
       : milestones[0]?.year ?? "";
 
   return (

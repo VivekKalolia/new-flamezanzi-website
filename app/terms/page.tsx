@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { company } from "@/lib/site-data";
+import { BRAND_WORDMARK, company } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | FlameZanzi",
+  title: `Terms of Service | ${BRAND_WORDMARK}`,
   description: `Terms of service for ${company.name}.`,
 };
 
@@ -13,7 +13,7 @@ export default function TermsPage() {
       <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
         Legal
       </p>
-      <h1 className="mt-3 font-heading text-5xl">Terms of Service</h1>
+      <h1 className="mt-3 max-w-2xl font-heading text-4xl leading-tight md:text-6xl">Terms of Service</h1>
       <p className="mt-3 text-sm text-muted-foreground">
         Last updated: January 2026
       </p>
@@ -24,7 +24,7 @@ export default function TermsPage() {
             Use of Website
           </h2>
           <p className="mt-2">
-            This website provides information about FlameZanzi ventures,
+            This website provides information about {BRAND_WORDMARK} ventures,
             offerings, and contact channels. By using the site, you agree to
             lawful and respectful use of all content and features.
           </p>

@@ -7,10 +7,10 @@ import { ContactForm } from "@/components/contact-form";
 import { VentureLocationMapSection } from "@/components/venture-location-map-section";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { company, ventures } from "@/lib/site-data";
+import { BRAND_WORDMARK, company, ventures } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Contact | FlameZanzi",
+  title: `Contact | ${BRAND_WORDMARK}`,
   description: `Get in touch with ${company.name} for partnerships and venue inquiries.`,
 };
 
@@ -22,11 +22,11 @@ export default function ContactPage() {
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
             Contact
           </p>
-          <h1 className="mt-3 font-heading text-5xl">
+          <h1 className="mt-3 max-w-2xl font-heading text-4xl leading-tight md:text-6xl">
             Let’s Start a Conversation
           </h1>
           <p className="mt-6 max-w-3xl leading-relaxed text-muted-foreground">
-            Reach FlameZanzi headquarters for partnerships, events, and
+            Reach {BRAND_WORDMARK} headquarters for partnerships, events, and
             group-wide hospitality inquiries.
           </p>
         </div>

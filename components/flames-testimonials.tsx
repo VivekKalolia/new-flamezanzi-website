@@ -4,6 +4,8 @@ import type { flamesContent } from "@/lib/site-data";
 
 type Props = {
   testimonials: typeof flamesContent.testimonials;
+  /** Section headline (Flames default keeps event-host angle). */
+  headline?: string;
 };
 
 function StarRating({ rating }: { rating: number }) {
@@ -33,7 +35,10 @@ function StarRating({ rating }: { rating: number }) {
  * (per the brief). Mix of dining and event-hall reviews so both audiences
  * see proof.
  */
-export function FlamesTestimonials({ testimonials }: Props) {
+export function FlamesTestimonials({
+  testimonials,
+  headline = "Loved by diners and event hosts",
+}: Props) {
   if (!testimonials.length) return null;
 
   const averageRating =
@@ -44,7 +49,7 @@ export function FlamesTestimonials({ testimonials }: Props) {
       <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="space-y-3">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Guest reviews</p>
-          <h2 className="font-heading text-3xl md:text-4xl">Loved by diners and event hosts</h2>
+          <h2 className="font-heading text-3xl md:text-4xl">{headline}</h2>
         </div>
         <div className="inline-flex items-center gap-3 rounded-2xl border border-border/70 bg-card px-4 py-3 shadow-sm">
           <StarRating rating={averageRating} />

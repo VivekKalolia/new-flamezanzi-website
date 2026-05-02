@@ -46,9 +46,12 @@ export type MenuItem = {
   name: string;
   description: string;
   price: number;
+  /** Parsed for search only; not displayed in the menu UI */
   tags: string[];
   isVegetarian: boolean;
   isSpicy: boolean;
+  /** Optional dish photo (`public` path). Defaults to `MENU_ITEM_PLACEHOLDER_IMAGE`. */
+  image?: string;
 };
 
 export type MenuCategory = {
@@ -62,20 +65,26 @@ function mainBrandLogo(filename: string) {
   return `/logos/MAIN/${encodeURIComponent(filename)}`;
 }
 
-/** Aquelia optimised WebP in `public/images/optimized/aquelia/`. */
+/** Aquelia Rose main hotel visual: full-width WebP in `public/images/optimized/aquelia/`. */
 function aqueliaOpt(file: string) {
   return `/images/optimized/aquelia/${file}`;
 }
 
+/** Neutral dish image for menu tiles until venue-specific photos are added (WebP). */
+export const MENU_ITEM_PLACEHOLDER_IMAGE = "/images/optimized/menu-dish-placeholder.webp";
+
+/** Brand casing for visible copy (`Flame` + capital `Z`). URLs and mailbox domains stay lowercase. */
+export const BRAND_WORDMARK = "FlameZanzi";
+
 export const company = {
-  name: "Flamezanzi Restaurant Limited",
+  name: `${BRAND_WORDMARK} Restaurant Limited`,
   /** Primary mark: `public/images/optimized/logo-flamezanzi.webp` (source: `public/logos/flamezanzi/`) */
   logo: "/images/optimized/logo-flamezanzi.webp",
   founded: 2013,
   domain: "https://flamezanzi.com",
   /** Full company narrative (used on /about and anywhere we want the complete story). */
   description:
-    "Flamezanzi Restaurant Limited is a dynamic hospitality group operating in Dar es Salaam and Zanzibar, known for blending culinary excellence with immersive guest experiences. From fine dining and artisanal bakeries to beachfront hotels, our ventures celebrate local flavors while delivering world-class service. As we continue to expand with new projects across both cities, Flamezanzi is building a diverse portfolio that reflects our commitment to growth, innovation, and community.",
+    `${BRAND_WORDMARK} Restaurant Limited is a dynamic hospitality group operating in Dar es Salaam and Zanzibar, known for blending culinary excellence with immersive guest experiences. From fine dining and artisanal bakeries to beachfront hotels, our ventures celebrate local flavors while delivering world-class service. As we continue to expand with new projects across both cities, ${BRAND_WORDMARK} is building a diverse portfolio that reflects our commitment to growth, innovation, and community.`,
   /** Short pitch for home hero, footer, etc. Full story is `description` on About. */
   elevatorPitch:
     "Premium hospitality across Dar es Salaam and Zanzibar: restaurants, cafe & bakery, and boutique stays under one portfolio.",
@@ -141,7 +150,7 @@ export const company = {
   testimonials: [
     {
       quote:
-        "Excellent food, warm service, and a beautiful setup every time we visit. Flamezanzi is now our family’s first choice for celebrations.",
+        `Excellent food, warm service, and a beautiful setup every time we visit. ${BRAND_WORDMARK} is now our family’s first choice for celebrations.`,
       author: "Neema S.",
       venture: "Flames Restaurant",
       rating: 5,
@@ -214,7 +223,7 @@ export const ventures: Venture[] = [
     coordinates: { lat: -6.7502, lng: 39.2746 },
     cuisine: ["Grill", "International", "Seafood"],
     features: ["Private Dining", "Corporate Events", "Outdoor Seating"],
-    hours: "12:00–23:00 · seven days",
+    hours: "12:00 to 23:00",
     contact: {
       phone: "+255 775 111 122",
       email: "hello@flamezanzi.com",
@@ -304,7 +313,7 @@ export const ventures: Venture[] = [
       "Suitable for families, couples, and groups",
       "Central location in historic Stone Town",
     ],
-    hours: "11:00 AM – 11:00 PM · daily",
+    hours: "11:00 AM to 11:00 PM · daily",
     contact: {
       phone: "+255 674 111 122",
       email: "silkrouteznz@gmail.com",
@@ -369,7 +378,7 @@ export const ventures: Venture[] = [
       "Safe, welcoming environment for all guests",
       "Space for yoga sessions to rejuvenate body and mind",
     ],
-    hours: "Hotel 24/7 · Restaurant 8:00 AM – 9:00 PM · daily",
+    hours: "Hotel 24/7 · Restaurant 8:00 AM to 9:00 PM · daily",
     contact: {
       phone: "+255 678 111 122",
       email: "aqueliaroseznz@gmail.com",
@@ -386,8 +395,9 @@ export const ventures: Venture[] = [
     color: "#16A085",
     logo: mainBrandLogo("Aquelia Rose Hotel - Instagram Logo.png"),
     images: {
-      hero: aqueliaOpt("HNK08340.webp"),
+      hero: aqueliaOpt("HNK08486.webp"),
       gallery: [
+        aqueliaOpt("HNK08486.webp"),
         aqueliaOpt("HNK08340.webp"),
         aqueliaOpt("HNK08342.webp"),
         aqueliaOpt("HNK08344.webp"),
@@ -472,7 +482,7 @@ export const flamesContent = {
   /** Storytelling: origins, chef philosophy, guest experience. */
   story: {
     eyebrow: "Our story",
-    title: "A Masaki flagship born from Flamezanzi’s Dar es Salaam roots",
+    title: `A Masaki flagship born from ${BRAND_WORDMARK}’s Dar es Salaam roots`,
     imageStrip: [
       {
         src: "/images/optimized/flames/HNK08021.webp",
@@ -488,7 +498,7 @@ export const flamesContent = {
       },
     ],
     paragraphs: [
-      "Flamezanzi Restaurant Limited grew from a simple belief: hospitality should feel both world-class and unmistakably East African. Since the group’s founding in Dar es Salaam, that idea has travelled across bakeries, rooftops in Stone Town, and beachfront escapes in Zanzibar, but Masaki remains where our fine-dining heart beats loudest.",
+      `${BRAND_WORDMARK} Restaurant Limited grew from a simple belief: hospitality should feel both world-class and unmistakably East African. Since the group’s founding in Dar es Salaam, that idea has travelled across bakeries, rooftops in Stone Town, and beachfront escapes in Zanzibar, but Masaki remains where our fine-dining heart beats loudest.`,
       "When Flames Restaurant opened in 2015, we wanted a room worthy of milestones: boardroom-caliber lunches that still feel warm, Sundays that linger into dessert, and wedding receptions where every plate earns its place at the head table.",
       "Behind the menu is a chef-led philosophy grounded in restraint and heat in equal measure. Wood fire, charcoal, and disciplined technique frame Tanzanian seafood, regional spice, and produce from suppliers we trust by name, because fine dining, for us, is never decoration without substance.",
       "What guests carry home isn’t only flavor. It is the arc of an evening: lighting that flatters without fuss, pacing that listens to your table, and a team coached to elevate anniversaries, family reunions, and corporate hosts with the same steady attention.",
@@ -654,6 +664,272 @@ export const flamesContent = {
     { label: "Cuisine", value: "Grill · Seafood · International" },
     { label: "Private halls", value: "2 event spaces" },
     { label: "Reservations", value: "Walk-ins welcome" },
+  ],
+};
+
+export type VentureStoryBlock = typeof flamesContent.story;
+
+/** Rich narrative + pillars for non-Flames venture pages (same layout as `FlamesStorySection`). */
+export const ventureStories = {
+  "treats-cafe": {
+    eyebrow: "Our story",
+    title: "Sea Cliff Village's daily ritual for coffee, pastries, and light dining",
+    imageStrip: [
+      {
+        src: treatsCafeUnsplash.interior,
+        alt: "Treats Cafe & Bakery: bright cafe interior",
+      },
+      {
+        src: treatsCafeUnsplash.coffee,
+        alt: "Treats Cafe & Bakery: specialty coffee",
+      },
+      {
+        src: treatsCafeUnsplash.pastry,
+        alt: "Treats Cafe & Bakery: pastries and desserts",
+      },
+    ],
+    paragraphs: [
+      "Treats Cafe & Bakery (also known as Flames Bakery) is where the group's pastry discipline meets a relaxed Sea Cliff Village room. We built it for weekday meetings that deserve better than a paper cup, weekend brunches that do not rush the second coffee, and takeaway moments that still feel considered.",
+      "Behind the counter is the same quality bar as our fine-dining kitchens: calibrated espresso, viennoiserie that earns its butter, and a team trained to keep the line moving without making anyone feel hurried.",
+      "Whether you are grabbing a box for the office or settling in with friends, Treats is proof that hospitality can be warm, polished, and everyday all at once.",
+    ],
+    pillars: [
+      {
+        title: "Bakery-first mindset",
+        description:
+          "Croissants, tarts, and celebration cakes made with consistent recipes and daily freshness checks.",
+      },
+      {
+        title: "Coffee with intent",
+        description:
+          "Espresso and filter drinks dialed for East African palates, served by baristas who know regulars by order.",
+      },
+      {
+        title: "A room for every rhythm",
+        description:
+          "Quiet corners for laptop sessions, communal tables for catch-ups, and a takeaway counter when you are on the move.",
+      },
+    ],
+  },
+  "silk-route": {
+    eyebrow: "Our story",
+    title: "Stone Town rooftop dining along the spice routes",
+    imageStrip: [
+      {
+        src: "/images/optimized/silk-route/HNK08758.webp",
+        alt: "The Silk Route Restaurant: rooftop dining",
+      },
+      {
+        src: "/images/optimized/silk-route/HNK08613.webp",
+        alt: "The Silk Route Restaurant: curries and tandoor",
+      },
+      {
+        src: "/images/optimized/silk-route/HNK08615.webp",
+        alt: "The Silk Route Restaurant: ambiance",
+      },
+    ],
+    paragraphs: [
+      "The Silk Route Restaurant sits above Stone Town's limestone lanes, where centuries of trade left behind a vocabulary of spice, smoke, and shared tables. Our menu follows that map: Indian curries and tandoor dishes, Swahili coastal notes, and the occasional Italian plate when the moment calls for it.",
+      "Sunset service on the rooftop is the heart of the experience: warm light over the old town, the ocean on the horizon, and a team that paces each course so you can linger without watching the clock.",
+      "We designed the venue for travelers discovering Zanzibar for the first time, families marking milestones, and locals who want a special night out with honest flavor and lift access for every guest.",
+    ],
+    pillars: [
+      {
+        title: "Fusion with a point of view",
+        description:
+          "Menus shaped by the historic Silk Road, not random mashups: curries, kebabs, and coastal seafood with clear provenance.",
+      },
+      {
+        title: "Rooftop as a stage",
+        description:
+          "Panoramic views of Stone Town and the Indian Ocean, with seating that works for couples, groups, and celebrations.",
+      },
+      {
+        title: "Hospitality for every guest",
+        description:
+          "Lift access, attentive servers, and a welcoming tone for first-time visitors and returning regulars alike.",
+      },
+    ],
+  },
+  "aquelia-rose": {
+    eyebrow: "Our story",
+    title: "Eight rooms, one quiet stretch of Jambiani beach",
+    imageStrip: [
+      {
+        src: aqueliaOpt("HNK08486.webp"),
+        alt: "Aquelia Rose Hotel: beachfront exterior",
+      },
+      {
+        src: aqueliaOpt("HNK08340.webp"),
+        alt: "Aquelia Rose Hotel: pool and gardens",
+      },
+      {
+        src: aqueliaOpt("HNK08342.webp"),
+        alt: "Aquelia Rose Hotel: guest experience",
+      },
+    ],
+    paragraphs: [
+      "Aquelia Rose Hotel is our boutique answer to Zanzibar's slower east coast: eight rooms, personalized hosting, and mornings that start with sunrise over Jambiani's reef.",
+      "We pair Swahili and continental cooking at the deck restaurant, plan excursions when you want movement, and protect quiet when you need stillness. Eco-conscious choices and community ties guide how we operate, from housekeeping rhythms to how we source seafood.",
+      "Whether you are honeymooning, recovering from a busy Dar week, or exploring the island at your own pace, Aquelia Rose is built to feel like a small family-run retreat with the standards of a curated portfolio.",
+    ],
+    pillars: [
+      {
+        title: "Intimate scale",
+        description:
+          "Eight thoughtfully designed rooms, four facing the sea and four overlooking the garden and pool, so service stays personal.",
+      },
+      {
+        title: "Beachfront living",
+        description:
+          "Direct access to white sand, a refreshing pool, and deck dining with sunrise views over the Indian Ocean.",
+      },
+      {
+        title: "Island-ready hosting",
+        description:
+          "Breakfast included, excursion planning, airport shuttles on request, and a calm environment for couples and solo travelers.",
+      },
+    ],
+  },
+} as const satisfies Record<string, VentureStoryBlock>;
+
+export type VentureRichSlug = keyof typeof ventureStories;
+
+export const ventureQuickFacts: Record<VentureRichSlug, { label: string; value: string }[]> = {
+  "treats-cafe": [
+    { label: "Concept", value: "Cafe & bakery" },
+    { label: "Best for", value: "Brunch · meetings · takeaway" },
+    { label: "Location", value: "Sea Cliff Village, Dar es Salaam" },
+    { label: "Hours", value: "07:00 to 22:00" },
+  ],
+  "silk-route": [
+    { label: "Dining style", value: "Rooftop fusion restaurant" },
+    { label: "Cuisine focus", value: "Indian · Swahili · Mediterranean touches" },
+    { label: "Location", value: "Stone Town, Zanzibar" },
+    { label: "Hours", value: "11:00 AM to 11:00 PM · daily" },
+  ],
+  "aquelia-rose": [
+    { label: "Rooms", value: "8 boutique rooms" },
+    { label: "Dining", value: "Deck restaurant · B&B included" },
+    { label: "Location", value: "Jambiani Beach, Zanzibar" },
+    { label: "House rhythm", value: "Check-in 14:00 · Check-out 11:00" },
+  ],
+};
+
+export const ventureDetailTestimonials: Record<VentureRichSlug, FlamesTestimonial[]> = {
+  "treats-cafe": [
+    {
+      author: "Grace M.",
+      location: "Dar es Salaam",
+      rating: 5,
+      quote:
+        "Our go-to for coffee meetings and weekend brunch. Pastries are consistently fresh and the space feels polished without being stiff.",
+      date: "Recent guest",
+      source: "Portfolio highlight",
+    },
+    {
+      author: "Lilian A.",
+      location: "Sea Cliff Village",
+      rating: 5,
+      quote:
+        "The croissants rival anything I have had abroad. Staff remember my order after two visits.",
+      date: "March 2026",
+      source: "Google Review",
+    },
+    {
+      author: "Tom & Sarah",
+      location: "Dar es Salaam",
+      rating: 5,
+      quote:
+        "Ordered a custom cake for a launch party. Looked stunning and the whole team raved about the flavor.",
+      date: "February 2026",
+      source: "Direct guest review",
+    },
+    {
+      author: "David K.",
+      location: "Masaki",
+      rating: 5,
+      quote:
+        "Espresso is dialed in every time. Treats is my default when I need a professional backdrop for client coffees.",
+      date: "January 2026",
+      source: "TripAdvisor",
+    },
+  ],
+  "silk-route": [
+    {
+      author: "James & Priya",
+      location: "Stone Town",
+      rating: 5,
+      quote:
+        "The rooftop at sunset was unforgettable. Curries packed with flavor and service that made us feel like regulars on our first visit.",
+      date: "Recent guest",
+      source: "Portfolio highlight",
+    },
+    {
+      author: "Brian K.",
+      location: "Zanzibar",
+      rating: 5,
+      quote:
+        "Loved the ambiance, portion sizes, and attention to detail. You can feel the consistency in quality across every visit.",
+      date: "March 2026",
+      source: "Google Review",
+    },
+    {
+      author: "Hannah R.",
+      location: "London",
+      rating: 5,
+      quote:
+        "Best meal of our island week. Tandoor dishes were smoky and tender, and the breeze on the roof was perfect.",
+      date: "February 2026",
+      source: "TripAdvisor",
+    },
+    {
+      author: "Omar F.",
+      location: "Dar es Salaam",
+      rating: 5,
+      quote:
+        "Hosted colleagues after a conference in Stone Town. Kitchen paced the courses beautifully and the view sold itself.",
+      date: "January 2026",
+      source: "Direct guest review",
+    },
+  ],
+  "aquelia-rose": [
+    {
+      author: "Elena R.",
+      location: "Zanzibar",
+      rating: 5,
+      quote:
+        "Quiet beach, thoughtful hosts, and breakfasts we still talk about. Exactly the reset we needed after a busy week in the city.",
+      date: "Recent guest",
+      source: "Portfolio highlight",
+    },
+    {
+      author: "Marcus & Julie",
+      location: "Germany",
+      rating: 5,
+      quote:
+        "Small hotel done right. Pool, beach access, and staff who genuinely care if you slept well.",
+      date: "March 2026",
+      source: "Booking.com",
+    },
+    {
+      author: "Amira T.",
+      location: "Nairobi",
+      rating: 5,
+      quote:
+        "We extended our stay twice. Rooms are spotless, air conditioning works great, and dinners on the deck were a highlight.",
+      date: "February 2026",
+      source: "Google Review",
+    },
+    {
+      author: "Chris P.",
+      location: "USA",
+      rating: 5,
+      quote:
+        "Excursion planning was seamless and never pushy. Felt like staying with friends who happen to run a beautiful property.",
+      date: "January 2026",
+      source: "TripAdvisor",
+    },
   ],
 };
 

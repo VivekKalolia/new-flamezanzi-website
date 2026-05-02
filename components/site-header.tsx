@@ -11,7 +11,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { company, navLinks } from "@/lib/site-data";
+import { BRAND_WORDMARK, company, navLinks } from "@/lib/site-data";
 
 function navLinkClass(isActive: boolean) {
   return isActive ? "text-white" : "text-white/70 hover:text-white";
@@ -27,7 +27,7 @@ export function SiteHeader() {
         <Link href="/" className="flex items-center gap-3">
           <Image
             src={company.logo}
-            alt="FlameZanzi logo"
+            alt={`${BRAND_WORDMARK} logo`}
             width={200}
             height={44}
             className="h-8 w-auto md:h-9"
@@ -77,7 +77,7 @@ export function SiteHeader() {
             <div className="flex h-16 items-center justify-between border-b border-white/10 px-5">
               <Image
                 src={company.logo}
-                alt="FlameZanzi logo"
+                alt={`${BRAND_WORDMARK} logo`}
                 width={180}
                 height={40}
                 className="h-7 w-auto"
@@ -119,7 +119,7 @@ export function SiteHeader() {
               </Link>
             </div>
             <div className="mt-auto border-t border-white/10 px-4 py-4 text-center">
-              <p className="text-[11px] tracking-[0.12em] text-white/65 uppercase">
+              <p className="text-[11px] tracking-wide text-white/65 normal-case">
                 {company.name}
               </p>
               <p className="mt-1 text-xs text-white/50">

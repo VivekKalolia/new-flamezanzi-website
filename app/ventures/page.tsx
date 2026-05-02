@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import { VenturesDirectory } from "@/components/ventures-directory";
-import { ventures } from "@/lib/site-data";
+import { BRAND_WORDMARK, ventures } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Our Ventures | FlameZanzi",
-  description: "Explore all FlameZanzi ventures across Tanzania and Zanzibar.",
+  title: `Our Ventures | ${BRAND_WORDMARK}`,
+  description: `Explore all ${BRAND_WORDMARK} ventures across Tanzania and Zanzibar.`,
 };
 
 export default function VenturesPage() {
@@ -16,7 +16,7 @@ export default function VenturesPage() {
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
             Our Ventures
           </p>
-          <h1 className="mt-3 font-heading text-5xl">
+          <h1 className="mt-3 max-w-2xl font-heading text-4xl leading-tight md:text-6xl">
             Portfolio of Premium Venues
           </h1>
           <p className="mt-6 max-w-3xl leading-relaxed text-muted-foreground">
